@@ -1,10 +1,18 @@
 const ServiceSection = () => {
   return (
     <section className="relative">
-      <div className="bg-primary py-8 overflow-hidden">
-        <div className="flex items-center justify-center">
-          <div className="animate-marquee whitespace-nowrap">
-            <span className="text-4xl font-bold text-white mx-8">OUR SERVICE • OUR SERVICE • OUR SERVICE • </span>
+      <div className="relative overflow-hidden">
+        {/* Curved wave background */}
+        <svg className="w-full h-32 md:h-40" viewBox="0 0 1440 200" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M0 0 L0 100 Q360 150 720 100 T1440 100 L1440 0 Z" fill="hsl(var(--primary))" />
+        </svg>
+        
+        {/* Marquee text positioned on the wave */}
+        <div className="absolute top-8 md:top-12 left-0 right-0 overflow-hidden">
+          <div className="flex items-center justify-center">
+            <div className="animate-marquee whitespace-nowrap">
+              <span className="text-3xl md:text-4xl font-bold text-white mx-8">OUR SERVICE • OUR SERVICE • OUR SERVICE • OUR SERVICE • OUR SERVICE • </span>
+            </div>
           </div>
         </div>
       </div>
