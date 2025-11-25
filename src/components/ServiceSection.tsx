@@ -29,10 +29,10 @@ const ServiceSection = () => {
             
             <div className="space-y-3">
               {[
-                'Event Organizer',
-                'Production House',
+                'Event Contractor',
+                'Promotional Items',
                 'Signage & Branding',
-                'Paintings & Acrylic Media'
+                'Printings & Acrylic Media'
               ].map((service, index) => (
                 <div 
                   key={index}
@@ -55,10 +55,10 @@ const ServiceSection = () => {
             
             <div className="space-y-3">
               {[
-                'Post Organizer',
-                'Creative Agency',
+                'Event Organizer',
+                'Activation',
                 'MICE',
-                'Social Media',
+                'Exhibition',
                 'Entertainment'
               ].map((service, index) => (
                 <div 
