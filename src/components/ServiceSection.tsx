@@ -1,3 +1,6 @@
+import { useRef } from 'react';
+import ScrollVelocity from './ScrollVelocity';
+
 const ServiceSection = () => {
   const csProdServices = [
     'Event Contractor',
@@ -84,12 +87,16 @@ const ServiceSection = () => {
         </div>
       </div>
       
-      <div className="bg-coral-light py-6">
-        <div className="max-w-6xl mx-auto px-6">
-          <p className="text-white text-center text-sm font-semibold tracking-wider">
-            PRINTING MACHINES • LASER CUTTING MACHINES • BOOTH PRODUCTION WORKSHOP
-          </p>
-        </div>
+      {/* Scroll Velocity Text Animation */}
+      <div className="bg-coral py-6 overflow-hidden">
+        <ScrollVelocity
+          texts={['PRINTING MACHINES •', 'LASER CUTTING MACHINES •', 'BOOTH PRODUCTION WORKSHOP •']}
+          velocity={80}
+          className="text-white text-xl md:text-2xl lg:text-3xl font-bold mx-4"
+          numCopies={4}
+          damping={50}
+          stiffness={300}
+        />
       </div>
     </section>
   );
