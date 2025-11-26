@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
+import TextType from "./TextType";
 
 const ImpactSection = () => {
   return (
@@ -21,12 +22,19 @@ const ImpactSection = () => {
       <div className="absolute bottom-8 right-48 w-12 h-12 bg-primary rounded-lg transform rotate-45" />
       
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-5xl md:text-6xl font-bold mb-8">
-          <span className="text-coral">We create </span>
-          <span className="text-coral italic underline decoration-4">impactful</span>
-          <span className="text-coral"> experiences</span>
-          <br />
-          <span className="text-coral">and productions.</span>
+        <h2 className="text-5xl md:text-6xl font-bold mb-8 text-coral">
+          <TextType
+            text={["We create impactful experiences and productions."]}
+            as="span"
+            typingSpeed={80}
+            initialDelay={300}
+            loop={false}
+            showCursor={true}
+            cursorCharacter="|"
+            cursorClassName="text-coral"
+            startOnVisible={true}
+            className="text-coral"
+          />
         </h2>
         
         <Button 

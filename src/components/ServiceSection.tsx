@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { useRef, useEffect } from 'react';
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'motion/react';
 import ScrollVelocity from './ScrollVelocity';
 
 const ServiceSection = () => {
@@ -19,9 +19,28 @@ const ServiceSection = () => {
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const curveRef = useRef<HTMLDivElement>(null);
+  const textPathRef = useRef<SVGTextPathElement>(null);
+  
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
+  });
+
+  // Curved text scroll animation
+  const { scrollYProgress: curveScrollProgress } = useScroll({
+    target: curveRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Text offset moves along the curve as you scroll - start from left (-50%) and move right
+  const textOffset = useTransform(curveScrollProgress, [0, 1], [-30, 30]);
+  
+  // Update textPath startOffset on scroll
+  useMotionValueEvent(textOffset, "change", (latest) => {
+    if (textPathRef.current) {
+      textPathRef.current.setAttribute("startOffset", `${latest}%`);
+    }
   });
 
   // Card 1 (CSPROD) - starts visible, scales down and moves up as you scroll
@@ -36,13 +55,47 @@ const ServiceSection = () => {
 
   return (
     <section id="service" className="relative">
-      {/* Header */}
-      <div className="bg-vibrant-blue py-12 md:py-16">
-        <div className="text-center">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-wider">
-            OUR SERVICE • OUR SERVICE • OUR SERVICE
-          </h2>
-        </div>
+      {/* Curved Text Header with Wave Background */}
+      <div ref={curveRef} className="relative bg-white overflow-hidden">
+        {/* Wave background shape */}
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 1440 250" 
+          className="w-full h-auto"
+          preserveAspectRatio="none"
+        >
+          {/* Define the curved path for text - follows the wave edge */}
+          <defs>
+            <path 
+              id="serviceCurve" 
+              fill="transparent"
+              d="M-200,115 C0,135 120,75 360,55 C480,35 600,75 720,95 C840,115 960,75 1080,55 C1200,35 1320,75 1640,95"
+            />
+          </defs>
+          
+          {/* Blue curved background */}
+          <path 
+            fill="#0A4AAC"
+            d="M0,250 L0,120 C120,140 240,80 360,60 C480,40 600,80 720,100 C840,120 960,80 1080,60 C1200,40 1320,80 1440,100 L1440,250 Z"
+          />
+          
+          {/* Curved text that follows the wave edge */}
+          <text dy="-15">
+            <textPath 
+              ref={textPathRef}
+              href="#serviceCurve"
+              startOffset="-30%"
+              className="fill-vibrant-blue font-bold"
+              style={{ 
+                fontSize: '38px',
+                fontWeight: 'bold',
+                letterSpacing: '0.2em',
+              }}
+            >
+              OUR SERVICE • OUR SERVICE • OUR SERVICE • OUR SERVICE • OUR SERVICE • OUR SERVICE • OUR SERVICE
+            </textPath>
+          </text>
+        </svg>
       </div>
 
       {/* Scroll Stack Container - Full Height for scroll effect */}
