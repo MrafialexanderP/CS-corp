@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 const ServiceSection = () => {
   return (
     <section className="relative">
@@ -74,12 +76,26 @@ const ServiceSection = () => {
         </div>
       </div>
       
-      <div className="bg-coral-light py-6">
-        <div className="max-w-6xl mx-auto px-6">
-          <p className="text-white text-center text-sm font-semibold tracking-wider">
-            PRINTING MACHINES • LASER CUTTING MACHINES • BOOTH PRODUCTION WORKSHOP
-          </p>
-        </div>
+      <div className="relative overflow-hidden bg-gradient-to-r from-vibrant-purple via-purple-600 to-vibrant-purple py-8">
+        <motion.div
+          className="flex whitespace-nowrap"
+          animate={{
+            x: [0, -1920],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        >
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="flex items-center">
+              <span className="text-5xl md:text-6xl font-black text-white uppercase tracking-wider px-8" style={{ fontFamily: 'Impact, Arial Black, sans-serif', letterSpacing: '0.15em', textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}>
+                PRINTING MACHINES • LASER CUTTING MACHINES • BOOTH PRODUCTION WORKSHOP • 
+              </span>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
