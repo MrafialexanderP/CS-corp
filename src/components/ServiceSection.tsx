@@ -75,7 +75,6 @@ const ServiceSection = () => {
                         key={index}
                         className="bg-coral text-white px-6 py-4 rounded-2xl font-semibold text-center transition-all duration-200 hover:bg-coral-light hover:shadow-md"
                       >
-                        <span className="font-bold mr-3">{index + 1}</span>
                         {service}
                       </div>
                     ))}
@@ -109,7 +108,6 @@ const ServiceSection = () => {
                         key={index}
                         className="bg-white/20 backdrop-blur-sm text-white px-6 py-4 rounded-2xl font-semibold text-center transition-all duration-200 hover:bg-white/30 hover:shadow-md border border-white/30"
                       >
-                        <span className="font-bold mr-3">{index + 1}</span>
                         {service}
                       </div>
                     ))}
