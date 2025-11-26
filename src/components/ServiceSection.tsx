@@ -1,21 +1,3 @@
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { useRef } from "react";
-
-interface ParallaxProps {
-  children: string;
-}
-
-function StaticText({ children }: ParallaxProps) {
-  return (
-    <div className="parallax">
-      <div className="scroller">
-        <span>{children}</span>
-      </div>
-    </div>
-  );
-}
-
 const ServiceSection = () => {
   const csProdServices = [
     'Event Contractor',
@@ -102,17 +84,12 @@ const ServiceSection = () => {
         </div>
       </div>
       
-      {/* Footer Bar with Static Text */}
-      <div 
-        ref={footerRef}
-        className="py-12 md:py-16 overflow-hidden bg-gradient-to-r from-vibrant-blue via-vibrant-blue to-coral"
-      >
-        <StaticText>
-          PRINTING MACHINES • LASER CUTTING MACHINES • BOOTH PRODUCTION WORKSHOP
-        </StaticText>
-        <StaticText>
-          PRINTING MACHINES • LASER CUTTING MACHINES • BOOTH PRODUCTION WORKSHOP
-        </StaticText>
+      <div className="bg-coral-light py-6">
+        <div className="max-w-6xl mx-auto px-6">
+          <p className="text-white text-center text-sm font-semibold tracking-wider">
+            PRINTING MACHINES • LASER CUTTING MACHINES • BOOTH PRODUCTION WORKSHOP
+          </p>
+        </div>
       </div>
     </section>
   );
