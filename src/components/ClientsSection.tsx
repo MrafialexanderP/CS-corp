@@ -10,7 +10,7 @@ const clients = [
 
 const ClientsSection = () => {
   return (
-    <section className="gradient-section py-24 px-6">
+    <section id="client" className="gradient-section py-24 px-6">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-white text-center mb-16">OUR CLIENTS</h2>
         

@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 py-12 px-6">
+    <footer id="contact" className="bg-gray-900 py-12 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-center gap-12 mb-6">
           <a href="#about" className="text-white hover:opacity-70 transition-opacity text-sm">
