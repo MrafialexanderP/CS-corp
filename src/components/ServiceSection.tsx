@@ -88,14 +88,16 @@ const ServiceSection = () => {
       </div>
       
       {/* Scroll Velocity Text Animation */}
-      <div className="bg-coral py-6 overflow-hidden">
+      <div className="bg-coral py-6 w-full overflow-hidden">
         <ScrollVelocity
-          texts={['PRINTING MACHINES •', 'LASER CUTTING MACHINES •', 'BOOTH PRODUCTION WORKSHOP •']}
-          velocity={80}
-          className="text-white text-xl md:text-2xl lg:text-3xl font-bold mx-4"
-          numCopies={4}
+          texts={['PRINTING MACHINES • LASER CUTTING MACHINES • BOOTH PRODUCTION WORKSHOP •']}
+          velocity={100}
+          className="text-white text-lg md:text-xl lg:text-2xl font-bold px-4"
+          numCopies={8}
           damping={50}
           stiffness={300}
+          parallaxClassName="w-full"
+          scrollerClassName="gap-0"
         />
       </div>
     </section>
