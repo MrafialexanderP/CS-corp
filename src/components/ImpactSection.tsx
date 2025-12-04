@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
-import TextType from "./TextType";
+import ScrollTypeText from "./ScrollTypeText";
 
 const ImpactSection = () => {
   return (
@@ -22,18 +22,11 @@ const ImpactSection = () => {
       <div className="absolute bottom-8 right-48 w-12 h-12 bg-primary rounded-lg transform rotate-45" />
       
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-5xl md:text-6xl font-bold mb-8 text-coral">
-          <TextType
-            text={["We create impactful experiences and productions."]}
-            as="span"
-            typingSpeed={80}
-            initialDelay={300}
-            loop={false}
-            showCursor={true}
-            cursorCharacter="|"
-            cursorClassName="text-coral"
-            startOnVisible={true}
+        <h2 className="text-5xl md:text-6xl font-bold mb-8">
+          <ScrollTypeText
+            text="We create impactful experiences and productions."
             className="text-coral"
+            containerClassName="inline-block"
           />
         </h2>
         
