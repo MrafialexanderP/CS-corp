@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,6 +16,7 @@ const Navigation = () => {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    if (!isHomePage) return; // Let Link handle navigation if not on home page
     e.preventDefault();
     const element = document.querySelector(targetId);
     if (element) {
@@ -27,46 +31,72 @@ const Navigation = () => {
           <div className="flex items-center justify-between">
             {/* Left Links */}
             <div className="flex items-center gap-8">
-              <a 
-                href="#about" 
-                onClick={(e) => handleNavClick(e, "#about")}
+              <Link 
+                to="/about"
                 className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
               >
                 about
-              </a>
-              <a 
-                href="#service" 
-                onClick={(e) => handleNavClick(e, "#service")}
-                className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
-              >
-                service
-              </a>
+              </Link>
+              {isHomePage ? (
+                <a 
+                  href="#service" 
+                  onClick={(e) => handleNavClick(e, "#service")}
+                  className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
+                >
+                  service
+                </a>
+              ) : (
+                <Link 
+                  to="/#service"
+                  className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
+                >
+                  service
+                </Link>
+              )}
             </div>
             
             {/* Center Logo */}
-            <a 
-              href="#" 
+            <Link 
+              to="/" 
               className="text-xl font-bold text-black px-4"
             >
               CS CORP
-            </a>
+            </Link>
             
             {/* Right Links */}
             <div className="flex items-center gap-8">
-              <a 
-                href="#client" 
-                onClick={(e) => handleNavClick(e, "#client")}
-                className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
-              >
-                client
-              </a>
-              <a 
-                href="#contact" 
-                onClick={(e) => handleNavClick(e, "#contact")}
-                className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
-              >
-                contact
-              </a>
+              {isHomePage ? (
+                <a 
+                  href="#client" 
+                  onClick={(e) => handleNavClick(e, "#client")}
+                  className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
+                >
+                  client
+                </a>
+              ) : (
+                <Link 
+                  to="/#client"
+                  className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
+                >
+                  client
+                </Link>
+              )}
+              {isHomePage ? (
+                <a 
+                  href="#contact" 
+                  onClick={(e) => handleNavClick(e, "#contact")}
+                  className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
+                >
+                  contact
+                </a>
+              ) : (
+                <Link 
+                  to="/#contact"
+                  className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
+                >
+                  contact
+                </Link>
+              )}
             </div>
           </div>
         </div>

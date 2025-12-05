@@ -4,7 +4,7 @@ import ScrollTypeText from "./ScrollTypeText";
 
 const ImpactSection = () => {
   return (
-    <section id="about" className="bg-white py-24 px-6 relative overflow-hidden">
+    <section id="about" className="bg-white pt-8 pb-24 px-6 relative overflow-hidden">
       {/* Curved decorative lines */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg">
         <path d="M 0 100 Q 200 50 400 100 T 800 100" stroke="hsl(var(--coral))" strokeWidth="3" fill="none" />

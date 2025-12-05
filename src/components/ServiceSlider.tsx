@@ -21,7 +21,7 @@ const ServiceSlider = () => {
     {
       id: 'cspro',
       number: '01',
-      title: 'CSPROD',
+      title: 'CSPRO',
       verticalTitle: 'Production',
       description: 'We deliver comprehensive production services from concept to completion. Our team specializes in creating impactful brand experiences through quality craftsmanship and innovative solutions.',
       services: [
