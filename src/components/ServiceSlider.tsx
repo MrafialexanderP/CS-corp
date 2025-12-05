@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Plus } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface ServiceTab {
   id: string;
@@ -11,9 +11,14 @@ interface ServiceTab {
   services: string[];
   bgColor: string;
   accentColor: string;
+  textColor: string;
 }
 
-const ServiceSlider = () => {
+interface ServiceSliderProps {
+  onTabChange?: (tabIndex: number) => void;
+}
+
+const ServiceSlider = ({ onTabChange }: ServiceSliderProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -31,7 +36,8 @@ const ServiceSlider = () => {
         'Printings & Acrylic Media'
       ],
       bgColor: 'bg-vibrant-blue',
-      accentColor: 'bg-coral'
+      accentColor: 'bg-coral',
+      textColor: 'text-vibrant-blue'
     },
     {
       id: 'cscom',
@@ -47,14 +53,21 @@ const ServiceSlider = () => {
         'Entertainment'
       ],
       bgColor: 'bg-coral',
-      accentColor: 'bg-vibrant-blue'
+      accentColor: 'bg-vibrant-blue',
+      textColor: 'text-coral'
     }
   ];
 
   const handleTabClick = (index: number) => {
     setDirection(index > activeTab ? 1 : -1);
     setActiveTab(index);
+    onTabChange?.(index);
   };
+
+  useEffect(() => {
+    onTabChange?.(activeTab);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const slideVariants = {
     enter: (direction: number) => ({
@@ -74,9 +87,34 @@ const ServiceSlider = () => {
   const currentTab = serviceTabs[activeTab];
 
   return (
-    <div className="relative w-full h-[600px] overflow-hidden">
-      {/* Slides Container */}
+    <div className="relative w-full h-[550px] overflow-hidden">
       <div className="flex h-full">
+        {/* Left Tab - Shows when tab 1 (CSCOM) is active */}
+        <AnimatePresence mode="wait">
+          {activeTab === 1 && (
+            <motion.button
+              key="left-tab"
+              initial={{ x: '-100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '-100%', opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              onClick={() => handleTabClick(0)}
+              className="relative w-20 md:w-24 h-full flex flex-col items-center justify-between py-8 bg-white text-gray-800 hover:bg-gray-50 flex-shrink-0 border-r border-gray-100"
+            >
+              <span className="text-2xl md:text-3xl font-bold text-vibrant-blue">01</span>
+              <span 
+                className="text-sm md:text-base font-semibold tracking-widest text-gray-800"
+                style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+              >
+                Production
+              </span>
+              <div className="w-10 h-10 rounded-full bg-coral flex items-center justify-center text-white">
+                <ArrowRight size={18} />
+              </div>
+            </motion.button>
+          )}
+        </AnimatePresence>
+
         {/* Main Slider Area */}
         <div className="flex-1 relative overflow-hidden">
           <AnimatePresence initial={false} custom={direction} mode="wait">
@@ -93,179 +131,138 @@ const ServiceSlider = () => {
               }}
               className={`absolute inset-0 ${currentTab.bgColor}`}
             >
-              {/* Grid Background Pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <pattern id={`grid-${activeTab}`} width="40" height="40" patternUnits="userSpaceOnUse">
-                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/>
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill={`url(#grid-${activeTab})`} />
-                </svg>
+              {/* Content */}
+              <div className="relative z-10 h-full flex flex-col justify-center p-8 md:p-12 lg:p-16 max-w-4xl">
+                {/* Number badge */}
+                <motion.div 
+                  className="text-white/20 text-8xl md:text-9xl font-bold absolute top-8 left-8 leading-none"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {currentTab.number}
+                </motion.div>
+
+                {/* Title */}
+                <motion.h3 
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  {currentTab.title}
+                </motion.h3>
+                
+                {/* Description */}
+                <motion.p 
+                  className="text-white/85 text-base lg:text-lg mb-8 max-w-xl leading-relaxed"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.15 }}
+                >
+                  {currentTab.description}
+                </motion.p>
+
+                {/* Services Grid */}
+                <div className="grid grid-cols-2 gap-3 mb-8 max-w-lg">
+                  {currentTab.services.map((service, serviceIndex) => (
+                    <motion.div
+                      key={service}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.2 + serviceIndex * 0.05 }}
+                      className="bg-white/15 backdrop-blur-sm text-white px-4 py-3 rounded-full font-medium text-center text-sm border border-white/20 hover:bg-white/25 transition-all cursor-default"
+                    >
+                      {service}
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Learn More Button */}
+                <motion.button
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.4 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`${currentTab.accentColor} text-white px-6 py-3 rounded-full font-semibold w-fit flex items-center gap-2 shadow-lg text-sm`}
+                >
+                  Learn more
+                  <ArrowRight size={16} />
+                </motion.button>
               </div>
 
-              {/* Content */}
-              <div className="relative z-10 h-full flex flex-col md:flex-row items-start p-8 md:p-12 lg:p-16 gap-8">
-                {/* Left side - Number and decorative */}
-                <div className="flex flex-col items-start">
-                  <motion.div 
-                    className="text-white/30 text-7xl md:text-8xl lg:text-9xl font-bold leading-none"
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
+              {/* Progress Indicator */}
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+                {serviceTabs.map((_, index) => (
+                  <button
+                    key={index}
+                    className="h-1 rounded-full bg-white/30 overflow-hidden cursor-pointer"
+                    style={{ width: 50 }}
+                    onClick={() => handleTabClick(index)}
                   >
-                    {currentTab.number}
-                  </motion.div>
-                  
-                  {/* Decorative circles */}
-                  <div className="relative mt-8 hidden md:block">
-                    <motion.div 
-                      className={`w-32 h-32 lg:w-40 lg:h-40 rounded-full ${currentTab.accentColor} flex items-center justify-center`}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
-                    >
-                      <div className="w-24 h-24 lg:w-32 lg:h-32 rounded-full bg-white/20 backdrop-blur-sm border-4 border-white/30" />
-                    </motion.div>
-                    <motion.div 
-                      className={`absolute -bottom-6 -right-6 w-16 h-16 rounded-full ${currentTab.accentColor} opacity-60`}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
+                    <motion.div
+                      className="h-full bg-white"
+                      initial={{ width: '0%' }}
+                      animate={{ width: activeTab === index ? '100%' : '0%' }}
+                      transition={{ duration: 0.4 }}
                     />
-                  </div>
-                </div>
-
-                {/* Right side - Info */}
-                <div className="flex-1 flex flex-col justify-center max-w-2xl">
-                  <motion.h3 
-                    className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.15 }}
-                  >
-                    {currentTab.title}
-                  </motion.h3>
-                  
-                  <motion.p 
-                    className="text-white/80 text-base lg:text-lg mb-8"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                  >
-                    {currentTab.description}
-                  </motion.p>
-
-                  {/* Services List */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-                    {currentTab.services.map((service, serviceIndex) => (
-                      <motion.div
-                        key={service}
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: 0.3 + serviceIndex * 0.08 }}
-                        className="bg-white/20 backdrop-blur-sm text-white px-4 py-3 rounded-xl font-medium text-center border border-white/30 hover:bg-white/30 transition-colors"
-                      >
-                        {service}
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  {/* Learn More Button */}
-                  <motion.button
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.5 }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`${currentTab.accentColor} text-white px-8 py-3 rounded-full font-semibold w-fit flex items-center gap-2 shadow-lg`}
-                  >
-                    Learn more
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                  </motion.button>
-                </div>
+                  </button>
+                ))}
               </div>
             </motion.div>
           </AnimatePresence>
-
-          {/* Slide Progress Indicator */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
-            {serviceTabs.map((_, index) => (
-              <button
-                key={index}
-                className="h-1 rounded-full bg-white/30 overflow-hidden cursor-pointer"
-                style={{ width: 60 }}
-                onClick={() => handleTabClick(index)}
-              >
-                <motion.div
-                  className="h-full bg-white"
-                  initial={{ width: '0%' }}
-                  animate={{ width: activeTab === index ? '100%' : '0%' }}
-                  transition={{ duration: 0.4 }}
-                />
-              </button>
-            ))}
-          </div>
         </div>
 
-        {/* Right Tabs - Vertical navigation */}
-        <div className="flex flex-shrink-0">
-          {serviceTabs.map((tab, index) => (
-            <button
-              key={tab.id}
-              onClick={() => handleTabClick(index)}
-              className={`relative w-20 md:w-24 h-full flex flex-col items-center justify-between py-8 transition-all duration-500 overflow-hidden ${
-                activeTab === index 
-                  ? 'text-white' 
-                  : 'bg-white text-gray-800 hover:bg-gray-50'
-              }`}
+        {/* Right Tab - Shows when tab 0 (CSPRO) is active */}
+        <AnimatePresence mode="wait">
+          {activeTab === 0 && (
+            <motion.button
+              key="right-tab"
+              initial={{ x: '100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '100%', opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              onClick={() => handleTabClick(1)}
+              className="relative w-20 md:w-24 h-full flex flex-col items-center justify-between py-8 bg-white text-gray-800 hover:bg-gray-50 flex-shrink-0 border-l border-gray-100"
             >
-              {/* Background color that slides in */}
-              <motion.div
-                className={`absolute inset-0 ${tab.bgColor}`}
-                initial={false}
-                animate={{ 
-                  x: activeTab === index ? '0%' : '100%'
-                }}
-                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-              />
-
-              {/* Number */}
+              <span className="text-2xl md:text-3xl font-bold text-coral">02</span>
               <span 
-                className={`relative z-10 text-2xl md:text-3xl font-bold transition-colors duration-300 ${
-                  activeTab === index ? 'text-white' : 'text-vibrant-blue'
-                }`}
-              >
-                {tab.number}
-              </span>
-
-              {/* Vertical Title */}
-              <span 
-                className={`relative z-10 text-sm md:text-base font-semibold tracking-widest transition-colors duration-300 ${
-                  activeTab === index ? 'text-white' : 'text-gray-800'
-                }`}
+                className="text-sm md:text-base font-semibold tracking-widest text-gray-800"
                 style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
               >
-                {tab.verticalTitle}
+                Communication
               </span>
+              <div className="w-10 h-10 rounded-full bg-vibrant-blue flex items-center justify-center text-white">
+                <ArrowRight size={18} />
+              </div>
+            </motion.button>
+          )}
+        </AnimatePresence>
 
-              {/* Plus Button */}
-              <motion.div
-                className={`relative z-10 w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-300 ${
-                  activeTab === index 
-                    ? 'bg-white/20 text-white' 
-                    : `${tab.accentColor} text-white`
-                }`}
-                animate={{ rotate: activeTab === index ? 45 : 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Plus size={24} />
-              </motion.div>
-            </button>
-          ))}
+        {/* Active Tab Indicator on the side */}
+        <div className="relative w-20 md:w-24 h-full flex-shrink-0">
+          <motion.div
+            className={`absolute inset-0 ${currentTab.bgColor} flex flex-col items-center justify-between py-8`}
+            layoutId="activeTab"
+            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <span className="text-2xl md:text-3xl font-bold text-white">
+              {currentTab.number}
+            </span>
+            <span 
+              className="text-sm md:text-base font-semibold tracking-widest text-white"
+              style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+            >
+              {currentTab.verticalTitle}
+            </span>
+            <motion.div
+              className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white"
+              animate={{ rotate: 45 }}
+            >
+              <span className="text-2xl font-light">+</span>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </div>

@@ -97,9 +97,6 @@ const StatsAndCTA = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="text-vibrant-blue text-sm font-semibold tracking-widest uppercase mb-3">
-              Our Achievement
-            </h3>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
               Numbers That Speak
             </h2>
@@ -138,79 +135,6 @@ const StatsAndCTA = () => {
                 )}
               </motion.div>
             ))}
-          </div>
-        </div>
-      </div>
-
-      {/* CTA Section */}
-      <div className="relative bg-vibrant-blue overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="cta-pattern" width="60" height="60" patternUnits="userSpaceOnUse">
-                <circle cx="30" cy="30" r="1.5" fill="white"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#cta-pattern)" />
-          </svg>
-        </div>
-
-        {/* Decorative shapes */}
-        <div className="absolute top-0 left-0 w-64 h-64 bg-coral/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
-
-        <div className="relative z-10 py-16 md:py-20 px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.h2 
-              className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              Ready to Create Your Next
-              <span className="block mt-2">
-                <span className="text-coral">Impactful</span> Event?
-              </span>
-            </motion.h2>
-
-            <motion.p 
-              className="text-white/80 text-lg md:text-xl mb-10 max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              Let's collaborate and bring your vision to life. Our team is ready to help you create memorable experiences.
-            </motion.p>
-
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-coral hover:bg-coral-light text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg shadow-coral/30 flex items-center gap-2 transition-colors"
-              >
-                Get In Touch
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-                </svg>
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-full font-semibold text-lg border border-white/30 flex items-center gap-2 transition-colors backdrop-blur-sm"
-              >
-                View Our Work
-              </motion.button>
-            </motion.div>
           </div>
         </div>
       </div>

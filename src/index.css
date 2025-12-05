@@ -17,7 +17,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 209 91% 38%;
+    --primary: 214 90% 36%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 40% 96.1%;
@@ -38,12 +38,12 @@ All colors MUST be HSL.
 
     --radius: 1rem;
 
-    --coral: 13 66% 57%;
-    --coral-light: 13 66% 62%;
-    --vibrant-blue: 209 91% 38%;
-    --vibrant-purple: 209 91% 38%;
-    --gradient-hero: linear-gradient(135deg, hsl(13 66% 57%) 0%, hsl(209 91% 38%) 50%, hsl(209 91% 38%) 100%);
-    --gradient-section: linear-gradient(180deg, hsl(13 66% 57%) 0%, hsl(209 91% 38%) 100%);
+    --coral: 13 66% 55%;
+    --coral-light: 13 66% 60%;
+    --vibrant-blue: 214 90% 36%;
+    --vibrant-purple: 214 90% 36%;
+    --gradient-hero: linear-gradient(135deg, hsl(13 66% 55%) 0%, hsl(214 90% 36%) 50%, hsl(214 90% 36%) 100%);
+    --gradient-section: linear-gradient(180deg, hsl(13 66% 55%) 0%, hsl(214 90% 36%) 100%);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
