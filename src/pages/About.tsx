@@ -5,17 +5,23 @@ import Footer from '@/components/Footer';
 const coreValues = [
   {
     title: 'GLIDING FREELY',
-    description: 'Embracing the boundless art of creative flight and freedom',
+    description: 'Breaking the boundaries of',
+    highlight: 'creativity and innovation',
+    suffix: 'in creating stunning events.',
     image: '/gliding-freely.png',
   },
   {
     title: 'SEEING FAR AHEAD',
-    description: 'A visionary spirit that keeps looking forward and beyond',
+    description: 'Possess a sharp vision and broad perspective in',
+    highlight: 'understanding every detail',
+    suffix: "of our clients' desires.",
     image: '/seeing-far-ahead.png',
   },
   {
     title: 'TOGETHERNESS',
-    description: 'United in purpose, stronger together in every endeavor',
+    description: 'Create',
+    highlight: 'harmonious collaboration',
+    suffix: 'in every project.',
     image: '/togetherness.png',
   }
 ];
@@ -159,6 +165,13 @@ const About = () => {
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                   </div>
+                  
+                  {/* Description below image */}
+                  <p className="text-white text-sm italic mt-4 text-center px-2">
+                    {value.description}{' '}
+                    <span className="text-coral underline">{value.highlight}</span>{' '}
+                    {value.suffix}
+                  </p>
                 </motion.div>
               ))}
             </div>
