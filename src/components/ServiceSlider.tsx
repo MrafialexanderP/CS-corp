@@ -191,25 +191,6 @@ const ServiceSlider = ({ onTabChange }: ServiceSliderProps) => {
                   <ArrowRight size={16} />
                 </motion.button>
               </div>
-
-              {/* Progress Indicator */}
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
-                {serviceTabs.map((_, index) => (
-                  <button
-                    key={index}
-                    className="h-1 rounded-full bg-white/30 overflow-hidden cursor-pointer"
-                    style={{ width: 50 }}
-                    onClick={() => handleTabClick(index)}
-                  >
-                    <motion.div
-                      className="h-full bg-white"
-                      initial={{ width: '0%' }}
-                      animate={{ width: activeTab === index ? '100%' : '0%' }}
-                      transition={{ duration: 0.4 }}
-                    />
-                  </button>
-                ))}
-              </div>
             </motion.div>
           </AnimatePresence>
         </div>

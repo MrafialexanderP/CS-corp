@@ -31,16 +31,19 @@ const teamMembers = [
     name: 'John Levene',
     role: 'CHIEF EXPERIENCE OFFICER',
     image: '/placeholder.svg',
+    bio: 'John Levene brings over 15 years of experience in creating exceptional client experiences. His passion for innovation and attention to detail has helped shape the company\'s approach to delivering memorable events and productions.',
   },
   {
     name: 'Michael Chen',
     role: 'CHIEF CREATIVE OFFICER',
     image: '/placeholder.svg',
+    bio: 'Michael Chen is a visionary creative leader with a background in design and brand strategy. He oversees all creative initiatives and ensures that every project reflects the highest standards of artistic excellence.',
   },
   {
     name: 'Sean Hendelman',
-    role: 'CHIEF EXECUTIVE OFFICER, ACTIVE & PRO TRADING',
+    role: 'CHIEF TECHNOLOGY OFFICER',
     image: '/placeholder.svg',
+    bio: 'Sean Hendelman leads the technology division, bringing cutting-edge solutions to event production. His expertise in digital innovation has revolutionized how we approach modern event experiences.',
   },
 ];
 
@@ -222,7 +225,7 @@ const About = () => {
             <p className="text-white/70">Driving Growth and Client Success</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8 pb-16">
+          <div className="grid md:grid-cols-3 gap-16 pb-16">
             {teamMembers.map((member, index) => (
               <motion.div
                 key={member.name}
@@ -230,28 +233,65 @@ const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`${index === 1 ? 'md:mt-16' : ''}`}
+                className={`${index === 1 ? 'md:mt-12' : ''} flex justify-center`}
               >
-                <div className="bg-white/10 backdrop-blur-sm rounded-3xl overflow-hidden border border-white/20 hover:border-white/40 transition-all duration-300 group">
-                  {/* Image */}
-                  <div className="aspect-square bg-gray-200 overflow-hidden">
-                    <img 
-                      src={member.image} 
-                      alt={member.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  
-                  {/* Info */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
-                    <p className="text-white/70 text-sm uppercase tracking-wide">{member.role}</p>
+                {/* Book Card Container */}
+                <div 
+                  className="relative w-[260px] h-[380px]"
+                  style={{ perspective: '2000px' }}
+                >
+                  {/* Inner Content (Bio) - Behind the cover */}
+                  <div className="absolute inset-0 bg-white rounded-2xl p-6 pl-14 flex flex-col justify-center shadow-lg">
+                    <h3 
+                      className="text-lg font-bold text-vibrant-blue mb-1"
+                      style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700 }}
+                    >
+                      {member.name}
+                    </h3>
+                    <p className="text-coral text-[10px] uppercase tracking-wide font-semibold mb-3">
+                      {member.role}
+                    </p>
+                    <div className="w-8 h-0.5 bg-coral rounded mb-3" />
+                    <p className="text-gray-600 text-xs leading-relaxed">
+                      {member.bio}
+                    </p>
                   </div>
 
-                  {/* Open Bio Button */}
-                  <div className="border-t border-white/20 px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors">
-                    <span className="text-white text-sm">Open Bio</span>
-                    <span className="text-white text-xl">+</span>
+                  {/* Cover (Front) - Opens like a book */}
+                  <div 
+                    className="book-cover absolute inset-0 bg-vibrant-blue rounded-2xl p-3 cursor-pointer shadow-xl"
+                    style={{ 
+                      transformOrigin: 'left center',
+                      transformStyle: 'preserve-3d',
+                      transition: 'transform 0.6s ease',
+                      backfaceVisibility: 'hidden',
+                    }}
+                  >
+                    {/* Image */}
+                    <div className="h-[270px] rounded-xl overflow-hidden bg-gray-100 mb-3">
+                      <img 
+                        src={member.image} 
+                        alt={member.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    {/* Info */}
+                    <div className="px-1">
+                      <h3 
+                        className="text-lg font-bold text-white mb-0.5" 
+                        style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700 }}
+                      >
+                        {member.name}
+                      </h3>
+                      <p className="text-white/70 text-[10px] uppercase tracking-wide">{member.role}</p>
+                    </div>
+
+                    {/* Hover hint */}
+                    <div className="absolute bottom-3 left-3 right-3 pt-2 border-t border-white/20 flex items-center justify-between">
+                      <span className="text-white/50 text-[10px]">Hover to open</span>
+                      <span className="text-white/50 text-xs">→</span>
+                    </div>
                   </div>
                 </div>
               </motion.div>
