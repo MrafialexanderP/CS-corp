@@ -1,22 +1,111 @@
-import { Card } from "@/components/ui/card";
+import Masonry from "@/components/Masonry";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 const productions = [
   {
-    title: "Youtube Creator Collective",
-    subtitle: "Booth Productions",
-    image: "/placeholder.svg"
+    id: '1',
+    title: 'K-Content BizWeek 2025 by KOCCA',
+    subtitle: 'Agency Daehang Congratulates Indonesia Organized by CSCOM',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 600
   },
   {
-    title: "Astra Corporate Affairs Awards",
-    subtitle: "Event by ASTRA",
-    image: "/placeholder.svg"
+    id: '2',
+    title: 'Pesta IWET 2025 by Tlnet',
+    subtitle: 'Pesta Iklim & Iklim Pesta Organized by Cooperation Partner',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 500
   },
   {
-    title: "Dulux",
-    subtitle: "Booth at Kawan Lama Purwokerto",
-    image: "/placeholder.svg"
+    id: '3',
+    title: 'Great Chinggu Launch 2024',
+    subtitle: 'New Product Launch',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 550
+  },
+  {
+    id: '4',
+    title: 'Launching Buku Apresiasi Jan 25th 2025',
+    subtitle: 'Book Launch Event',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 450
+  },
+  {
+    id: '5',
+    title: 'KRU Hondas Sultan Activation',
+    subtitle: 'Brand Activation Campaign',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 520
+  },
+  {
+    id: '6',
+    title: 'A MOMENT AT JAM House (Launchingshowcase)',
+    subtitle: 'Music Showcase Event',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 580
+  },
+  {
+    id: '7',
+    title: 'Panini Indonesia Activation',
+    subtitle: 'Brand Activation & Exhibition',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 490
+  },
+  {
+    id: '8',
+    title: 'AQUA DANONE KLHK AMDAL',
+    subtitle: 'Environmental Program',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 530
+  },
+  {
+    id: '9',
+    title: 'Vitamin Kesesah Original Harvest',
+    subtitle: 'Product Launch Campaign',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 510
+  },
+  {
+    id: '10',
+    title: 'OpenYork Palmeran (retorative 2024 Jakarta)',
+    subtitle: 'Corporate Event',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 470
+  },
+  {
+    id: '11',
+    title: 'Exam Buleuseed Invitation 2024',
+    subtitle: 'Educational Event',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 560
+  },
+  {
+    id: '12',
+    title: 'McDonalds K-Grand',
+    subtitle: 'Restaurant Grand Opening',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 500
+  },
+  {
+    id: '13',
+    title: 'RAPP(invent Focus Collaboration 2023)',
+    subtitle: 'Partnership Event',
+    img: '/placeholder.svg',
+    url: '#',
+    height: 540
   }
 ];
 
@@ -68,24 +157,21 @@ const ProductionsSection = () => {
         </motion.div>
         
         <motion.div
-          className="grid md:grid-cols-3 gap-6"
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
+          className="relative"
         >
-          {productions.map((production, index) => (
-            <motion.div key={index} variants={itemVariants}>
-              <Card className="overflow-hidden bg-coral border-0 rounded-2xl shadow-lg">
-                <div className="aspect-video bg-gray-200">
-                  <img src={production.image} alt={production.title} className="w-full h-full object-cover" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-white font-bold text-lg mb-1">{production.title}</h3>
-                  <p className="text-white/90 text-sm">{production.subtitle}</p>
-                </div>
-              </Card>
-            </motion.div>
-          ))}
+          <div style={{ height: '2000px' }}>
+            <Masonry
+              items={productions}
+              animateFrom="bottom"
+              scaleOnHover
+              hoverScale={0.95}
+              blurToFocus
+              stagger={0.04}
+            />
+          </div>
         </motion.div>
       </div>
     </section>

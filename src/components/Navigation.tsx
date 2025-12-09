@@ -66,6 +66,12 @@ const Navigation = () => {
             {/* Right Links */}
             <div className="flex items-center gap-8">
               <Link 
+                to="/products"
+                className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
+              >
+                products
+              </Link>
+              <Link 
                 to="/events"
                 className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
               >
