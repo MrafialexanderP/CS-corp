@@ -65,6 +65,12 @@ const Navigation = () => {
             
             {/* Right Links */}
             <div className="flex items-center gap-8">
+              <Link 
+                to="/events"
+                className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
+              >
+                events
+              </Link>
               {isHomePage ? (
                 <a 
                   href="#client" 
