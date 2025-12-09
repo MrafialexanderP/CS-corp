@@ -28,9 +28,9 @@ const coreValues = [
 
 const teamMembers = [
   {
-    name: 'John Levene',
+    name: 'Faris Gibran',
     role: 'CHIEF EXPERIENCE OFFICER',
-    image: '/placeholder.svg',
+    image: '/FarisGibran.png',
     bio: 'John Levene brings over 15 years of experience in creating exceptional client experiences. His passion for innovation and attention to detail has helped shape the company\'s approach to delivering memorable events and productions.',
   },
   {
