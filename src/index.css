@@ -110,6 +110,10 @@ All colors MUST be HSL.
   .animate-marquee-service {
     animation: marqueeService 15s linear infinite;
   }
+
+  .animate-marquee-service-reverse {
+    animation: marqueeServiceReverse 15s linear infinite;
+  }
   
   @keyframes marquee {
     0% {
@@ -126,6 +130,15 @@ All colors MUST be HSL.
     }
     100% {
       transform: translateX(-50%);
+    }
+  }
+
+  @keyframes marqueeServiceReverse {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0%);
     }
   }
 }

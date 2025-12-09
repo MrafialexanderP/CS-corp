@@ -1,23 +1,82 @@
 import { Button } from "@/components/ui/button";
-import ScrollTypeText from "./ScrollTypeText";
+import { motion } from "framer-motion";
+
+// Blue diamond/star decoration component
+const BlueDiamond = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 100 100" 
+    className={className}
+    fill="none"
+  >
+    <defs>
+      <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+      </filter>
+    </defs>
+    <path 
+      d="M50 0 L65 35 L100 50 L65 65 L50 100 L35 65 L0 50 L35 35 Z" 
+      fill="#0A4AAC"
+      filter="url(#blur)"
+      opacity="0.9"
+    />
+    <path 
+      d="M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z" 
+      fill="#0A4AAC"
+    />
+  </svg>
+);
 
 const ImpactSection = () => {
   return (
-    <section id="about" className="bg-white pt-8 pb-24 px-6 relative overflow-hidden">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-5xl md:text-6xl font-bold mb-8">
-          <ScrollTypeText
-            text="We create impactful experiences and productions."
-            className="text-coral"
-            containerClassName="inline-block"
-          />
-        </h2>
-        
-        <Button 
-          className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg rounded-full font-semibold"
+    <section id="about" className="bg-white py-24 px-6 relative overflow-hidden">
+      {/* Blue Diamond Decorations */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.5 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="absolute top-16 left-8 md:left-16"
+      >
+        <BlueDiamond className="w-12 h-12 md:w-16 md:h-16" />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.5 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="absolute bottom-20 right-8 md:right-16"
+      >
+        <BlueDiamond className="w-14 h-14 md:w-20 md:h-20" />
+      </motion.div>
+
+      <div className="max-w-4xl mx-auto text-center relative z-10">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight"
         >
-          LEARN MORE →
-        </Button>
+          <span className="text-gray-800">We create </span>
+          <span className="text-coral italic">impactful experiences</span>
+          <br />
+          <span className="text-gray-800">and </span>
+          <span className="text-coral italic">productions.</span>
+        </motion.h2>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
+          <Button 
+            className="bg-vibrant-blue hover:bg-vibrant-blue/90 text-white px-8 py-6 text-base rounded-full font-semibold"
+          >
+            LEARN MORE →
+          </Button>
+        </motion.div>
       </div>
     </section>
   );
