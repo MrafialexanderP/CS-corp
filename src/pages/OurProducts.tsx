@@ -21,22 +21,26 @@ const OurProducts = () => {
   const [selected, setSelected] = useState<ProductItem | null>(null);
 
   const items: ProductItem[] = [
-    { id: '1', img: '/placeholder.svg', url: '#', height: 420, title: 'Youtube Creator Collective Event Productions', subtitle: 'Organized by: Vibe Event Management', client: 'YouTube', year: '2025', location: 'Jakarta' },
-    { id: '2', img: '/placeholder.svg', url: '#', height: 420, title: 'Astra Corporate Affairs Awards Event Productions', subtitle: 'Organized by: Gala Event Management', client: 'Astra', year: '2025', location: 'Jakarta' },
-    { id: '3', img: '/placeholder.svg', url: '#', height: 420, title: 'Dulu Booth at Karman Paint Expo 2025', subtitle: '', client: 'Karman Paint', year: '2025', location: 'Expo' },
-    { id: '4', img: '/placeholder.svg', url: '#', height: 420, title: 'Sernil Booth - Mall to Mall 2025', subtitle: '', client: 'Sernil', year: '2025', location: 'Mall to Mall' },
+    { id: '1', img: '/placeholder.svg', url: '#', height: 480, title: 'Youtube Creator Collective Event Productions', subtitle: 'Organized by: Vibe Event Management', client: 'YouTube', year: '2025', location: 'Jakarta' },
+    { id: '2', img: '/placeholder.svg', url: '#', height: 320, title: 'Astra Corporate Affairs Awards Event Productions', subtitle: 'Organized by: Gala Event Management', client: 'Astra', year: '2025', location: 'Jakarta' },
+    { id: '3', img: '/placeholder.svg', url: '#', height: 400, title: 'Dulu Booth at Karman Paint Expo 2025', subtitle: '', client: 'Karman Paint', year: '2025', location: 'Expo' },
+    { id: '4', img: '/placeholder.svg', url: '#', height: 350, title: 'Sernil Booth - Mall to Mall 2025', subtitle: '', client: 'Sernil', year: '2025', location: 'Mall to Mall' },
     { id: '5', img: '/placeholder.svg', url: '#', height: 420, title: 'Pertamina Bright Gas Booth at Paramita Event 2025', subtitle: 'Organized by: Mice', client: 'Pertamina', year: '2025', location: 'Jakarta' },
-    { id: '6', img: '/placeholder.svg', url: '#', height: 420, title: 'Sony 1000x Series Booth - Mall Exhibition', subtitle: 'Organized by: Gala Event Management', client: 'Sony', year: '2025', location: 'Jakarta' },
-    { id: '7', img: '/placeholder.svg', url: '#', height: 420, title: 'Guinness PODH - Standing Floor Display', subtitle: '', client: 'Guinness', year: '2024', location: 'Mall' },
+    { id: '6', img: '/placeholder.svg', url: '#', height: 380, title: 'Sony 1000x Series Booth - Mall Exhibition', subtitle: 'Organized by: Gala Event Management', client: 'Sony', year: '2025', location: 'Jakarta' },
+    { id: '7', img: '/placeholder.svg', url: '#', height: 340, title: 'Guinness PODH - Standing Floor Display', subtitle: '', client: 'Guinness', year: '2024', location: 'Mall' },
     { id: '8', img: '/placeholder.svg', url: '#', height: 420, title: 'Guinness Branding Outlet - Neonbox', subtitle: '', client: 'Guinness', year: '2024', location: 'Outlet' },
-    { id: '9', img: '/placeholder.svg', url: '#', height: 420, title: 'Guinness Smooth Branding Outlet', subtitle: '', client: 'Guinness', year: '2024', location: 'Outlet' },
-    { id: '10', img: '/placeholder.svg', url: '#', height: 420, title: 'Smirnof Ice Standing Floor Display', subtitle: '', client: 'Smirnof', year: '2024', location: 'Mall' },
-    { id: '11', img: '/placeholder.svg', url: '#', height: 420, title: 'Tweakss Booth at The 90s Festival 2019', subtitle: '', client: 'Tweakss', year: '2019', location: 'Festival' },
-    { id: '12', img: '/placeholder.svg', url: '#', height: 420, title: 'Hennessy Booth - Jakarta X Beauty 2022', subtitle: '', client: 'Hennessy', year: '2022', location: 'Jakarta' },
+    { id: '9', img: '/placeholder.svg', url: '#', height: 360, title: 'Guinness Smooth Branding Outlet', subtitle: '', client: 'Guinness', year: '2024', location: 'Outlet' },
+    { id: '10', img: '/placeholder.svg', url: '#', height: 400, title: 'Smirnof Ice Standing Floor Display', subtitle: '', client: 'Smirnof', year: '2024', location: 'Mall' },
+    { id: '11', img: '/placeholder.svg', url: '#', height: 500, title: 'Tweakss Booth at The 90s Festival 2019', subtitle: '', client: 'Tweakss', year: '2019', location: 'Festival' },
+    { id: '12', img: '/placeholder.svg', url: '#', height: 380, title: 'Hennessy Booth - Jakarta X Beauty 2022', subtitle: '', client: 'Hennessy', year: '2022', location: 'Jakarta' },
     { id: '13', img: '/placeholder.svg', url: '#', height: 420, title: 'Branding Gondola Promotion', subtitle: '', client: 'Various', year: '2024', location: 'Retail' },
-    { id: '14', img: '/placeholder.svg', url: '#', height: 420, title: 'Display Stand Activation', subtitle: '', client: 'Various', year: '2024', location: 'Retail' },
-    { id: '15', img: '/placeholder.svg', url: '#', height: 420, title: 'Mall Exhibition Showcase', subtitle: '', client: 'Various', year: '2024', location: 'Exhibition' }
+    { id: '14', img: '/placeholder.svg', url: '#', height: 360, title: 'Display Stand Activation', subtitle: '', client: 'Various', year: '2024', location: 'Retail' },
+    { id: '15', img: '/placeholder.svg', url: '#', height: 440, title: 'Mall Exhibition Showcase', subtitle: '', client: 'Various', year: '2024', location: 'Exhibition' }
   ];
+
+  const handleMasonryClick = (item: ProductItem) => {
+    setSelected(item);
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -76,10 +80,10 @@ const OurProducts = () => {
               items={items}
               animateFrom="bottom"
               scaleOnHover
-              hoverScale={1.05}
+              hoverScale={0.95}
               blurToFocus
               stagger={0.03}
-              onItemClick={(item) => setSelected(item as ProductItem)}
+              onItemClick={handleMasonryClick}
             />
           </div>
         </div>

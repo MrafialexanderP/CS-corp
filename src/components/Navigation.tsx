@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
@@ -16,7 +18,7 @@ const Navigation = () => {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    if (!isHomePage) return; // Let Link handle navigation if not on home page
+    if (!isHomePage) return;
     e.preventDefault();
     const element = document.querySelector(targetId);
     if (element) {
@@ -65,50 +67,68 @@ const Navigation = () => {
             
             {/* Right Links */}
             <div className="flex items-center gap-8">
-              <Link 
-                to="/products"
-                className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
-              >
-                products
-              </Link>
-              <Link 
-                to="/events"
-                className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
-              >
-                events
-              </Link>
-              {isHomePage ? (
-                <a 
-                  href="#client" 
-                  onClick={(e) => handleNavClick(e, "#client")}
-                  className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
+              {/* Client Dropdown */}
+              <div className="relative group">
+                <button
+                  className="flex items-center gap-1 text-black hover:text-gray-700 transition-colors text-sm font-bold"
+                  onMouseEnter={() => setOpenDropdown("client")}
+                  onMouseLeave={() => setOpenDropdown(null)}
                 >
                   client
-                </a>
-              ) : (
-                <Link 
-                  to="/#client"
-                  className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
-                >
-                  client
-                </Link>
-              )}
-              {isHomePage ? (
-                <a 
-                  href="#contact" 
-                  onClick={(e) => handleNavClick(e, "#contact")}
-                  className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
-                >
-                  contact
-                </a>
-              ) : (
-                <Link 
-                  to="/#contact"
-                  className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
-                >
-                  contact
-                </Link>
-              )}
+                  <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                </button>
+
+                {/* Dropdown Menu */}
+                {openDropdown === "client" && (
+                  <div 
+                    className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+                    onMouseEnter={() => setOpenDropdown("client")}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
+                    <div className="py-2">
+                      <Link 
+                        to="/products"
+                        className="block px-6 py-3 text-black hover:bg-gray-100 transition-colors text-sm font-semibold"
+                      >
+                        → Our Products
+                      </Link>
+                      <Link 
+                        to="/events"
+                        className="block px-6 py-3 text-black hover:bg-gray-100 transition-colors text-sm font-semibold"
+                      >
+                        → Our Events
+                      </Link>
+                      {isHomePage ? (
+                        <a 
+                          href="#client" 
+                          onClick={(e) => {
+                            handleNavClick(e, "#client");
+                            setOpenDropdown(null);
+                          }}
+                          className="block px-6 py-3 text-black hover:bg-gray-100 transition-colors text-sm font-semibold"
+                        >
+                          → Our Clients
+                        </a>
+                      ) : (
+                        <Link 
+                          to="/#client"
+                          onClick={() => setOpenDropdown(null)}
+                          className="block px-6 py-3 text-black hover:bg-gray-100 transition-colors text-sm font-semibold"
+                        >
+                          → Our Clients
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <Link 
+                to="/contact"
+                className="text-black hover:text-gray-700 transition-colors text-sm font-bold"
+              >
+                contact
+              </Link>
             </div>
           </div>
         </div>
