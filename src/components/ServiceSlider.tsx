@@ -5,16 +5,21 @@ const ServiceSlider = () => {
   const [activePanel, setActivePanel] = useState<'default' | 'cscom' | 'cspro'>('default');
 
   const marqueeText = "OUR SERVICE • ";
+  const marqueeItems = Array.from({ length: 3 });
 
   return (
     <div className="relative w-full overflow-hidden">
       {/* Top Marquee - Blue background, white text */}
-      <div className="py-3 overflow-hidden" style={{ backgroundColor: '#3C597F' }}>
-        <div className="flex whitespace-nowrap gap-0">
-          <span className="text-white font-bold text-lg tracking-wider">{marqueeText}</span>
-          <span className="text-white font-bold text-lg tracking-wider">{marqueeText}</span>
-          <span className="text-white font-bold text-lg tracking-wider">{marqueeText}</span>
-          <span className="text-white font-bold text-lg tracking-wider">{marqueeText}</span>
+      <div className="py-4 md:py-5 overflow-hidden" style={{ backgroundColor: '#3C597F' }}>
+        <div className="flex w-full whitespace-nowrap items-center justify-between">
+          {marqueeItems.map((_, idx) => (
+            <span
+              key={`top-marquee-${idx}`}
+              className="flex-1 text-center text-white font-black italic text-3xl md:text-4xl lg:text-5xl tracking-[0.2em] leading-none"
+            >
+              {marqueeText}
+            </span>
+          ))}
         </div>
       </div>
 
@@ -33,11 +38,9 @@ const ServiceSlider = () => {
           <div 
             className="h-full bg-cover bg-center bg-no-repeat relative w-full"
             style={{ 
-              backgroundImage: 'url(/togetherness.png)',
-              backgroundColor: '#3C597F'
+              backgroundImage: 'linear-gradient(to bottom, #3C597F 0%, #EF6C4E 100%)'
             }}
           >
-            <div className="absolute inset-0 bg-black/50" />
             
             {activePanel === 'default' ? (
               <motion.div
@@ -58,9 +61,12 @@ const ServiceSlider = () => {
                 </p>
               </motion.div>
             ) : (
-              <div className="relative z-10 h-full flex items-center justify-center" style={{ backgroundColor: '#3C597F' }}>
+              <div 
+                className="relative z-10 h-full flex items-center justify-center" 
+                style={{ backgroundImage: 'linear-gradient(to bottom, #3C597F 0%, #EF6C4E 100%)' }}
+              >
                 <span 
-                  className="text-white font-bold text-3xl tracking-wider"
+                  className="text-white font-black italic text-5xl md:text-6xl lg:text-7xl tracking-[0.08em] leading-none"
                   style={{ writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(180deg)' }}
                 >
                   CSCORP
@@ -114,7 +120,7 @@ const ServiceSlider = () => {
           ) : (
             <div className="h-full flex items-center justify-center" style={{ backgroundColor: '#3C597F' }}>
               <span 
-                className="text-white font-bold text-3xl tracking-wider"
+                className="text-[#EF6C4E] font-black italic text-5xl md:text-6xl lg:text-7xl tracking-[0.08em] leading-none"
                 style={{ writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(180deg)' }}
               >
                 CSCOM
@@ -167,7 +173,7 @@ const ServiceSlider = () => {
           ) : (
             <div className="h-full flex items-center justify-center" style={{ backgroundColor: '#EF6C4E' }}>
               <span 
-                className="text-white font-bold text-3xl tracking-wider"
+                className="text-[#3C597F] font-black italic text-5xl md:text-6xl lg:text-7xl tracking-[0.08em] leading-none"
                 style={{ writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(180deg)' }}
               >
                 CSPRO
@@ -178,12 +184,16 @@ const ServiceSlider = () => {
       </div>
 
       {/* Bottom Marquee - Coral background, white text */}
-      <div className="py-3 overflow-hidden" style={{ backgroundColor: '#EF6C4E' }}>
-        <div className="flex whitespace-nowrap gap-0">
-          <span className="text-white font-bold text-lg tracking-wider">{marqueeText}</span>
-          <span className="text-white font-bold text-lg tracking-wider">{marqueeText}</span>
-          <span className="text-white font-bold text-lg tracking-wider">{marqueeText}</span>
-          <span className="text-white font-bold text-lg tracking-wider">{marqueeText}</span>
+      <div className="py-4 md:py-5 overflow-hidden" style={{ backgroundColor: '#EF6C4E' }}>
+        <div className="flex w-full whitespace-nowrap items-center justify-between">
+          {marqueeItems.map((_, idx) => (
+            <span
+              key={`bottom-marquee-${idx}`}
+              className="flex-1 text-center text-white font-black italic text-3xl md:text-4xl lg:text-5xl tracking-[0.2em] leading-none"
+            >
+              {marqueeText}
+            </span>
+          ))}
         </div>
       </div>
     </div>

@@ -1,26 +1,36 @@
 import { motion } from 'framer-motion';
 import ScrollStack, { ScrollStackItem } from './ScrollStack';
+import ShowMoreButton from './ShowMoreButton';
 
 const ExperienceSection = () => {
   return (
     <section className="relative bg-gray-50 py-20">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-[#6B8BA4] italic mb-6">
-            Creating Impactful Experiences<br />
-            & Harmonious Collaborations
-          </h2>
-          <button className="bg-coral text-white px-8 py-3 rounded-full font-semibold hover:bg-coral/90 transition-colors">
-            show more
-          </button>
-        </motion.div>
+        <div className="relative mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-[#6B8BA4] italic">
+              Creating Impactful Experiences<br />
+              & Harmonious Collaborations
+            </h2>
+          </motion.div>
+          <div className="absolute top-0 right-0">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <ShowMoreButton />
+            </motion.div>
+          </div>
+        </div>
 
         {/* ScrollStack Cards */}
         <ScrollStack

@@ -64,19 +64,6 @@ const ImpactSection = () => {
           <span className="text-gray-800">and </span>
           <span className="text-coral italic">productions.</span>
         </motion.h2>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-        >
-          <Button 
-            className="bg-vibrant-blue hover:bg-vibrant-blue/90 text-white px-8 py-6 text-base rounded-full font-semibold"
-          >
-            LEARN MORE →
-          </Button>
-        </motion.div>
       </div>
     </section>
   );
