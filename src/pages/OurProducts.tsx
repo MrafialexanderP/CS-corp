@@ -96,53 +96,53 @@ const OurProducts = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
+            className="fixed inset-0 z-50 flex items-end justify-center pt-24 pb-0 bg-black/70 pointer-events-none"
             onClick={() => setSelected(null)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25 }}
-              className="bg-white rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl"
+              initial={{ y: '100%', opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: '100%', opacity: 0 }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="bg-white rounded-t-3xl w-full h-[calc(100vh-96px)] md:h-auto overflow-y-auto shadow-2xl pointer-events-auto relative"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setSelected(null)}
-                className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors"
+                className="absolute top-6 right-6 z-20 w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-xl hover:bg-gray-100 transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-6 h-6" />
               </button>
 
-              <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/2">
+              <div className="flex flex-col md:flex-row h-full">
+                <div className="md:w-1/2 h-96 md:h-full">
                   <img
                     src={selected.img}
                     alt={selected.title}
-                    className="w-full h-64 md:h-full object-cover"
+                    className="w-full h-full object-cover"
                   />
                 </div>
 
-                <div className="md:w-1/2 p-8">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
                     {selected.title}
                   </h2>
                   {selected.subtitle && (
-                    <p className="text-gray-600 mb-6">{selected.subtitle}</p>
+                    <p className="text-gray-600 text-lg mb-8">{selected.subtitle}</p>
                   )}
 
-                  <div className="space-y-3 text-sm">
+                  <div className="space-y-6 text-base">
                     <div>
-                      <span className="font-semibold text-gray-700">CLIENT</span>
-                      <p className="text-gray-600">{selected.client}</p>
+                      <span className="font-semibold text-gray-700 text-sm uppercase tracking-wider">CLIENT</span>
+                      <p className="text-gray-600 text-lg mt-1">{selected.client}</p>
                     </div>
                     <div>
-                      <span className="font-semibold text-gray-700">YEAR</span>
-                      <p className="text-gray-600">{selected.year}</p>
+                      <span className="font-semibold text-gray-700 text-sm uppercase tracking-wider">YEAR</span>
+                      <p className="text-gray-600 text-lg mt-1">{selected.year}</p>
                     </div>
                     <div>
-                      <span className="font-semibold text-gray-700">LOCATION</span>
-                      <p className="text-gray-600">{selected.location}</p>
+                      <span className="font-semibold text-gray-700 text-sm uppercase tracking-wider">LOCATION</span>
+                      <p className="text-gray-600 text-lg mt-1">{selected.location}</p>
                     </div>
                   </div>
                 </div>
