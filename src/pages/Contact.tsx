@@ -15,12 +15,12 @@ const Contact = () => {
       <Navigation />
       
       {/* Hero Section with Blue and Orange Gradient Background */}
-      <section className="relative pt-32 pb-20 px-6" style={{ background: 'linear-gradient(135deg, #3C597F 0%, rgba(95, 120, 155, 0.8) 25%, rgba(150, 110, 100, 0.8) 75%, #EF6C4E 100%)', backdropFilter: 'blur(10px)' }}>
+      <section className="relative pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6" style={{ background: 'linear-gradient(135deg, #3C597F 0%, rgba(95, 120, 155, 0.8) 25%, rgba(150, 110, 100, 0.8) 75%, #EF6C4E 100%)', backdropFilter: 'blur(10px)' }}>
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
             {/* Left Side - CTA */}
             <div className="text-white">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 italic">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 italic leading-tight">
                 Ready to Fly With Us?<br />
                 Together. Get in Touch
               </h1>
@@ -28,46 +28,46 @@ const Contact = () => {
             </div>
 
             {/* Right Side - Contact Info */}
-            <div className="space-y-6 text-white">
-              <p className="text-base leading-relaxed mb-6">
+            <div className="space-y-4 sm:space-y-6 text-white">
+              <p className="text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">
                 Get in touch to discuss your event activation and production needs today.
               </p>
 
               {/* Address */}
               <div>
-                <h3 className="font-bold text-lg mb-2">Address:</h3>
-                <p className="text-sm">Jl. RE Martadinata No 5A</p>
+                <h3 className="font-bold text-base sm:text-lg mb-1 sm:mb-2">Address:</h3>
+                <p className="text-xs sm:text-sm">Jl. RE Martadinata No 5A</p>
               </div>
 
-              {/* Phone */}
-              <div className="grid grid-cols-2 gap-6">
+              {/* Phone and Working Hours */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
-                  <h3 className="font-bold text-lg mb-2">Phone:</h3>
-                  <p className="text-sm">+62 081219420430</p>
+                  <h3 className="font-bold text-base sm:text-lg mb-1 sm:mb-2">Phone:</h3>
+                  <p className="text-xs sm:text-sm">+62 081219420430</p>
                 </div>
 
                 {/* Working Hours */}
                 <div>
-                  <h3 className="font-bold text-lg mb-2">Working Hours:</h3>
-                  <p className="text-sm">Mon - Fri: 9am - 6 pm</p>
+                  <h3 className="font-bold text-base sm:text-lg mb-1 sm:mb-2">Working Hours:</h3>
+                  <p className="text-xs sm:text-sm">Mon - Fri: 9am - 6 pm</p>
                 </div>
               </div>
 
               {/* Socials */}
               <div>
-                <h3 className="font-bold text-lg mb-2">Socials:</h3>
-                <div className="flex gap-3">
+                <h3 className="font-bold text-base sm:text-lg mb-2 sm:mb-3">Socials:</h3>
+                <div className="flex gap-2 sm:gap-3">
                   <a href="#" className="hover:opacity-80 transition-opacity">
-                    <Instagram size={20} />
+                    <Instagram size={18} className="sm:w-5 sm:h-5" />
                   </a>
                   <a href="#" className="hover:opacity-80 transition-opacity">
                     <TikTokIcon />
                   </a>
                   <a href="#" className="hover:opacity-80 transition-opacity">
-                    <Youtube size={20} />
+                    <Youtube size={18} className="sm:w-5 sm:h-5" />
                   </a>
                   <a href="#" className="hover:opacity-80 transition-opacity">
-                    <Linkedin size={20} />
+                    <Linkedin size={18} className="sm:w-5 sm:h-5" />
                   </a>
                 </div>
               </div>

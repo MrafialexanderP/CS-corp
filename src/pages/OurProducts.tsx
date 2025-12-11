@@ -48,16 +48,16 @@ const OurProducts = () => {
 
       {/* Hero Section */}
       <section
-        className="relative h-[60vh] bg-cover bg-center"
+        className="relative h-[40vh] sm:h-[50vh] md:h-[60vh] bg-cover bg-center"
         style={{ backgroundImage: "url('/OurProductions.png')" }}
       >
         <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-3 sm:mb-4"
           >
             OUR PRODUCTIONS
           </motion.h1>
@@ -65,7 +65,7 @@ const OurProducts = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg md:text-2xl text-white max-w-3xl"
+            className="text-sm sm:text-base md:text-lg lg:text-2xl text-white max-w-3xl px-2"
           >
             Precision in Every Detail: From Concept to Construction
           </motion.p>
@@ -73,9 +73,9 @@ const OurProducts = () => {
       </section>
 
       {/* Masonry Gallery */}
-      <section className="py-20 px-6">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div style={{ height: '2000px' }}>
+          <div style={{ height: '1800px' }}>
             <Masonry
               items={items}
               animateFrom="bottom"
@@ -103,19 +103,19 @@ const OurProducts = () => {
               initial={{ y: '100%', opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: '100%', opacity: 0 }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="bg-white rounded-t-3xl w-full h-[calc(100vh-96px)] md:h-auto overflow-y-auto shadow-2xl pointer-events-auto relative"
+              transition={{ type: 'spring', damping: 30, stiffness: 300, duration: 0.6 }}
+              className="bg-white rounded-t-2xl sm:rounded-t-3xl w-full h-[calc(100vh-80px)] sm:h-[calc(100vh-96px)] md:h-auto overflow-y-auto shadow-2xl pointer-events-auto relative"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setSelected(null)}
-                className="absolute top-6 right-6 z-20 w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-xl hover:bg-gray-100 transition-colors"
+                className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 sm:w-6 h-5 sm:h-6" />
               </button>
 
               <div className="flex flex-col md:flex-row h-full">
-                <div className="md:w-1/2 h-96 md:h-full">
+                <div className="w-full md:w-1/2 h-48 sm:h-64 md:h-full">
                   <img
                     src={selected.img}
                     alt={selected.title}
@@ -123,26 +123,26 @@ const OurProducts = () => {
                   />
                 </div>
 
-                <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                <div className="w-full md:w-1/2 p-4 sm:p-6 md:p-8 lg:p-12 flex flex-col justify-center">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 md:mb-6 leading-tight">
                     {selected.title}
                   </h2>
                   {selected.subtitle && (
-                    <p className="text-gray-600 text-lg mb-8">{selected.subtitle}</p>
+                    <p className="text-gray-600 text-sm sm:text-base md:text-lg mb-4 sm:mb-6 md:mb-8">{selected.subtitle}</p>
                   )}
 
-                  <div className="space-y-6 text-base">
+                  <div className="space-y-3 sm:space-y-4 md:space-y-6 text-sm sm:text-base">
                     <div>
-                      <span className="font-semibold text-gray-700 text-sm uppercase tracking-wider">CLIENT</span>
-                      <p className="text-gray-600 text-lg mt-1">{selected.client}</p>
+                      <span className="font-semibold text-gray-700 text-xs sm:text-sm uppercase tracking-wider">CLIENT</span>
+                      <p className="text-gray-600 text-sm sm:text-base md:text-lg mt-1">{selected.client}</p>
                     </div>
                     <div>
-                      <span className="font-semibold text-gray-700 text-sm uppercase tracking-wider">YEAR</span>
-                      <p className="text-gray-600 text-lg mt-1">{selected.year}</p>
+                      <span className="font-semibold text-gray-700 text-xs sm:text-sm uppercase tracking-wider">YEAR</span>
+                      <p className="text-gray-600 text-sm sm:text-base md:text-lg mt-1">{selected.year}</p>
                     </div>
                     <div>
-                      <span className="font-semibold text-gray-700 text-sm uppercase tracking-wider">LOCATION</span>
-                      <p className="text-gray-600 text-lg mt-1">{selected.location}</p>
+                      <span className="font-semibold text-gray-700 text-xs sm:text-sm uppercase tracking-wider">LOCATION</span>
+                      <p className="text-gray-600 text-sm sm:text-base md:text-lg mt-1">{selected.location}</p>
                     </div>
                   </div>
                 </div>

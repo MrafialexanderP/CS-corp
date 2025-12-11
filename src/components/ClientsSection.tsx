@@ -36,22 +36,22 @@ const row3Logos: LogoItem[] = [
 
 const ClientsSection = () => {
   return (
-    <section id="client" className="bg-gray-50 py-12">
+    <section id="client" className="bg-gray-50 py-12 sm:py-16 md:py-20">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="bg-vibrant-blue text-white py-6 px-6 text-center mb-12"
+        className="bg-vibrant-blue text-white py-4 sm:py-6 px-4 sm:px-6 text-center mb-8 sm:mb-12"
       >
-        <h2 className="text-2xl md:text-3xl font-bold italic tracking-wide">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold italic tracking-wide">
           OUR CLIENTS
         </h2>
       </motion.div>
 
       {/* Logo Rows */}
-      <div className="space-y-12 px-6">
+      <div className="space-y-8 sm:space-y-12 px-4 sm:px-6">
         {/* Row 1 - Left to Right */}
         <LogoLoop
           logos={row1Logos}

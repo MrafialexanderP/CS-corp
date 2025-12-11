@@ -67,29 +67,29 @@ const About = () => {
         <div className="absolute bottom-1/4 -left-10 w-[320px] h-[320px] bg-[#e8b4a8]/50 rounded-full blur-[110px]" />
         <div className="absolute -bottom-20 right-10 w-[380px] h-[380px] bg-[#e8b4a8]/55 rounded-full blur-[120px]" />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 py-16">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
           {/* WHO ARE WE Section */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-12">WHO ARE WE?</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 sm:mb-12">WHO ARE WE?</h1>
             
             {/* Camar/Seagull and Sakti/Mighty */}
-            <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 max-w-4xl mx-auto mb-8 sm:mb-12">
               <motion.div 
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-left"
               >
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1 sm:mb-2">
                   Camar/ <span className="italic font-normal">Seagull</span>
                 </h2>
-                <p className="text-white/80 text-sm">A creature of three Elements:</p>
-                <p className="text-white/80 text-sm">Land, Sea, Air</p>
+                <p className="text-white/80 text-xs sm:text-sm">A creature of three Elements:</p>
+                <p className="text-white/80 text-xs sm:text-sm">Land, Sea, Air</p>
               </motion.div>
               
               <motion.div 
@@ -98,10 +98,10 @@ const About = () => {
                 transition={{ duration: 0.8, delay: 0.3 }}
                 className="text-right"
               >
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1 sm:mb-2">
                   Sakti/ <span className="italic font-normal">Mighty</span>
                 </h2>
-                <p className="text-white/80 text-sm">The Powerful being</p>
+                <p className="text-white/80 text-xs sm:text-sm">The Powerful being</p>
               </motion.div>
             </div>
 
@@ -110,16 +110,16 @@ const About = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex justify-center items-center gap-8 md:gap-16 mb-8"
+              className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 md:gap-16 mb-6 sm:mb-8"
             >
               <div className="text-center">
-                <h3 className="text-2xl md:text-3xl font-bold text-white">PRO</h3>
-                <p className="text-white/70 text-xs">An acronym for Production</p>
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">PRO</h3>
+                <p className="text-white/70 text-xs sm:text-sm">An acronym for Production</p>
               </div>
-              <div className="w-px h-16 bg-white/30" />
+              <div className="hidden sm:block w-px h-12 sm:h-16 bg-white/30" />
               <div className="text-center">
-                <h3 className="text-2xl md:text-3xl font-bold text-white">COM</h3>
-                <p className="text-white/70 text-xs">An acronym for Communication</p>
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">COM</h3>
+                <p className="text-white/70 text-xs sm:text-sm">An acronym for Communication</p>
               </div>
             </motion.div>
 
@@ -127,7 +127,7 @@ const About = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-white/70 text-sm"
+              className="text-white/70 text-xs sm:text-sm"
             >
               Created from <span className="font-semibold text-white">PT. CAMAR SAKTI</span>
             </motion.p>
@@ -138,13 +138,13 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="mb-20"
+            className="mb-16 sm:mb-20"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white text-center mb-8 sm:mb-12">
               Core Values of Camar Sakti
             </h2>
             
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
               {coreValues.map((value, index) => (
                 <motion.div
                   key={value.title}
@@ -153,10 +153,10 @@ const About = () => {
                   transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
                   className="relative group"
                 >
-                  <div className="relative overflow-hidden rounded-2xl aspect-[3/4] shadow-xl">
+                  <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/4] shadow-xl">
                     {/* Title Text - Blue italic at top center */}
-                    <div className="absolute top-6 left-0 right-0 z-20 text-center">
-                      <h3 className="text-vibrant-blue text-2xl md:text-3xl font-bold italic tracking-wide">
+                    <div className="absolute top-3 sm:top-6 left-0 right-0 z-20 text-center px-2">
+                      <h3 className="text-vibrant-blue text-lg sm:text-2xl md:text-3xl font-bold italic tracking-wide">
                         {value.title}
                       </h3>
                     </div>
@@ -170,7 +170,7 @@ const About = () => {
                   </div>
                   
                   {/* Description below image */}
-                  <p className="text-white text-sm italic mt-4 text-center px-2">
+                  <p className="text-white text-xs sm:text-sm italic mt-3 sm:mt-4 text-center px-2">
                     {value.description}{' '}
                     <span className="text-coral underline">{value.highlight}</span>{' '}
                     {value.suffix}
@@ -186,10 +186,10 @@ const About = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="mb-16"
+            className="mb-12 sm:mb-16"
           >
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">VISION</h2>
-            <p className="text-white/90 text-lg max-w-2xl">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">VISION</h2>
+            <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl">
               To become an <span className="text-coral font-semibold">Activation partner</span>, recognized 
               for boundless creativity and the ability to create deep and inspiring events.
             </p>
@@ -201,10 +201,10 @@ const About = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-right mb-20"
+            className="text-left sm:text-right mb-16 sm:mb-20"
           >
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">MISSION</h2>
-            <p className="text-white/90 text-lg max-w-2xl ml-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">MISSION</h2>
+            <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl sm:ml-auto">
               With the philosophy of the mighty seagull, <span className="text-coral font-semibold">Camar Sakti</span> is 
               ready to elevate every project to become a memorable experiences with the mightiness{' '}
               <span className="text-coral font-semibold">creativity</span> and{' '}
@@ -219,13 +219,13 @@ const About = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16 pt-16"
+            className="text-center mb-12 sm:mb-16 pt-12 sm:pt-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Meet Our Business Leaders</h2>
-            <p className="text-white/70">Driving Growth and Client Success</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2 sm:mb-4">Meet Our Business Leaders</h2>
+            <p className="text-white/70 text-sm sm:text-base">Driving Growth and Client Success</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-16 pb-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 md:gap-16 pb-12 sm:pb-16">
             {teamMembers.map((member, index) => (
               <motion.div
                 key={member.name}
@@ -237,29 +237,29 @@ const About = () => {
               >
                 {/* Book Card Container */}
                 <div 
-                  className="relative w-[260px] h-[380px]"
+                  className="relative w-[240px] sm:w-[260px] h-[340px] sm:h-[380px]"
                   style={{ perspective: '2000px' }}
                 >
                   {/* Inner Content (Bio) - Behind the cover */}
-                  <div className="absolute inset-0 bg-white rounded-2xl p-6 pl-14 flex flex-col justify-center shadow-lg">
+                  <div className="absolute inset-0 bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 pl-10 sm:pl-14 flex flex-col justify-center shadow-lg">
                     <h3 
-                      className="text-lg font-bold text-vibrant-blue mb-1"
+                      className="text-sm sm:text-lg font-bold text-vibrant-blue mb-1"
                       style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700 }}
                     >
                       {member.name}
                     </h3>
-                    <p className="text-coral text-[10px] uppercase tracking-wide font-semibold mb-3">
+                    <p className="text-coral text-[8px] sm:text-[10px] uppercase tracking-wide font-semibold mb-2 sm:mb-3">
                       {member.role}
                     </p>
-                    <div className="w-8 h-0.5 bg-coral rounded mb-3" />
-                    <p className="text-gray-600 text-xs leading-relaxed">
+                    <div className="w-6 sm:w-8 h-0.5 bg-coral rounded mb-2 sm:mb-3" />
+                    <p className="text-gray-600 text-[11px] sm:text-xs leading-relaxed">
                       {member.bio}
                     </p>
                   </div>
 
                   {/* Cover (Front) - Opens like a book */}
                   <div 
-                    className="book-cover absolute inset-0 bg-vibrant-blue rounded-2xl p-3 cursor-pointer shadow-xl"
+                    className="book-cover absolute inset-0 bg-vibrant-blue rounded-xl sm:rounded-2xl p-2 sm:p-3 cursor-pointer shadow-xl"
                     style={{ 
                       transformOrigin: 'left center',
                       transformStyle: 'preserve-3d',
@@ -268,7 +268,7 @@ const About = () => {
                     }}
                   >
                     {/* Image */}
-                    <div className="h-[270px] rounded-xl overflow-hidden bg-gray-100 mb-3">
+                    <div className="h-[200px] sm:h-[270px] rounded-lg sm:rounded-xl overflow-hidden bg-gray-100 mb-2 sm:mb-3">
                       <img 
                         src={member.image} 
                         alt={member.name}
@@ -279,17 +279,17 @@ const About = () => {
                     {/* Info */}
                     <div className="px-1">
                       <h3 
-                        className="text-lg font-bold text-white mb-0.5" 
+                        className="text-sm sm:text-lg font-bold text-white mb-0.5" 
                         style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700 }}
                       >
                         {member.name}
                       </h3>
-                      <p className="text-white/70 text-[10px] uppercase tracking-wide">{member.role}</p>
+                      <p className="text-white/70 text-[8px] sm:text-[10px] uppercase tracking-wide">{member.role}</p>
                     </div>
 
                     {/* Hover hint */}
-                    <div className="absolute bottom-3 left-3 right-3 pt-2 border-t border-white/20 flex items-center justify-between">
-                      <span className="text-white/50 text-[10px]">Hover to open</span>
+                    <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3 pt-1.5 sm:pt-2 border-t border-white/20 flex items-center justify-between">
+                      <span className="text-white/50 text-[8px] sm:text-[10px]">Hover to open</span>
                       <span className="text-white/50 text-xs">→</span>
                     </div>
                   </div>

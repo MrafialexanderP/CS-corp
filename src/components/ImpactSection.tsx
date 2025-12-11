@@ -28,16 +28,16 @@ const BlueDiamond = ({ className }: { className?: string }) => (
 
 const ImpactSection = () => {
   return (
-    <section id="about" className="bg-white py-24 px-6 relative overflow-hidden">
+    <section id="about" className="bg-white py-16 sm:py-20 md:py-24 px-4 sm:px-6 relative overflow-hidden">
       {/* Blue Diamond Decorations */}
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="absolute top-16 left-8 md:left-16"
+        className="absolute top-8 sm:top-16 left-4 sm:left-8 md:left-16"
       >
-        <BlueDiamond className="w-12 h-12 md:w-16 md:h-16" />
+        <BlueDiamond className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16" />
       </motion.div>
 
       <motion.div
@@ -45,9 +45,9 @@ const ImpactSection = () => {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="absolute bottom-20 right-8 md:right-16"
+        className="absolute bottom-12 sm:bottom-20 right-4 sm:right-8 md:right-16"
       >
-        <BlueDiamond className="w-14 h-14 md:w-20 md:h-20" />
+        <BlueDiamond className="w-10 h-10 sm:w-14 sm:h-14 md:w-20 md:h-20" />
       </motion.div>
 
       <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -56,7 +56,7 @@ const ImpactSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 sm:mb-8 leading-tight"
         >
           <span className="text-gray-800">We create </span>
           <span className="text-coral italic">impactful experiences</span>

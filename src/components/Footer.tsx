@@ -1,25 +1,25 @@
 const Footer = () => {
   return (
-    <footer id="contact" className="bg-black py-12 px-6">
+    <footer id="contact" className="bg-black py-12 sm:py-16 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 pb-8 border-b border-gray-800">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8 pb-6 sm:pb-8 border-b border-gray-800">
           {/* Left - About (Takes more space) */}
-          <div className="md:col-span-2">
-            <p className="text-gray-400 text-xs leading-relaxed">
+          <div className="sm:col-span-2">
+            <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
               CSPRO & CSCOM is an abbreviation, where C is an acronym for Camar, S is an Acronym for Sakti, PRO is an acronym for Production & COM is an acronym for Communication. Created from PT. CAMAR SAKTI
             </p>
           </div>
 
           {/* About Column */}
           <div>
-            <h3 className="text-white font-bold text-sm mb-4">About</h3>
+            <h3 className="text-white font-bold text-xs sm:text-sm mb-3 sm:mb-4">About</h3>
           </div>
 
           {/* Services Column */}
           <div>
-            <h3 className="text-white font-bold text-sm mb-4">Services</h3>
-            <ul className="space-y-2">
+            <h3 className="text-white font-bold text-xs sm:text-sm mb-3 sm:mb-4">Services</h3>
+            <ul className="space-y-1 sm:space-y-2">
               <li>
                 <a href="#events" className="text-gray-400 hover:text-white transition-colors text-xs">
                   Events
@@ -35,16 +35,16 @@ const Footer = () => {
 
           {/* Clients Column */}
           <div>
-            <h3 className="text-white font-bold text-sm mb-4">Clients</h3>
+            <h3 className="text-white font-bold text-xs sm:text-sm mb-3 sm:mb-4">Clients</h3>
           </div>
         </div>
         
         {/* Bottom Section */}
-        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
           {/* Left - Brand */}
-          <div className="text-center md:text-left">
-            <h2 className="text-white font-bold text-2xl mb-1">CS CORP</h2>
-            <p className="text-gray-500 text-xs">
+          <div className="text-center sm:text-left">
+            <h2 className="text-white font-bold text-xl sm:text-2xl mb-1">CS CORP</h2>
+            <p className="text-gray-500 text-xs sm:text-sm">
               © 2025 CS CORP | PRIVACY POLICY
             </p>
           </div>

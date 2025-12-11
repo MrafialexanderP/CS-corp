@@ -171,14 +171,14 @@ const OurEvents = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative h-[60vh] bg-cover bg-center" style={{ backgroundImage: 'url(/OurEvents.png)' }}>
+      <section className="relative h-[40vh] sm:h-[50vh] md:h-[60vh] bg-cover bg-center" style={{ backgroundImage: 'url(/OurEvents.png)' }}>
         <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-6xl md:text-7xl font-bold text-white mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3 sm:mb-4 md:mb-6"
           >
             OUR EVENTS
           </motion.h1>
@@ -186,7 +186,7 @@ const OurEvents = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-white max-w-3xl"
+            className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white max-w-3xl px-2"
           >
             Creating Impactful Experiences & Harmonious Collaborations
           </motion.p>
@@ -194,9 +194,9 @@ const OurEvents = () => {
       </section>
 
       {/* Masonry Gallery */}
-      <section className="py-20 px-6">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div style={{ height: '2000px' }}>
+          <div style={{ height: '1800px' }}>
             <Masonry
               items={events}
               animateFrom="bottom"
@@ -224,7 +224,7 @@ const OurEvents = () => {
               initial={{ y: '100%', opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: '100%', opacity: 0 }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300, duration: 0.6 }}
               className="bg-white rounded-t-3xl w-full h-[calc(100vh-96px)] md:h-auto overflow-y-auto shadow-2xl pointer-events-auto relative"
               onClick={(e) => e.stopPropagation()}
             >

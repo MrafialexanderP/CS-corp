@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 const HeroSection = () => {
   return (
     <section 
-      className="min-h-screen relative flex flex-col items-center justify-center pt-20 pb-32 px-6 overflow-hidden"
+      className="min-h-screen relative flex flex-col items-center justify-center pt-16 sm:pt-20 pb-20 sm:pb-28 md:pb-32 px-4 sm:px-6 overflow-hidden"
     >
-      {/* Base gradient background - coral to blue like the Figma */}
+      {/* Base gradient background */}
       <div 
         className="absolute inset-0"
         style={{
@@ -23,13 +23,13 @@ const HeroSection = () => {
       />
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto text-center relative z-10">
+      <div className="max-w-4xl mx-auto text-center relative z-10 w-full">
         {/* Main Title */}
         <motion.h1 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 tracking-wide"
+          className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 tracking-wide"
           style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800 }}
         >
           CAMAR SAKTI CORPORATION
@@ -40,36 +40,36 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="text-2xl md:text-3xl lg:text-4xl font-semibold text-white/90 mb-16 tracking-wider"
+          className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white/90 mb-8 sm:mb-12 md:mb-16 tracking-wider"
         >
           THE CS PHILOSHOPHY
         </motion.h2>
         
         {/* Camar and Sakti Section */}
-        <div className="flex justify-between items-start max-w-3xl mx-auto">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 sm:gap-8 max-w-3xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            className="text-left"
+            className="text-left w-full sm:w-1/2"
           >
-            <h3 className="text-xl md:text-2xl text-white mb-1">
+            <h3 className="text-base sm:text-xl md:text-2xl text-white mb-1">
               <span className="font-bold text-vibrant-blue">C</span>amar/ <span className="italic font-light">Seagull</span>
             </h3>
-            <p className="text-white/80 text-xs italic">A creature of three Elements: Land,</p>
-            <p className="text-white/80 text-xs italic">Sea, Air</p>
+            <p className="text-white/80 text-xs sm:text-sm italic">A creature of three Elements: Land,</p>
+            <p className="text-white/80 text-xs sm:text-sm italic">Sea, Air</p>
           </motion.div>
           
           <motion.div 
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
-            className="text-right"
+            className="text-right w-full sm:w-1/2"
           >
-            <h3 className="text-xl md:text-2xl text-white mb-1">
+            <h3 className="text-base sm:text-xl md:text-2xl text-white mb-1">
               <span className="font-bold text-vibrant-blue">S</span>akti/ <span className="italic font-light">Mighty</span>
             </h3>
-            <p className="text-white/80 text-xs italic">The Powerful being</p>
+            <p className="text-white/80 text-xs sm:text-sm italic">The Powerful being</p>
           </motion.div>
         </div>
       </div>
