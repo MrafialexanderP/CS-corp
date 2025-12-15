@@ -14,8 +14,8 @@ const Contact = () => {
     <div className="min-h-screen bg-white">
       <Navigation />
       
-      {/* Hero Section with Blue and Orange Gradient Background */}
-      <section className="relative pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6" style={{ background: 'linear-gradient(135deg, #3C597F 0%, rgba(95, 120, 155, 0.8) 25%, rgba(150, 110, 100, 0.8) 75%, #EF6C4E 100%)', backdropFilter: 'blur(10px)' }}>
+      {/* Hero Section with Orange to White Gradient Background */}
+      <section className="relative pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6" style={{ background: 'linear-gradient(180deg, #EF6C4E 0%, #ffffff 100%)', backdropFilter: 'blur(10px)' }}>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
             {/* Left Side - CTA */}
@@ -93,7 +93,7 @@ const Contact = () => {
       </section>
 
       {/* Headquarters Section */}
-      <section className="py-16 px-6 bg-white">
+      <section className="py-16 px-6" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #3C597F 100%)' }}>
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Visit Our{' '}
