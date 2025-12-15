@@ -1,7 +1,10 @@
-import { Mail, Phone, Clock, MapPin, Instagram, Youtube, Linkedin } from 'lucide-react';
+import { Mail, Phone, Instagram, Youtube, Linkedin, User } from 'lucide-react';
+import { useState } from 'react';
+import { toast, Toaster } from 'sonner';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
-import AnimatedButton from '../components/AnimatedButton';
+import AnimatedSubmitButton from '../components/AnimatedSubmitButton';
+import { sendContactEmail, validateContactForm } from '../lib/email';
 
 const TikTokIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -10,65 +13,125 @@ const TikTokIcon = () => (
 );
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Validate form - check if all fields are filled
+  const isFormValid = () => {
+    const { isValid } = validateContactForm(formData);
+    return isValid;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Check if form is valid
+    const { isValid, errors } = validateContactForm(formData);
+    
+    if (!isValid) {
+      const firstError = Object.values(errors)[0];
+      toast.error(firstError);
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Send email using utility function
+      await sendContactEmail(formData);
+      
+      toast.success('✅ Message sent successfully! We will get back to you soon.');
+      // Reset form
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast.error('❌ Failed to send message. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
       
       {/* Hero Section with Orange to White Gradient Background */}
-      <section className="relative pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6" style={{ background: 'linear-gradient(180deg, #EF6C4E 0%, #ffffff 100%)', backdropFilter: 'blur(10px)' }}>
+      <section className="relative pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6" style={{ background: 'linear-gradient(180deg, #EF6C4E 0%, #ffffff 40%)', backdropFilter: 'blur(10px)' }}>
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
-            {/* Left Side - CTA */}
-            <div className="text-white">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-start">
+            {/* Left Side - Contact Info */}
+            <div className="text-black">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 italic leading-tight">
                 Ready to Fly With Us?<br />
                 Together. Get in Touch
               </h1>
-              <AnimatedButton />
-            </div>
+              
+              <button 
+                className="px-8 py-3 rounded-full font-semibold text-white mb-6"
+                style={{
+                  background: 'linear-gradient(90deg, #EF6C4E 0%, #3C597F 100%)'
+                }}
+              >
+                Get In Touch
+              </button>
 
-            {/* Right Side - Contact Info */}
-            <div className="space-y-4 sm:space-y-6 text-white">
-              <p className="text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">
+              <p className="text-sm sm:text-base leading-relaxed mb-6 text-black">
                 Get in touch to discuss your event activation and production needs today.
               </p>
 
-              {/* Address */}
-              <div>
-                <h3 className="font-bold text-base sm:text-lg mb-1 sm:mb-2">Address:</h3>
-                <p className="text-xs sm:text-sm">Jl. RE Martadinata No 5A</p>
-              </div>
-
-              {/* Phone and Working Hours */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              {/* Address and Phone */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <h3 className="font-bold text-base sm:text-lg mb-1 sm:mb-2">Phone:</h3>
-                  <p className="text-xs sm:text-sm">+62 081219420430</p>
+                  <h3 className="font-bold text-base mb-2">Address:</h3>
+                  <p className="text-sm">Jl. RE Martadinata No 5A</p>
                 </div>
 
-                {/* Working Hours */}
                 <div>
-                  <h3 className="font-bold text-base sm:text-lg mb-1 sm:mb-2">Working Hours:</h3>
-                  <p className="text-xs sm:text-sm">Mon - Fri: 9am - 6 pm</p>
+                  <h3 className="font-bold text-base mb-2">Phone:</h3>
+                  <p className="text-sm">+62 081219420430</p>
                 </div>
               </div>
 
-              {/* Socials */}
-              <div>
-                <h3 className="font-bold text-base sm:text-lg mb-2 sm:mb-3">Socials:</h3>
-                <div className="flex gap-2 sm:gap-3">
-                  <a href="#" className="hover:opacity-80 transition-opacity">
-                    <Instagram size={18} className="sm:w-5 sm:h-5" />
-                  </a>
-                  <a href="#" className="hover:opacity-80 transition-opacity">
-                    <TikTokIcon />
-                  </a>
-                  <a href="#" className="hover:opacity-80 transition-opacity">
-                    <Youtube size={18} className="sm:w-5 sm:h-5" />
-                  </a>
-                  <a href="#" className="hover:opacity-80 transition-opacity">
-                    <Linkedin size={18} className="sm:w-5 sm:h-5" />
-                  </a>
+              {/* Working Hours and Socials */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <h3 className="font-bold text-base mb-2">Working Hours:</h3>
+                  <p className="text-sm">Mon - Fri: 9am - 6 pm</p>
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-base mb-2">Socials:</h3>
+                  <div className="flex gap-3">
+                    <a href="#" className="text-black hover:opacity-70 transition-opacity">
+                      <Instagram size={20} />
+                    </a>
+                    <a href="#" className="text-black hover:opacity-70 transition-opacity">
+                      <TikTokIcon />
+                    </a>
+                    <a href="#" className="text-black hover:opacity-70 transition-opacity">
+                      <Youtube size={20} />
+                    </a>
+                    <a href="#" className="text-black hover:opacity-70 transition-opacity">
+                      <Linkedin size={20} />
+                    </a>
+                  </div>
                 </div>
               </div>
 
@@ -76,9 +139,9 @@ const Contact = () => {
               <div>
                 <a 
                   href="mailto:cscorp@gmail.com" 
-                  className="text-2xl font-bold italic hover:opacity-80 transition-opacity inline-block"
+                  className="text-2xl sm:text-3xl font-bold italic hover:opacity-80 transition-opacity inline-block"
                   style={{
-                    background: 'linear-gradient(90deg, #EF6C4E 0%, #3C597F 100%)',
+                    background: 'linear-gradient(90deg, #EF6C4E 0%, #F89C7E 50%, #3C597F 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text'
@@ -87,6 +150,85 @@ const Contact = () => {
                   cscorp@gmail.com
                 </a>
               </div>
+            </div>
+
+            {/* Right Side - Contact Form */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-lg">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-black">Send Us A Message</h2>
+              
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Full Name */}
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-black">Full Name</label>
+                  <div className="relative">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                      type="text"
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      placeholder="Enter your full name"
+                      className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-coral transition-colors"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Email Address */}
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-black">Email Address</label>
+                  <div className="relative">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Enter your email address"
+                      className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-coral transition-colors"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Phone Number */}
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-black">Phone Number</label>
+                  <div className="relative">
+                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="Enter your phone number"
+                      className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-coral transition-colors"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-black">Message</label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Enter your main text here..."
+                    rows={6}
+                    className="w-full px-4 py-3 rounded-3xl border border-gray-300 focus:outline-none focus:border-coral transition-colors resize-none"
+                    required
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <AnimatedSubmitButton 
+                  onClick={handleSubmit} 
+                  disabled={!isFormValid()}
+                  isLoading={isLoading}
+                />
+              </form>
             </div>
           </div>
         </div>
@@ -129,6 +271,7 @@ const Contact = () => {
       </section>
 
       <Footer />
+      <Toaster position="top-right" />
     </div>
   );
 };

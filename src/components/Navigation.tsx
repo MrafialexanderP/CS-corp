@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -55,26 +56,47 @@ const Navigation = () => {
               >
                 about
               </Link>
-              {isHomePage ? (
-                <a 
-                  href="#service" 
-                  onClick={(e) => handleNavClick(e, "#service")}
-                  className={`transition-colors text-sm font-bold ${
+              
+              {/* Work Dropdown */}
+              <div className="relative">
+                <button
+                  className={`transition-colors text-sm font-bold flex items-center gap-1 ${
                     isDarkBackground ? "text-white hover:text-gray-300" : "text-black hover:text-gray-700"
                   }`}
+                  onClick={() => setOpenDropdown(openDropdown === "work" ? null : "work")}
                 >
-                  service
-                </a>
-              ) : (
-                <Link 
-                  to="/#service"
-                  className={`transition-colors text-sm font-bold ${
-                    isDarkBackground ? "text-white hover:text-gray-300" : "text-black hover:text-gray-700"
-                  }`}
-                >
-                  service
-                </Link>
-              )}
+                  work
+                  {openDropdown === "work" ? (
+                    <ChevronUp size={16} className="transition-transform duration-200" />
+                  ) : (
+                    <ChevronDown size={16} className="transition-transform duration-200" />
+                  )}
+                </button>
+
+                {/* Dropdown Menu */}
+                {openDropdown === "work" && (
+                  <div 
+                    className="absolute top-full left-0 mt-2 w-56 bg-white/20 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+                  >
+                    <div className="py-2">
+                      <Link 
+                        to="/events"
+                        onClick={() => setOpenDropdown(null)}
+                        className="block px-6 py-3 text-black hover:bg-gray-100 transition-colors text-sm font-semibold"
+                      >
+                        → Events
+                      </Link>
+                      <Link 
+                        to="/products"
+                        onClick={() => setOpenDropdown(null)}
+                        className="block px-6 py-3 text-black hover:bg-gray-100 transition-colors text-sm font-semibold"
+                      >
+                        → Productions
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
             
             {/* Center Logo */}
@@ -91,59 +113,26 @@ const Navigation = () => {
             
             {/* Right Links */}
             <div className="flex items-center gap-5">
-              {/* Client Dropdown */}
-              <div className="relative">
-                <button
+              {isHomePage ? (
+                <a 
+                  href="#client" 
+                  onClick={(e) => handleNavClick(e, "#client")}
                   className={`transition-colors text-sm font-bold ${
                     isDarkBackground ? "text-white hover:text-gray-300" : "text-black hover:text-gray-700"
                   }`}
-                  onClick={() => setOpenDropdown(openDropdown === "client" ? null : "client")}
                 >
-                  client
-                </button>
-
-                {/* Dropdown Menu */}
-                {openDropdown === "client" && (
-                  <div 
-                    className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
-                  >
-                    <div className="py-2">
-                      <Link 
-                        to="/products"
-                        className="block px-6 py-3 text-black hover:bg-gray-100 transition-colors text-sm font-semibold"
-                      >
-                        → Our Products
-                      </Link>
-                      <Link 
-                        to="/events"
-                        className="block px-6 py-3 text-black hover:bg-gray-100 transition-colors text-sm font-semibold"
-                      >
-                        → Our Events
-                      </Link>
-                      {isHomePage ? (
-                        <a 
-                          href="#client" 
-                          onClick={(e) => {
-                            handleNavClick(e, "#client");
-                            setOpenDropdown(null);
-                          }}
-                          className="block px-6 py-3 text-black hover:bg-gray-100 transition-colors text-sm font-semibold"
-                        >
-                          → Our Clients
-                        </a>
-                      ) : (
-                        <Link 
-                          to="/#client"
-                          onClick={() => setOpenDropdown(null)}
-                          className="block px-6 py-3 text-black hover:bg-gray-100 transition-colors text-sm font-semibold"
-                        >
-                          → Our Clients
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
+                  clients
+                </a>
+              ) : (
+                <Link 
+                  to="/#client"
+                  className={`transition-colors text-sm font-bold ${
+                    isDarkBackground ? "text-white hover:text-gray-300" : "text-black hover:text-gray-700"
+                  }`}
+                >
+                  clients
+                </Link>
+              )}
 
               <Link 
                 to="/contact"
