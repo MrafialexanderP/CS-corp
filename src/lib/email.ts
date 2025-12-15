@@ -1,5 +1,7 @@
-// API configuration
-export const API_URL = process.env.VITE_API_URL || 'http://localhost:3001';
+// API configuration (Vite uses import.meta.env on the client)
+export const API_URL =
+  (typeof import.meta !== 'undefined' ? import.meta.env?.VITE_API_URL : undefined) ||
+  'http://localhost:3001';
 
 export interface ContactFormData {
   fullName: string;
