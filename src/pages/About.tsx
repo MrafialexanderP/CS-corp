@@ -254,13 +254,11 @@ const About = () => {
                 {/* Profile Card */}
                 <div 
                   onClick={() => setSelectedMember(member)}
-                  className="relative w-[240px] sm:w-[260px] h-[340px] sm:h-[380px] cursor-pointer group"
+                  className="relative w-full max-w-[320px] cursor-pointer group"
                 >
-                  <div 
-                    className="absolute inset-0 bg-vibrant-blue rounded-xl sm:rounded-2xl p-2 sm:p-3 shadow-xl hover:shadow-2xl transition-shadow"
-                  >
+                  <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     {/* Image */}
-                    <div className="h-[200px] sm:h-[270px] rounded-lg sm:rounded-xl overflow-hidden bg-gray-100 mb-2 sm:mb-3">
+                    <div className="aspect-[3/4] overflow-hidden bg-gray-100">
                       <img 
                         src={member.image} 
                         alt={member.name}
@@ -268,21 +266,19 @@ const About = () => {
                       />
                     </div>
 
-                    {/* Info */}
-                    <div className="px-1">
-                      <h3 
-                        className="text-sm sm:text-lg font-bold text-white mb-0.5" 
-                        style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700 }}
-                      >
+                    {/* Info with Gradient Background */}
+                    <div 
+                      className="p-6"
+                      style={{
+                        background: 'linear-gradient(135deg, #EF6C4E 0%, #F89C7E 100%)'
+                      }}
+                    >
+                      <h3 className="text-xl font-bold text-white mb-1">
                         {member.name}
                       </h3>
-                      <p className="text-white/70 text-[8px] sm:text-[10px] uppercase tracking-wide">{member.role}</p>
-                    </div>
-
-                    {/* Click hint */}
-                    <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3 pt-1.5 sm:pt-2 border-t border-white/20 flex items-center justify-between">
-                      <span className="text-white/50 text-[8px] sm:text-[10px]">Click to view</span>
-                      <span className="text-white/50 text-xs">→</span>
+                      <p className="text-white/90 text-sm uppercase tracking-wide font-medium">
+                        {member.role}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -307,15 +303,15 @@ const About = () => {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="bg-white w-full max-w-6xl h-[90vh] rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto"
+              className="bg-white w-full h-[90vh] rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
               <button
                 onClick={() => setSelectedMember(null)}
-                className="absolute top-6 right-6 z-20 w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors"
+                className="absolute top-6 right-6 z-20 w-12 h-12 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
               >
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6 text-gray-900" />
               </button>
 
               <div className="flex flex-col md:flex-row h-full overflow-y-auto">
