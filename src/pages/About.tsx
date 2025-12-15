@@ -1,4 +1,6 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { X, Instagram, Linkedin } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
@@ -31,23 +33,37 @@ const teamMembers = [
     name: 'Faris Gibran',
     role: 'CHIEF EXPERIENCE OFFICER',
     image: '/FarisGibran.png',
-    bio: 'John Levene brings over 15 years of experience in creating exceptional client experiences. His passion for innovation and attention to detail has helped shape the company\'s approach to delivering memorable events and productions.',
+    specialty: 'Event Consultancy and Cost-Efficiency Strategy',
+    experience: 'Over 5 years of experience in the event and production industry',
+    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+    instagram: '#',
+    linkedin: '#',
   },
   {
     name: 'Michael Chen',
     role: 'CHIEF CREATIVE OFFICER',
     image: '/placeholder.svg',
+    specialty: 'Creative Direction and Brand Innovation',
+    experience: 'Over 10 years of experience in creative strategy',
     bio: 'Michael Chen is a visionary creative leader with a background in design and brand strategy. He oversees all creative initiatives and ensures that every project reflects the highest standards of artistic excellence.',
+    instagram: '#',
+    linkedin: '#',
   },
   {
     name: 'Sean Hendelman',
     role: 'CHIEF TECHNOLOGY OFFICER',
     image: '/placeholder.svg',
+    specialty: 'Technology and Digital Innovation',
+    experience: 'Over 8 years of experience in digital transformation',
     bio: 'Sean Hendelman leads the technology division, bringing cutting-edge solutions to event production. His expertise in digital innovation has revolutionized how we approach modern event experiences.',
+    instagram: '#',
+    linkedin: '#',
   },
 ];
 
 const About = () => {
+  const [selectedMember, setSelectedMember] = useState<typeof teamMembers[0] | null>(null);
+
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -235,44 +251,20 @@ const About = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className={`${index === 1 ? 'md:mt-12' : ''} flex justify-center`}
               >
-                {/* Book Card Container */}
+                {/* Profile Card */}
                 <div 
-                  className="relative w-[240px] sm:w-[260px] h-[340px] sm:h-[380px]"
-                  style={{ perspective: '2000px' }}
+                  onClick={() => setSelectedMember(member)}
+                  className="relative w-[240px] sm:w-[260px] h-[340px] sm:h-[380px] cursor-pointer group"
                 >
-                  {/* Inner Content (Bio) - Behind the cover */}
-                  <div className="absolute inset-0 bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 pl-10 sm:pl-14 flex flex-col justify-center shadow-lg">
-                    <h3 
-                      className="text-sm sm:text-lg font-bold text-vibrant-blue mb-1"
-                      style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700 }}
-                    >
-                      {member.name}
-                    </h3>
-                    <p className="text-coral text-[8px] sm:text-[10px] uppercase tracking-wide font-semibold mb-2 sm:mb-3">
-                      {member.role}
-                    </p>
-                    <div className="w-6 sm:w-8 h-0.5 bg-coral rounded mb-2 sm:mb-3" />
-                    <p className="text-gray-600 text-[11px] sm:text-xs leading-relaxed">
-                      {member.bio}
-                    </p>
-                  </div>
-
-                  {/* Cover (Front) - Opens like a book */}
                   <div 
-                    className="book-cover absolute inset-0 bg-vibrant-blue rounded-xl sm:rounded-2xl p-2 sm:p-3 cursor-pointer shadow-xl"
-                    style={{ 
-                      transformOrigin: 'left center',
-                      transformStyle: 'preserve-3d',
-                      transition: 'transform 0.6s ease',
-                      backfaceVisibility: 'hidden',
-                    }}
+                    className="absolute inset-0 bg-vibrant-blue rounded-xl sm:rounded-2xl p-2 sm:p-3 shadow-xl hover:shadow-2xl transition-shadow"
                   >
                     {/* Image */}
                     <div className="h-[200px] sm:h-[270px] rounded-lg sm:rounded-xl overflow-hidden bg-gray-100 mb-2 sm:mb-3">
                       <img 
                         src={member.image} 
                         alt={member.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
 
@@ -287,9 +279,9 @@ const About = () => {
                       <p className="text-white/70 text-[8px] sm:text-[10px] uppercase tracking-wide">{member.role}</p>
                     </div>
 
-                    {/* Hover hint */}
+                    {/* Click hint */}
                     <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3 pt-1.5 sm:pt-2 border-t border-white/20 flex items-center justify-between">
-                      <span className="text-white/50 text-[8px] sm:text-[10px]">Hover to open</span>
+                      <span className="text-white/50 text-[8px] sm:text-[10px]">Click to view</span>
                       <span className="text-white/50 text-xs">→</span>
                     </div>
                   </div>
@@ -299,6 +291,100 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {selectedMember && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 pointer-events-auto"
+            onClick={() => setSelectedMember(null)}
+          >
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="bg-white w-full max-w-6xl h-[90vh] rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedMember(null)}
+                className="absolute top-6 right-6 z-20 w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="flex flex-col md:flex-row h-full overflow-y-auto">
+                {/* Left - Image */}
+                <div className="w-full md:w-1/2 h-64 md:h-full bg-gray-100 flex-shrink-0">
+                  <img
+                    src={selectedMember.image}
+                    alt={selectedMember.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Right - Content */}
+                <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center overflow-y-auto">
+                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+                    {selectedMember.name}
+                  </h2>
+                  <p className="text-gray-900 text-sm uppercase tracking-wider font-semibold mb-6">
+                    {selectedMember.role}
+                  </p>
+
+                  <div className="space-y-6">
+                    {/* Specialty */}
+                    <div className="border-b border-gray-200 pb-4">
+                      <p className="text-gray-900 italic text-lg">
+                        {selectedMember.specialty}
+                      </p>
+                    </div>
+
+                    {/* Experience */}
+                    <div className="border-b border-gray-200 pb-4">
+                      <p className="text-gray-900 italic">
+                        {selectedMember.experience}
+                      </p>
+                    </div>
+
+                    {/* Bio */}
+                    <div>
+                      <p className="text-gray-700 leading-relaxed">
+                        {selectedMember.bio}
+                      </p>
+                    </div>
+
+                    {/* Social Media */}
+                    <div className="flex gap-4 pt-4">
+                      <a
+                        href={selectedMember.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-12 h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                      >
+                        <Instagram className="w-6 h-6 text-white" />
+                      </a>
+                      <a
+                        href={selectedMember.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-12 h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                      >
+                        <Linkedin className="w-6 h-6 text-white" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <Footer />
     </div>
