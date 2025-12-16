@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import ScrollVelocity from './ScrollVelocity';
 
 const ServiceSlider = () => {
-  const [activePanel, setActivePanel] = useState<'default' | 'cscom' | 'cspro'>('default');
+  const [activePanel, setActivePanel] = useState<'cscorp' | 'cscom' | 'cspro' | null>(null);
 
   const marqueeText = "OUR SERVICE • ";
   const marqueeItems = Array.from({ length: 3 });
@@ -25,51 +25,45 @@ const ServiceSlider = () => {
       {/* Horizontal Accordion */}
       <div className="relative h-[700px] flex overflow-hidden">
         
-        {/* Default Panel - CSCORP */}
+        {/* CSCORP Panel */}
         <motion.div
           animate={{
-            width: activePanel === 'default' ? '100%' : '150px'
+            width: activePanel === 'cscorp' ? '100%' : '150px'
           }}
           transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-          className="relative overflow-hidden cursor-pointer"
-          onClick={() => setActivePanel('default')}
+          className={"relative overflow-hidden cursor-pointer"}
+          style={
+            activePanel === 'cscorp'
+              ? { backgroundColor: 'white' }
+              : { backgroundColor: '#E5E7EB' }
+          }
+          onClick={() => setActivePanel('cscorp')}
         >
-          <div 
-            className="h-full bg-cover bg-center bg-no-repeat relative w-full"
-            style={{ 
-              backgroundImage: 'linear-gradient(to bottom, #3C597F 0%, #EF6C4E 100%)'
-            }}
-          >
-            
-            {activePanel === 'default' ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="relative z-10 h-full flex flex-col justify-center items-center text-center px-8"
-              >
-                <img 
-                  src="/cscorp1.png"
-                  alt="CS Corp"
-                  className="w-48 md:w-56 lg:w-64 mb-6"
-                />
-                <p className="text-white/90 text-base md:text-lg max-w-xl leading-relaxed">
-                  Your one-stop solution for all production needs: Event Construction, Signage & Branding, Promotional Items, and Digital Printing.
-                </p>
-              </motion.div>
-            ) : (
-              <div 
-                className="relative z-10 h-full flex items-center justify-center" 
-                style={{ backgroundImage: 'linear-gradient(to bottom, #3C597F 0%, #EF6C4E 100%)' }}
-              >
-                <img 
-                  src="/cscorp1.png"
-                  alt="CS Corp"
-                  className="w-24 md:w-28 lg:w-32"
-                />
-              </div>
-            )}
-          </div>
+          {activePanel === 'cscorp' ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="h-full flex flex-col justify-center items-center text-center px-8 md:px-12 lg:px-16 py-8"
+            >
+              <img 
+                src="/cscorp1.png"
+                alt="CS Corp"
+                className="w-36 md:w-44 lg:w-52 mb-3"
+              />
+              <p className="text-gray-800 text-sm md:text-base max-w-2xl leading-relaxed">
+                Your one-stop solution for all production needs: <span className="font-bold">Event Construction, Signage & Branding, Promotional Items,</span> and <span className="font-bold">Digital Printing.</span>
+              </p>
+            </motion.div>
+          ) : (
+            <div className="h-full flex items-center justify-center">
+              <img 
+                src="/cscorp1.png"
+                alt="CS Corp"
+                className="w-24 md:w-28 lg:w-32"
+              />
+            </div>
+          )}
         </motion.div>
 
         {/* CSCOM Panel */}
