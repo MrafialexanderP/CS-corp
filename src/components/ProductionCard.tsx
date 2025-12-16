@@ -28,7 +28,7 @@ const ProductionCard: React.FC<ProductionCardProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative mb-3 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+      <div className="relative mb-3 overflow-hidden">
         <div className="aspect-[4/3] overflow-hidden relative">
           <img
             src={image}

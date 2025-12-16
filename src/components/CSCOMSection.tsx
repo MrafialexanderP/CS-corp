@@ -51,7 +51,7 @@ const productions: Production[] = [
 
 const CSCOMSection = () => {
   return (
-    <section className="bg-white">
+    <section className="bg-transparent">
       <div className="px-4 py-8 sm:py-10">
         <div className="relative mb-6">
           <motion.div
@@ -92,6 +92,45 @@ const CSCOMSection = () => {
               index={index}
             />
           ))}
+        </div>
+      </div>
+
+      {/* Highlight collage section */}
+      <div className="px-4 pb-14 sm:pb-20">
+        <div className="mx-auto flex max-w-6xl flex-col-reverse gap-8 lg:grid lg:grid-cols-2 lg:items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="space-y-4"
+          >
+            <h3 className="text-3xl sm:text-4xl font-bold italic leading-tight text-coral">
+              Precision in Every
+              <br />
+              Detail: From Concept
+              <br />
+              to Construction.
+            </h3>
+            <div className="pt-2">
+              <ShowMoreButton />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="flex justify-center"
+          >
+            <img
+              src="/fotocampuran.png"
+              alt="CSCOM production highlights"
+              className="w-full max-w-2xl rounded-2xl shadow-xl"
+              loading="lazy"
+            />
+          </motion.div>
         </div>
       </div>
     </section>
