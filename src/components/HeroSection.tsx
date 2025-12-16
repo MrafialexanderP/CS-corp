@@ -5,20 +5,11 @@ const HeroSection = () => {
     <section 
       className="min-h-screen relative flex flex-col items-center justify-center pt-16 sm:pt-20 pb-20 sm:pb-28 md:pb-32 px-4 sm:px-6 overflow-hidden"
     >
-      {/* Base gradient background */}
+      {/* Background image */}
       <div 
-        className="absolute inset-0"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          background: `
-            linear-gradient(180deg, 
-              #D65F44 0%, 
-              #C86B5A 20%,
-              #A8707A 40%,
-              #7A8BAA 60%,
-              #5A7DB0 80%,
-              #3D6EA8 100%
-            )
-          `
+          backgroundImage: 'url(/Background.png)'
         }}
       />
 
