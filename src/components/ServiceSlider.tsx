@@ -32,11 +32,11 @@ const ServiceSlider = () => {
           }}
           transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
           className={"relative overflow-hidden cursor-pointer"}
-          style={
-            activePanel === 'cscorp'
-              ? { backgroundColor: 'white' }
-              : { backgroundColor: '#E5E7EB' }
-          }
+          style={{
+            backgroundImage: "url('/bird.jpeg')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
           onClick={() => setActivePanel(activePanel === 'cscorp' ? 'cscorp' : 'cscorp')}
         >
           {activePanel === 'cscorp' ? (
@@ -51,7 +51,7 @@ const ServiceSlider = () => {
                 alt="CS Corp"
                 className="w-36 md:w-44 lg:w-52 mb-3"
               />
-              <p className="text-gray-800 text-sm md:text-base max-w-2xl leading-relaxed">
+              <p className="text-white text-sm md:text-base max-w-2xl leading-relaxed">
                 Your one-stop solution for all production needs: <span className="font-bold">Event Construction, Signage & Branding, Promotional Items,</span> and <span className="font-bold">Digital Printing.</span>
               </p>
             </motion.div>
