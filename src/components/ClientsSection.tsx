@@ -68,7 +68,7 @@ const ClientsSection = () => {
         {/* Row 2 - Right to Left */}
         <LogoLoop
           logos={row2Logos}
-          speed={-80}
+          speed={80}
           direction="right"
           gap={60}
           logoHeight={90}

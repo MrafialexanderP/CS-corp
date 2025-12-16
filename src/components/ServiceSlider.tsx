@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import ScrollVelocity from './ScrollVelocity';
 
 const ServiceSlider = () => {
-  const [activePanel, setActivePanel] = useState<'cscorp' | 'cscom' | 'cspro' | null>(null);
+  const [activePanel, setActivePanel] = useState<'cscorp' | 'cscom' | 'cspro'>('cscorp');
 
   const marqueeText = "OUR SERVICE • ";
   const marqueeItems = Array.from({ length: 3 });
@@ -37,7 +37,7 @@ const ServiceSlider = () => {
               ? { backgroundColor: 'white' }
               : { backgroundColor: '#E5E7EB' }
           }
-          onClick={() => setActivePanel('cscorp')}
+          onClick={() => setActivePanel(activePanel === 'cscorp' ? 'cscorp' : 'cscorp')}
         >
           {activePanel === 'cscorp' ? (
             <motion.div
