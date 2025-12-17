@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import Masonry from '@/components/Masonry';
 import Footer from '@/components/Footer';
-import { X } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface EventItem {
   id: string;
@@ -19,6 +20,9 @@ interface EventItem {
 
 const OurEvents = () => {
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const isMobile = useIsMobile();
+  const itemsPerPage = isMobile ? 4 : 13;
 
   const events: EventItem[] = [
     {
@@ -166,6 +170,26 @@ const OurEvents = () => {
     }
   ];
 
+  // Pagination logic for mobile
+  const totalPages = Math.ceil(events.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedEvents = events.slice(startIndex, endIndex);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -196,77 +220,162 @@ const OurEvents = () => {
       {/* Masonry Gallery */}
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div style={{ height: '1800px' }}>
-            <Masonry
-              items={events}
-              animateFrom="bottom"
-              scaleOnHover={true}
-              hoverScale={1.05}
-              blurToFocus={true}
-              stagger={0.03}
-              onItemClick={(item) => setSelectedEvent(item as EventItem)}
-            />
-          </div>
+          {/* Mobile Grid Layout */}
+          {isMobile ? (
+            <>
+              <div className="grid grid-cols-1 gap-6">
+                {paginatedEvents.map((event) => (
+                  <motion.div
+                    key={event.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="relative bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+                    onClick={() => setSelectedEvent(event)}
+                  >
+                    <div className="aspect-[4/3] w-full overflow-hidden">
+                      <img
+                        src={event.img}
+                        alt={event.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4 pt-12">
+                      <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">
+                        {event.title}
+                      </h3>
+                      <p className="text-white/90 text-sm line-clamp-1">
+                        {event.subtitle}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-4 mt-12">
+                  <button
+                    onClick={handlePrevPage}
+                    disabled={currentPage === 1}
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    aria-label="Previous page"
+                  >
+                    <ChevronLeft className="w-5 h-5 text-gray-700" />
+                  </button>
+                  
+                  <div className="flex items-center gap-2">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => {
+                          setCurrentPage(page);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className={`w-8 h-8 rounded-full text-sm font-semibold transition-colors ${
+                          currentPage === page
+                            ? 'bg-gray-800 text-white'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                        }`}
+                        aria-label={`Go to page ${page}`}
+                        aria-current={currentPage === page ? 'page' : undefined}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    aria-label="Next page"
+                  >
+                    <ChevronRight className="w-5 h-5 text-gray-700" />
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            /* Desktop Masonry Layout */
+            <div style={{ height: '1800px' }}>
+              <Masonry
+                items={events}
+                animateFrom="bottom"
+                scaleOnHover={true}
+                hoverScale={1.05}
+                blurToFocus={true}
+                stagger={0.03}
+                onItemClick={(item) => setSelectedEvent(item as EventItem)}
+              />
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Popup Modal */}
+      {/* Bottom Sheet Modal */}
       <AnimatePresence>
         {selectedEvent && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-end justify-center pt-24 pb-0 bg-black/70 pointer-events-none"
+            className="fixed inset-0 z-50 bg-black/70"
             onClick={() => setSelectedEvent(null)}
           >
             <motion.div
-              initial={{ y: '100%', opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: '100%', opacity: 0 }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300, duration: 0.6 }}
-              className="bg-white rounded-t-3xl w-full h-[calc(100vh-96px)] md:h-auto overflow-y-auto shadow-2xl pointer-events-auto relative"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[90vh] overflow-y-auto shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Handle Bar */}
+              <div className="flex justify-center pt-3 pb-2 sticky top-0 bg-white z-10">
+                <div className="w-12 h-1.5 bg-gray-300 rounded-full"></div>
+              </div>
+
               {/* Close Button */}
               <button
                 onClick={() => setSelectedEvent(null)}
-                className="absolute top-6 right-6 z-20 w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-xl hover:bg-gray-100 transition-colors"
+                className="absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+                aria-label="Close modal"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5 text-gray-700" />
               </button>
 
-              <div className="flex flex-col md:flex-row h-full">
+              <div className="px-6 pb-8">
                 {/* Image */}
-                <div className="md:w-1/2 h-96 md:h-full">
+                <div className="w-full rounded-2xl overflow-hidden mb-6">
                   <img
                     src={selectedEvent.img}
                     alt={selectedEvent.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-64 sm:h-80 object-cover"
                   />
                 </div>
 
                 {/* Content */}
-                <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                <div className="space-y-6">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
                     {selectedEvent.title}
                   </h2>
-                  <p className="text-gray-600 text-lg mb-8">
+                  <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                     {selectedEvent.subtitle}
                   </p>
 
-                  <div className="space-y-6 text-base">
+                  <div className="space-y-4 pt-4">
                     <div>
-                      <span className="font-semibold text-gray-700 text-sm uppercase tracking-wider">CLIENT</span>
-                      <p className="text-gray-600 text-lg mt-1">{selectedEvent.client}</p>
+                      <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">CLIENT</span>
+                      <p className="text-gray-600 text-sm sm:text-base">{selectedEvent.client}</p>
                     </div>
                     <div>
-                      <span className="font-semibold text-gray-700 text-sm uppercase tracking-wider">YEAR</span>
-                      <p className="text-gray-600 text-lg mt-1">{selectedEvent.year}</p>
+                      <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">YEAR</span>
+                      <p className="text-gray-600 text-sm sm:text-base">{selectedEvent.year}</p>
                     </div>
                     <div>
-                      <span className="font-semibold text-gray-700 text-sm uppercase tracking-wider">LOCATION</span>
-                      <p className="text-gray-600 text-lg mt-1">{selectedEvent.location}</p>
+                      <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">LOCATION</span>
+                      <p className="text-gray-600 text-sm sm:text-base">{selectedEvent.location}</p>
                     </div>
                   </div>
                 </div>
