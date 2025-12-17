@@ -94,17 +94,17 @@ const About = () => {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 sm:mb-12">WHO ARE WE?</h1>
             
             {/* Camar/Seagull and Sakti/Mighty */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 max-w-4xl mx-auto mb-8 sm:mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 max-w-4xl mx-auto mb-8 sm:mb-12">
               <motion.div 
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-left"
+                className="text-center md:text-left"
               >
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1 sm:mb-2">
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white mb-1 sm:mb-2">
                   Camar/ <span className="italic font-normal">Seagull</span>
                 </h2>
-                <p className="text-white/80 text-xs sm:text-sm">A creature of three Elements:</p>
+                <p className="text-white/80 text-xs sm:text-sm leading-relaxed">A creature of three Elements:</p>
                 <p className="text-white/80 text-xs sm:text-sm">Land, Sea, Air</p>
               </motion.div>
               
@@ -112,9 +112,9 @@ const About = () => {
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="text-right"
+                className="text-center md:text-right"
               >
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1 sm:mb-2">
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white mb-1 sm:mb-2">
                   Sakti/ <span className="italic font-normal">Mighty</span>
                 </h2>
                 <p className="text-white/80 text-xs sm:text-sm">The Powerful being</p>
@@ -126,15 +126,15 @@ const About = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 md:gap-16 mb-6 sm:mb-8"
+              className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 lg:gap-16 mb-4 sm:mb-6"
             >
               <div className="text-center">
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">PRO</h3>
+                <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-white">PRO</h3>
                 <p className="text-white/70 text-xs sm:text-sm">An acronym for Production</p>
               </div>
-              <div className="hidden sm:block w-px h-12 sm:h-16 bg-white/30" />
+              <div className="hidden md:block w-px h-12 md:h-16 bg-white/30" />
               <div className="text-center">
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">COM</h3>
+                <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-white">COM</h3>
                 <p className="text-white/70 text-xs sm:text-sm">An acronym for Communication</p>
               </div>
             </motion.div>
@@ -303,20 +303,20 @@ const About = () => {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="bg-white w-full h-[90vh] rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto relative"
+              className="bg-white w-full max-h-[90vh] md:h-[90vh] rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto relative flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
               <button
                 onClick={() => setSelectedMember(null)}
-                className="absolute top-6 right-6 z-20 w-12 h-12 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+                className="absolute top-4 md:top-6 right-4 md:right-6 z-20 w-10 md:w-12 h-10 md:h-12 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 transition-colors flex-shrink-0"
               >
-                <X className="w-6 h-6 text-gray-900" />
+                <X className="w-5 md:w-6 h-5 md:h-6 text-gray-900" />
               </button>
 
-              <div className="flex flex-col md:flex-row h-full overflow-y-auto">
+              <div className="flex flex-col md:flex-row h-full overflow-y-auto md:overflow-auto">
                 {/* Left - Image */}
-                <div className="w-full md:w-1/2 h-64 md:h-full bg-gray-100 flex-shrink-0">
+                <div className="w-full md:w-1/2 h-48 md:h-full bg-gray-100 flex-shrink-0">
                   <img
                     src={selectedMember.image}
                     alt={selectedMember.name}
@@ -325,53 +325,53 @@ const About = () => {
                 </div>
 
                 {/* Right - Content */}
-                <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center overflow-y-auto">
-                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+                <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center overflow-y-auto">
+                  <h2 className="text-2xl md:text-5xl font-bold text-gray-900 mb-1 md:mb-2 pt-4 md:pt-0">
                     {selectedMember.name}
                   </h2>
-                  <p className="text-gray-900 text-sm uppercase tracking-wider font-semibold mb-6">
+                  <p className="text-gray-900 text-xs md:text-sm uppercase tracking-wider font-semibold mb-4 md:mb-6">
                     {selectedMember.role}
                   </p>
 
-                  <div className="space-y-6">
+                  <div className="space-y-3 md:space-y-6">
                     {/* Specialty */}
-                    <div className="border-b border-gray-200 pb-4">
-                      <p className="text-gray-900 italic text-lg">
+                    <div className="border-b border-gray-200 pb-3 md:pb-4">
+                      <p className="text-gray-900 italic text-sm md:text-lg">
                         {selectedMember.specialty}
                       </p>
                     </div>
 
                     {/* Experience */}
-                    <div className="border-b border-gray-200 pb-4">
-                      <p className="text-gray-900 italic">
+                    <div className="border-b border-gray-200 pb-3 md:pb-4">
+                      <p className="text-gray-900 italic text-xs md:text-base">
                         {selectedMember.experience}
                       </p>
                     </div>
 
                     {/* Bio */}
                     <div>
-                      <p className="text-gray-700 leading-relaxed">
+                      <p className="text-gray-700 leading-relaxed text-xs md:text-base">
                         {selectedMember.bio}
                       </p>
                     </div>
 
                     {/* Social Media */}
-                    <div className="flex gap-4 pt-4">
+                    <div className="flex gap-3 md:gap-4 pt-3 md:pt-4">
                       <a
                         href={selectedMember.instagram}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-12 h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                        className="w-10 md:w-12 h-10 md:h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors flex-shrink-0"
                       >
-                        <Instagram className="w-6 h-6 text-white" />
+                        <Instagram className="w-5 md:w-6 h-5 md:h-6 text-white" />
                       </a>
                       <a
                         href={selectedMember.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-12 h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                        className="w-10 md:w-12 h-10 md:h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors flex-shrink-0"
                       >
-                        <Linkedin className="w-6 h-6 text-white" />
+                        <Linkedin className="w-5 md:w-6 h-5 md:h-6 text-white" />
                       </a>
                     </div>
                   </div>
