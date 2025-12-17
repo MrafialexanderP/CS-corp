@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";
+import { useIsMobile } from "../hooks/use-mobile";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isDarkBackground, setIsDarkBackground] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     // Define sections dengan background color-nya
@@ -65,51 +68,75 @@ const Navigation = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
       <div className="max-w-7xl mx-auto">
-        <div className={`relative rounded-full px-8 py-4 backdrop-blur-md shadow-lg transition-all duration-300 ${
-          isDarkBackground 
-            ? "bg-white/10" 
-            : "bg-white/20"
-        }`}>
-          <div className="flex items-center justify-between">
-            {/* Left Links */}
-            <div className="flex items-center gap-5">
+        {isMobile ? (
+          // Mobile Navigation - No blur background
+          <>
+            <div className="flex items-center justify-between px-2 py-2">
+              {/* Mobile Logo */}
               <Link 
-                to="/about"
-                className={`transition-colors duration-300 text-sm font-bold ${
+                to="/" 
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <img 
+                  src="/logocs.png" 
+                  alt="CS CORP Logo"
+                  className="h-12 w-auto"
+                />
+              </Link>
+
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className={`transition-colors duration-300 ${
                   isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
                 }`}
               >
-                about
-              </Link>
-              
-              {/* Work Dropdown */}
-              <div className="relative">
-                <button
-                  className={`transition-colors duration-300 text-sm font-bold flex items-center gap-1 ${
-                    isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
-                  }`}
-                  onClick={() => setOpenDropdown(openDropdown === "work" ? null : "work")}
-                >
-                  work
-                  {openDropdown === "work" ? (
-                    <ChevronUp size={16} className="transition-transform duration-200" />
-                  ) : (
-                    <ChevronDown size={16} className="transition-transform duration-200" />
-                  )}
-                </button>
+                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
 
-                {/* Dropdown Menu */}
-                {openDropdown === "work" && (
-                  <div 
-                    className={`absolute top-full left-0 mt-2 w-56 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 transition-colors ${
-                      isDarkBackground ? "bg-white/20" : "bg-white/20"
+            {/* Mobile Menu Dropdown - Outside navbar container */}
+            {mobileMenuOpen && (
+              <div 
+                className={`absolute top-20 left-6 right-6 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-40 ${
+                  isDarkBackground ? "bg-white/20" : "bg-white/20"
+                }`}
+              >
+                <div className="py-2">
+                  <Link 
+                    to="/about"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
+                      isDarkBackground ? "text-white" : "text-black"
                     }`}
                   >
-                    <div className="py-2">
+                    about
+                  </Link>
+
+                  {/* Mobile Work Dropdown */}
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === "work" ? null : "work")}
+                    className={`w-full text-left px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold flex items-center justify-between ${
+                      isDarkBackground ? "text-white" : "text-black"
+                    }`}
+                  >
+                    <span>work</span>
+                    {openDropdown === "work" ? (
+                      <ChevronUp size={16} />
+                    ) : (
+                      <ChevronDown size={16} />
+                    )}
+                  </button>
+
+                  {openDropdown === "work" && (
+                    <div>
                       <Link 
                         to="/events"
-                        onClick={() => setOpenDropdown(null)}
-                        className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          setOpenDropdown(null);
+                        }}
+                        className={`block px-6 py-3 pl-12 hover:bg-white/20 transition-colors text-sm font-semibold ${
                           isDarkBackground ? "text-white" : "text-black"
                         }`}
                       >
@@ -117,65 +144,171 @@ const Navigation = () => {
                       </Link>
                       <Link 
                         to="/products"
-                        onClick={() => setOpenDropdown(null)}
-                        className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          setOpenDropdown(null);
+                        }}
+                        className={`block px-6 py-3 pl-12 hover:bg-white/20 transition-colors text-sm font-semibold ${
                           isDarkBackground ? "text-white" : "text-black"
                         }`}
                       >
                         → Productions
                       </Link>
                     </div>
-                  </div>
+                  )}
+
+                  {isHomePage ? (
+                    <a 
+                      href="#client" 
+                      onClick={(e) => {
+                        handleNavClick(e, "#client");
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
+                        isDarkBackground ? "text-white" : "text-black"
+                      }`}
+                    >
+                      clients
+                    </a>
+                  ) : (
+                    <Link 
+                      to="/#client"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
+                        isDarkBackground ? "text-white" : "text-black"
+                      }`}
+                    >
+                      clients
+                    </Link>
+                  )}
+
+                  <Link 
+                    to="/contact"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
+                      isDarkBackground ? "text-white" : "text-black"
+                    }`}
+                  >
+                    contact
+                  </Link>
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          // Desktop Navigation
+          <div className={`relative rounded-full px-8 py-4 backdrop-blur-md shadow-lg transition-all duration-300 ${
+            isDarkBackground 
+              ? "bg-white/10" 
+              : "bg-white/20"
+          }`}>
+            <div className="flex items-center justify-between">
+              {/* Left Links */}
+              <div className="flex items-center gap-5">
+                <Link 
+                  to="/about"
+                  className={`transition-colors duration-300 text-sm font-bold ${
+                    isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
+                  }`}
+                >
+                  about
+                </Link>
+                
+                {/* Work Dropdown */}
+                <div className="relative">
+                  <button
+                    className={`transition-colors duration-300 text-sm font-bold flex items-center gap-1 ${
+                      isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
+                    }`}
+                    onClick={() => setOpenDropdown(openDropdown === "work" ? null : "work")}
+                  >
+                    work
+                    {openDropdown === "work" ? (
+                      <ChevronUp size={16} className="transition-transform duration-200" />
+                    ) : (
+                      <ChevronDown size={16} className="transition-transform duration-200" />
+                    )}
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {openDropdown === "work" && (
+                    <div 
+                      className={`absolute top-full left-0 mt-2 w-56 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 transition-colors ${
+                        isDarkBackground ? "bg-white/20" : "bg-white/20"
+                      }`}
+                    >
+                      <div className="py-2">
+                        <Link 
+                          to="/events"
+                          onClick={() => setOpenDropdown(null)}
+                          className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
+                            isDarkBackground ? "text-white" : "text-black"
+                          }`}
+                        >
+                          → Events
+                        </Link>
+                        <Link 
+                          to="/products"
+                          onClick={() => setOpenDropdown(null)}
+                          className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
+                            isDarkBackground ? "text-white" : "text-black"
+                          }`}
+                        >
+                          → Productions
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Center Logo */}
+              <Link 
+                to="/" 
+                className="px-4"
+              >
+                <img 
+                  src="/logocs.png" 
+                  alt="CS CORP Logo"
+                  className="h-8 w-auto"
+                />
+              </Link>
+              
+              {/* Right Links */}
+              <div className="flex items-center gap-5">
+                {isHomePage ? (
+                  <a 
+                    href="#client" 
+                    onClick={(e) => handleNavClick(e, "#client")}
+                    className={`transition-colors duration-300 text-sm font-bold ${
+                      isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
+                    }`}
+                  >
+                    clients
+                  </a>
+                ) : (
+                  <Link 
+                    to="/#client"
+                    className={`transition-colors duration-300 text-sm font-bold ${
+                      isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
+                    }`}
+                  >
+                    clients
+                  </Link>
                 )}
+
+                <Link 
+                  to="/contact"
+                  className={`transition-colors duration-300 text-sm font-bold ${
+                    isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
+                  }`}
+                >
+                  contact
+                </Link>
               </div>
             </div>
-            
-            {/* Center Logo */}
-            <Link 
-              to="/" 
-              className="px-4"
-            >
-              <img 
-                src="/logocs.png" 
-                alt="CS CORP Logo"
-                className="h-8 w-auto"
-              />
-            </Link>
-            
-            {/* Right Links */}
-            <div className="flex items-center gap-5">
-              {isHomePage ? (
-                <a 
-                  href="#client" 
-                  onClick={(e) => handleNavClick(e, "#client")}
-                  className={`transition-colors duration-300 text-sm font-bold ${
-                    isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
-                  }`}
-                >
-                  clients
-                </a>
-              ) : (
-                <Link 
-                  to="/#client"
-                  className={`transition-colors duration-300 text-sm font-bold ${
-                    isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
-                  }`}
-                >
-                  clients
-                </Link>
-              )}
-
-              <Link 
-                to="/contact"
-                className={`transition-colors duration-300 text-sm font-bold ${
-                  isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
-                }`}
-              >
-                contact
-              </Link>
             </div>
-          </div>
-        </div>
+          )}
       </div>
     </nav>
   );
