@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import ShowMoreButton from "./ShowMoreButton";
+import ShowMoreButtonSimple from "./ShowMoreButtonSimple";
 import ProductionCard from "./ProductionCard";
 
 type Production = {
@@ -53,30 +53,29 @@ const CSCOMSection = () => {
   return (
     <section className="bg-transparent">
       <div className="px-4 py-8 sm:py-10">
-        <div className="relative mb-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-6">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center"
+            className="text-center md:text-left flex-1"
           >
-            <h2 className="mx-auto max-w-3xl text-3xl sm:text-4xl lg:text-[42px] font-bold italic leading-tight text-coral">
+            <h2 className="mx-auto md:mx-0 max-w-3xl text-3xl sm:text-4xl lg:text-[42px] font-bold italic leading-tight text-coral">
               Precision in Every Detail: From
               <br />
               Concept to Construction
             </h2>
           </motion.div>
-          <div className="absolute top-0 right-0">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              viewport={{ once: true }}
-            >
-              <ShowMoreButton />
-            </motion.div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            viewport={{ once: true }}
+            className="flex justify-center md:justify-end flex-shrink-0"
+          >
+            <ShowMoreButtonSimple />
+          </motion.div>
         </div>
       </div>
 
@@ -112,7 +111,7 @@ const CSCOMSection = () => {
               to Construction.
             </h3>
             <div className="pt-2">
-              <ShowMoreButton />
+              <ShowMoreButtonSimple />
             </div>
           </motion.div>
 

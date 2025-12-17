@@ -1,35 +1,34 @@
 import { motion } from 'framer-motion';
 import ScrollStack, { ScrollStackItem } from './ScrollStack';
-import ShowMoreButton from './ShowMoreButton';
+import ShowMoreButtonSimple from './ShowMoreButtonSimple';
 
 const ExperienceSection = () => {
   return (
     <section className="relative bg-gray-50 py-12 sm:py-16 md:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="relative mb-12 sm:mb-16">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12 sm:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center"
+            className="text-center md:text-left flex-1"
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#6B8BA4] italic">
               Creating Impactful Experiences<br />
               & Harmonious Collaborations
             </h2>
           </motion.div>
-          <div className="absolute top-0 right-0">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <ShowMoreButton />
-            </motion.div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="flex justify-center md:justify-end flex-shrink-0"
+          >
+            <ShowMoreButtonSimple />
+          </motion.div>
         </div>
 
         {/* ScrollStack Cards */}
