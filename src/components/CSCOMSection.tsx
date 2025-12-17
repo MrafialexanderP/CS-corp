@@ -123,43 +123,11 @@ const CSCOMSection = () => {
             viewport={{ once: true }}
             className="w-full flex justify-center"
           >
-            <div className="relative w-full max-w-3xl h-[520px]">
-              <img
-                src="/R1.png"
-                alt="Highlight 1"
-                loading="lazy"
-                className="absolute w-52 sm:w-60 md:w-64 aspect-[4/5] object-cover rounded-xl shadow-xl"
-                style={{ top: '12%', left: '6%', transform: 'rotate(-2deg)' }}
-              />
-              <img
-                src="/R2.png"
-                alt="Highlight 2"
-                loading="lazy"
-                className="absolute w-60 sm:w-64 md:w-72 aspect-[5/4] object-cover rounded-xl shadow-xl"
-                style={{ top: '4%', right: '2%', transform: 'rotate(1.5deg)' }}
-              />
-              <img
-                src="/R3.png"
-                alt="Highlight 3"
-                loading="lazy"
-                className="absolute w-64 sm:w-72 md:w-80 aspect-[4/3] object-cover rounded-xl shadow-xl"
-                style={{ top: '28%', left: '28%', transform: 'rotate(-1deg)' }}
-              />
-              <img
-                src="/R4.png"
-                alt="Highlight 4"
-                loading="lazy"
-                className="absolute w-56 sm:w-64 md:w-72 aspect-[3/4] object-cover rounded-xl shadow-xl"
-                style={{ bottom: '6%', left: '12%', transform: 'rotate(2deg)' }}
-              />
-              <img
-                src="/R5.png"
-                alt="Highlight 5"
-                loading="lazy"
-                className="absolute w-64 sm:w-72 md:w-80 aspect-[5/6] object-cover rounded-xl shadow-xl"
-                style={{ bottom: '2%', right: '4%', transform: 'rotate(-1.5deg)' }}
-              />
-            </div>
+            <img
+              src="/fotocampuran.png"
+              alt="CSCOM production collage"
+              loading="lazy"
+            />
           </motion.div>
         </div>
       </div>
