@@ -203,7 +203,7 @@ const OurProducts = () => {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[90vh] overflow-y-auto shadow-2xl md:rounded-3xl md:max-h-none md:max-w-4xl md:left-1/2 md:bottom-1/2 md:translate-x-[-50%] md:translate-y-[50%]"
+              className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[90vh] overflow-y-auto shadow-2xl md:rounded-3xl md:max-h-[90vh] md:w-[98vw] md:max-w-none md:mx-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Handle Bar - Mobile Only */}
@@ -214,47 +214,46 @@ const OurProducts = () => {
               {/* Close Button */}
               <button
                 onClick={() => setSelected(null)}
-                className="absolute top-4 right-4 md:top-6 md:right-6 z-20 w-10 md:w-12 h-10 md:h-12 flex items-center justify-center bg-gray-100 md:bg-white rounded-full hover:bg-gray-200 transition-colors"
+                className="absolute top-4 right-4 md:top-5 md:right-5 z-20 w-10 md:w-11 h-10 md:h-11 flex items-center justify-center bg-gray-100 md:bg-white rounded-full hover:bg-gray-200 transition-colors"
                 aria-label="Close modal"
               >
                 <X className="w-5 md:w-6 h-5 md:h-6 text-gray-700" />
               </button>
 
-              <div className="md:flex md:flex-row">
-                {/* Image */}
-                <div className="w-full md:w-1/2 px-6 md:p-0">
-                  <div className="rounded-2xl md:rounded-none overflow-hidden mb-6 md:mb-0 md:h-full">
-                    <img
-                      src={selected.img}
-                      alt={selected.title}
-                      className="w-full h-64 sm:h-80 md:h-full object-cover"
-                    />
-                  </div>
+              {/* Desktop stacked layout */}
+              <div className="px-6 pb-8 pt-4 md:px-10 md:pb-12 md:pt-6">
+                <div className="w-full rounded-2xl overflow-hidden mb-8">
+                  <img
+                    src={selected.img}
+                    alt={selected.title}
+                    className="w-full h-72 sm:h-80 md:h-[520px] object-cover"
+                  />
                 </div>
 
-                {/* Content */}
-                <div className="w-full md:w-1/2 px-6 md:p-12 pb-8 md:pb-0 flex flex-col justify-center">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 md:mb-6">
-                    {selected.title}
-                  </h2>
-                  {selected.subtitle && (
-                    <p className="text-gray-600 text-sm sm:text-base md:text-lg mb-6 md:mb-8 leading-relaxed">
-                      {selected.subtitle}
-                    </p>
-                  )}
+                <div className="space-y-6">
+                  <div className="space-y-3">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+                      {selected.title}
+                    </h2>
+                    {selected.subtitle && (
+                      <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed">
+                        {selected.subtitle}
+                      </p>
+                    )}
+                  </div>
 
-                  <div className="space-y-4 md:space-y-6 text-sm md:text-base">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm md:text-base">
                     <div>
                       <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">CLIENT</span>
-                      <p className="text-gray-600 text-sm md:text-lg">{selected.client}</p>
+                      <p className="text-gray-600">{selected.client}</p>
                     </div>
                     <div>
                       <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">YEAR</span>
-                      <p className="text-gray-600 text-sm md:text-lg">{selected.year}</p>
+                      <p className="text-gray-600">{selected.year}</p>
                     </div>
                     <div>
                       <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">LOCATION</span>
-                      <p className="text-gray-600 text-sm md:text-lg">{selected.location}</p>
+                      <p className="text-gray-600">{selected.location}</p>
                     </div>
                   </div>
                 </div>
