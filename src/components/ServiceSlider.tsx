@@ -1,9 +1,39 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import ScrollVelocity from './ScrollVelocity';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const ServiceSlider = () => {
   const [activePanel, setActivePanel] = useState<'cscorp' | 'cscom' | 'cspro'>('cscorp');
+  const isMobile = useIsMobile();
+
+  const panels = [
+    {
+      key: 'cscorp' as const,
+      logo: '/cscorp1.png',
+      bg: "url('/bird.jpeg')",
+      desc:
+        'Your one-stop solution for all production needs: Event Construction, Signage & Branding, Promotional Items, and Digital Printing.',
+      statLabel: 'Production Hub',
+      statValue: 'CSCORP'
+    },
+    {
+      key: 'cscom' as const,
+      logo: 'cscom1.png',
+      desc:
+        'Comprehensive Event Organizing, Brand Activation, MICE, Exhibition, and Entertainment solutions.',
+      statLabel: 'Client',
+      statValue: '990K+'
+    },
+    {
+      key: 'cspro' as const,
+      logo: '/cspro1.png',
+      desc:
+        'Event Construction, Signage & Branding, Promotional Items, and Digital Printing for every need.',
+      statLabel: 'Production Partner',
+      statValue: 'CSPRO'
+    }
+  ];
 
   const marqueeText = "OUR SERVICE • ";
   const marqueeItems = Array.from({ length: 3 });
@@ -22,171 +52,223 @@ const ServiceSlider = () => {
         />
       </div>
 
-      {/* Horizontal Accordion */}
-      <div className="relative h-[700px] flex overflow-hidden">
-        
-        {/* CSCORP Panel */}
-        <motion.div
-          animate={{
-            width: activePanel === 'cscorp' ? '100%' : '150px'
-          }}
-          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-          className={"relative overflow-hidden cursor-pointer"}
-          style={{
-            backgroundImage: "url('/bird.jpeg')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-          onClick={() => setActivePanel(activePanel === 'cscorp' ? 'cscorp' : 'cscorp')}
-        >
-          {activePanel === 'cscorp' ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="h-full flex flex-col justify-center items-center text-center px-8 md:px-12 lg:px-16 py-8"
-            >
-              <img 
-                src="/cscorp1.png"
-                alt="CS Corp"
-                className="w-36 md:w-44 lg:w-52 mb-3"
-              />
-              <p className="text-white text-sm md:text-base max-w-2xl leading-relaxed">
-                Your one-stop solution for all production needs: <span className="font-bold">Event Construction, Signage & Branding, Promotional Items,</span> and <span className="font-bold">Digital Printing.</span>
-              </p>
-            </motion.div>
-          ) : (
-            <div className="h-full flex items-center justify-center">
-              <img 
-                src="/cscorp1.png"
-                alt="CS Corp"
-                className="w-24 md:w-28 lg:w-32"
-              />
-            </div>
-          )}
-        </motion.div>
+      {/* Mobile: Horizontal selector + vertical content */}
+      {isMobile ? (
+        <div className="py-8 px-4 space-y-6">
+          <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory">
+            {panels.map((panel) => (
+              <button
+                key={panel.key}
+                onClick={() => setActivePanel(panel.key)}
+                className={`snap-center flex items-center gap-2 px-4 py-3 rounded-full border text-sm font-semibold whitespace-nowrap transition-colors ${
+                  activePanel === panel.key
+                    ? 'bg-[#3C597F] text-white border-[#3C597F]'
+                    : 'bg-white text-gray-800 border-gray-200'
+                }`}
+              >
+                <img src={panel.logo} alt={panel.key} className="h-8" />
+                <span>{panel.key.toUpperCase()}</span>
+              </button>
+            ))}
+          </div>
 
-        {/* CSCOM Panel */}
-        <motion.div
-          animate={{
-            width: activePanel === 'cscom' ? '100%' : '150px'
-          }}
-          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-          className={"relative overflow-hidden cursor-pointer"}
-          style={
-            activePanel === 'cscom'
-              ? { backgroundColor: 'white' }
-              : { backgroundColor: '#E5E7EB' }
-          }
-          onClick={() => setActivePanel('cscom')}
-        >
-          {activePanel === 'cscom' ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="h-full flex flex-col justify-center items-center text-center px-8 md:px-12 lg:px-16 py-8"
-            >
-              <img 
-                src="cscom1.png"
-                alt="CSCOM"
-                className="w-36 md:w-44 lg:w-52 mb-3"
-              />
-              <p className="text-gray-600 text-sm mb-4">@cscom.co</p>
-              
-              <p className="text-gray-800 text-sm md:text-base max-w-2xl mb-6 leading-relaxed">
-                Your dedicated partner for comprehensive <span className="font-bold">Event Organizing, Brand Activation, MICE, Exhibition,</span> and <span className="font-bold">Entertainment solutions.</span>
-              </p>
-
-              <div className="mb-4">
-                <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-1">990K+</h3>
-                <p className="text-gray-600 text-base">client</p>
-              </div>
-
-              {/* Service Images Grid */}
-              <div className="grid grid-cols-5 gap-3 w-full max-w-4xl px-4">
-                {['Event Organizing', 'Activation', 'MICE', 'Exhibition', 'Entertainment'].map((service) => (
-                  <div key={service} className="relative aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden group">
-                    <div className="absolute inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to top, rgba(239, 108, 78, 0.8), rgba(239, 108, 78, 0.2))' }} />
-                    <div className="absolute bottom-0 left-0 right-0 p-2">
-                      <p className="text-white text-xs font-bold leading-tight">{service}</p>
-                    </div>
+          {panels.map((panel) => (
+            panel.key === activePanel && (
+              <div key={panel.key} className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                {panel.bg ? (
+                  <div
+                    className="h-48 w-full bg-center bg-cover"
+                    style={{ backgroundImage: panel.bg }}
+                  />
+                ) : (
+                  <div className="h-48 w-full bg-gray-100 flex items-center justify-center">
+                    <img src={panel.logo} alt={panel.key} className="h-14" />
                   </div>
-                ))}
-              </div>
-            </motion.div>
-          ) : (
-            <div className="h-full flex items-center justify-center">
-              <img 
-                src="/logocskom.png"
-                alt="CSCOM"
-                className="w-24 md:w-28 lg:w-32"
-              />
-            </div>
-          )}
-        </motion.div>
-
-        {/* CSPRO Panel */}
-        <motion.div
-          animate={{
-            width: activePanel === 'cspro' ? '100%' : '150px'
-          }}
-          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-          className={"relative overflow-hidden cursor-pointer"}
-          style={
-            activePanel === 'cspro'
-              ? { backgroundColor: 'white' }
-              : { backgroundColor: '#E5E7EB' }
-          }
-          onClick={() => setActivePanel('cspro')}
-        >
-          {activePanel === 'cspro' ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="h-full overflow-y-auto flex flex-col justify-center items-center text-center px-6 md:px-10 lg:px-12 py-6"
-            >
-              <img 
-                src="/cspro1.png"
-                alt="CSPRO"
-                className="w-36 md:w-44 lg:w-52 mb-3"
-              />
-              <p className="text-gray-600 text-sm md:text-base mb-4">@cspro_event</p>
-              
-              <p className="text-gray-800 text-sm md:text-base max-w-2xl mb-6 leading-relaxed px-4">
-                Your one-stop solution for all production needs: <span className="font-bold">Event Construction, Signage & Branding, Promotional Items,</span> and <span className="font-bold">Digital Printing.</span>
-              </p>
-
-              <div className="mb-4">
-                <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-1">990K+</h3>
-                <p className="text-gray-600 text-base">client</p>
-              </div>
-
-              {/* Service Images Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-3xl px-4">
-                {['Event Contractor', 'Promotional Items', 'Signage & Branding', 'Printings & Acrylic Media'].map((service) => (
-                  <div key={service} className="relative aspect-[2/3] bg-gradient-to-b from-gray-300 to-gray-400 rounded-lg overflow-hidden group">
-                    <div className="absolute inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to top, rgba(60, 89, 127, 0.9), transparent)' }} />
-                    <div className="absolute bottom-0 left-0 right-0 p-2">
-                      <p className="text-white text-[10px] md:text-xs font-bold leading-tight">{service}</p>
-                    </div>
+                )}
+                <div className="p-6 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <img src={panel.logo} alt={panel.key} className="h-10" />
+                    <div className="text-xs uppercase tracking-wide text-gray-600">Platform</div>
                   </div>
-                ))}
+                  <p className="text-gray-800 text-base leading-relaxed">
+                    {panel.desc}
+                  </p>
+                  <div className="text-gray-700 text-sm font-semibold">{panel.statValue}</div>
+                  <div className="text-gray-500 text-xs">{panel.statLabel}</div>
+                </div>
               </div>
+            )
+          ))}
+        </div>
+      ) : (
+        <>
+          {/* Desktop Horizontal Accordion */}
+          <div className="relative h-[700px] flex overflow-hidden">
+            
+            {/* CSCORP Panel */}
+            <motion.div
+              animate={{
+                width: activePanel === 'cscorp' ? '100%' : '150px'
+              }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+              className={"relative overflow-hidden cursor-pointer"}
+              style={{
+                backgroundImage: "url('/bird.jpeg')",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+              onClick={() => setActivePanel(activePanel === 'cscorp' ? 'cscorp' : 'cscorp')}
+            >
+              {activePanel === 'cscorp' ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="h-full flex flex-col justify-center items-center text-center px-8 md:px-12 lg:px-16 py-8"
+                >
+                  <img 
+                    src="/cscorp1.png"
+                    alt="CS Corp"
+                    className="w-36 md:w-44 lg:w-52 mb-3"
+                  />
+                  <p className="text-white text-sm md:text-base max-w-2xl leading-relaxed">
+                    Your one-stop solution for all production needs: <span className="font-bold">Event Construction, Signage & Branding, Promotional Items,</span> and <span className="font-bold">Digital Printing.</span>
+                  </p>
+                </motion.div>
+              ) : (
+                <div className="h-full flex items-center justify-center">
+                  <img 
+                    src="/cscorp1.png"
+                    alt="CS Corp"
+                    className="w-24 md:w-28 lg:w-32"
+                  />
+                </div>
+              )}
             </motion.div>
-          ) : (
-            <div className="h-full flex items-center justify-center">
-              <img 
-                src="/logocspro.png"
-                alt="CSPRO"
-                className="w-24 md:w-28 lg:w-32"
-              />
-            </div>
-          )}
-        </motion.div>
-      </div>
 
+            {/* CSCOM Panel */}
+            <motion.div
+              animate={{
+                width: activePanel === 'cscom' ? '100%' : '150px'
+              }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+              className={"relative overflow-hidden cursor-pointer"}
+              style={
+                activePanel === 'cscom'
+                  ? { backgroundColor: 'white' }
+                  : { backgroundColor: '#E5E7EB' }
+              }
+              onClick={() => setActivePanel('cscom')}
+            >
+              {activePanel === 'cscom' ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="h-full flex flex-col justify-center items-center text-center px-8 md:px-12 lg:px-16 py-8"
+                >
+                  <img 
+                    src="cscom1.png"
+                    alt="CSCOM"
+                    className="w-36 md:w-44 lg:w-52 mb-3"
+                  />
+                  <p className="text-gray-600 text-sm mb-4">@cscom.co</p>
+                  
+                  <p className="text-gray-800 text-sm md:text-base max-w-2xl mb-6 leading-relaxed">
+                    Your dedicated partner for comprehensive <span className="font-bold">Event Organizing, Brand Activation, MICE, Exhibition,</span> and <span className="font-bold">Entertainment solutions.</span>
+                  </p>
+
+                  <div className="mb-4">
+                    <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-1">990K+</h3>
+                    <p className="text-gray-600 text-base">client</p>
+                  </div>
+
+                  {/* Service Images Grid */}
+                  <div className="grid grid-cols-5 gap-3 w-full max-w-4xl px-4">
+                    {['Event Organizing', 'Activation', 'MICE', 'Exhibition', 'Entertainment'].map((service) => (
+                      <div key={service} className="relative aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden group">
+                        <div className="absolute inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to top, rgba(239, 108, 78, 0.8), rgba(239, 108, 78, 0.2))' }} />
+                        <div className="absolute bottom-0 left-0 right-0 p-2">
+                          <p className="text-white text-xs font-bold leading-tight">{service}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              ) : (
+                <div className="h-full flex items-center justify-center">
+                  <img 
+                    src="/logocskom.png"
+                    alt="CSCOM"
+                    className="w-24 md:w-28 lg:w-32"
+                  />
+                </div>
+              )}
+            </motion.div>
+
+            {/* CSPRO Panel */}
+            <motion.div
+              animate={{
+                width: activePanel === 'cspro' ? '100%' : '150px'
+              }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+              className={"relative overflow-hidden cursor-pointer"}
+              style={
+                activePanel === 'cspro'
+                  ? { backgroundColor: 'white' }
+                  : { backgroundColor: '#E5E7EB' }
+              }
+              onClick={() => setActivePanel('cspro')}
+            >
+              {activePanel === 'cspro' ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="h-full overflow-y-auto flex flex-col justify-center items-center text-center px-6 md:px-10 lg:px-12 py-6"
+                >
+                  <img 
+                    src="/cspro1.png"
+                    alt="CSPRO"
+                    className="w-36 md:w-44 lg:w-52 mb-3"
+                  />
+                  <p className="text-gray-600 text-sm md:text-base mb-4">@cspro_event</p>
+                  
+                  <p className="text-gray-800 text-sm md:text-base max-w-2xl mb-6 leading-relaxed px-4">
+                    Your one-stop solution for all production needs: <span className="font-bold">Event Construction, Signage & Branding, Promotional Items,</span> and <span className="font-bold">Digital Printing.</span>
+                  </p>
+
+                  <div className="mb-4">
+                    <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-1">990K+</h3>
+                    <p className="text-gray-600 text-base">client</p>
+                  </div>
+
+                  {/* Service Images Grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-3xl px-4">
+                    {['Event Contractor', 'Promotional Items', 'Signage & Branding', 'Printings & Acrylic Media'].map((service) => (
+                      <div key={service} className="relative aspect-[2/3] bg-gradient-to-b from-gray-300 to-gray-400 rounded-lg overflow-hidden group">
+                        <div className="absolute inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to top, rgba(60, 89, 127, 0.9), transparent)' }} />
+                        <div className="absolute bottom-0 left-0 right-0 p-2">
+                          <p className="text-white text-[10px] md:text-xs font-bold leading-tight">{service}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              ) : (
+                <div className="h-full flex items-center justify-center">
+                  <img 
+                    src="/logocspro.png"
+                    alt="CSPRO"
+                    className="w-24 md:w-28 lg:w-32"
+                  />
+                </div>
+              )}
+            </motion.div>
+          </div>
+
+        </>
+      )}
       {/* Bottom Marquee - Coral background, white text */}
       <div className="py-4 md:py-5 overflow-hidden" style={{ backgroundColor: '#EF6C4E' }}>
         <ScrollVelocity
