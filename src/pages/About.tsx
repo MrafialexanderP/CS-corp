@@ -316,62 +316,62 @@ const About = () => {
 
               <div className="flex flex-col md:flex-row h-full overflow-y-auto md:overflow-auto">
                 {/* Left - Image */}
-                <div className="w-full md:w-1/2 h-48 md:h-full bg-gray-100 flex-shrink-0">
+                <div className="w-full md:w-1/2 h-72 sm:h-80 md:h-full bg-gray-100 flex-shrink-0 flex items-center justify-center overflow-hidden">
                   <img
                     src={selectedMember.image}
                     alt={selectedMember.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-center"
                   />
                 </div>
 
                 {/* Right - Content */}
-                <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center overflow-y-auto">
-                  <h2 className="text-2xl md:text-5xl font-bold text-gray-900 mb-1 md:mb-2 pt-4 md:pt-0">
+                <div className="w-full md:w-1/2 p-6 sm:p-8 md:p-12 pb-16 md:pb-12 flex flex-col justify-center overflow-y-auto">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 md:mb-4 pt-4 md:pt-0">
                     {selectedMember.name}
                   </h2>
-                  <p className="text-gray-900 text-xs md:text-sm uppercase tracking-wider font-semibold mb-4 md:mb-6">
+                  <p className="text-gray-900 text-xs sm:text-sm uppercase tracking-wider font-semibold mb-6 md:mb-8">
                     {selectedMember.role}
                   </p>
 
-                  <div className="space-y-3 md:space-y-6">
+                  <div className="space-y-4 md:space-y-6 text-sm md:text-base pb-4 md:pb-0">
                     {/* Specialty */}
-                    <div className="border-b border-gray-200 pb-3 md:pb-4">
-                      <p className="text-gray-900 italic text-sm md:text-lg">
+                    <div className="border-b border-gray-200 pb-4">
+                      <p className="text-gray-900 italic">
                         {selectedMember.specialty}
                       </p>
                     </div>
 
                     {/* Experience */}
-                    <div className="border-b border-gray-200 pb-3 md:pb-4">
-                      <p className="text-gray-900 italic text-xs md:text-base">
+                    <div className="border-b border-gray-200 pb-4">
+                      <p className="text-gray-900 italic">
                         {selectedMember.experience}
                       </p>
                     </div>
 
                     {/* Bio */}
                     <div>
-                      <p className="text-gray-700 leading-relaxed text-xs md:text-base">
+                      <p className="text-gray-700 leading-relaxed">
                         {selectedMember.bio}
                       </p>
                     </div>
 
                     {/* Social Media */}
-                    <div className="flex gap-3 md:gap-4 pt-3 md:pt-4">
+                    <div className="flex gap-3 md:gap-4 pt-4 md:pt-6">
                       <a
                         href={selectedMember.instagram}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-10 md:w-12 h-10 md:h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors flex-shrink-0"
+                        className="w-10 sm:w-12 h-10 sm:h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors flex-shrink-0"
                       >
-                        <Instagram className="w-5 md:w-6 h-5 md:h-6 text-white" />
+                        <Instagram className="w-5 sm:w-6 h-5 sm:h-6 text-white" />
                       </a>
                       <a
                         href={selectedMember.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-10 md:w-12 h-10 md:h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors flex-shrink-0"
+                        className="w-10 sm:w-12 h-10 sm:h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors flex-shrink-0"
                       >
-                        <Linkedin className="w-5 md:w-6 h-5 md:h-6 text-white" />
+                        <Linkedin className="w-5 sm:w-6 h-5 sm:h-6 text-white" />
                       </a>
                     </div>
                   </div>
