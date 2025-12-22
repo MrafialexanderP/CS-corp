@@ -110,7 +110,7 @@ const Navigation = () => {
                       isDarkBackground ? "text-white" : "text-black"
                     }`}
                   >
-                    about
+                    About
                   </Link>
 
                   {/* Mobile Work Dropdown */}
@@ -120,7 +120,7 @@ const Navigation = () => {
                       isDarkBackground ? "text-white" : "text-black"
                     }`}
                   >
-                    <span>work</span>
+                    <span>Work</span>
                     {openDropdown === "work" ? (
                       <ChevronUp size={16} />
                     ) : (
@@ -140,7 +140,7 @@ const Navigation = () => {
                           isDarkBackground ? "text-white" : "text-black"
                         }`}
                       >
-                        → Events
+                        Events
                       </Link>
                       <Link 
                         to="/products"
@@ -152,7 +152,7 @@ const Navigation = () => {
                           isDarkBackground ? "text-white" : "text-black"
                         }`}
                       >
-                        → Productions
+                        Productions
                       </Link>
                     </div>
                   )}
@@ -168,7 +168,7 @@ const Navigation = () => {
                         isDarkBackground ? "text-white" : "text-black"
                       }`}
                     >
-                      clients
+                      Clients
                     </a>
                   ) : (
                     <Link 
@@ -178,7 +178,7 @@ const Navigation = () => {
                         isDarkBackground ? "text-white" : "text-black"
                       }`}
                     >
-                      clients
+                      Clients
                     </Link>
                   )}
 
@@ -189,7 +189,7 @@ const Navigation = () => {
                       isDarkBackground ? "text-white" : "text-black"
                     }`}
                   >
-                    contact
+                    Contact
                   </Link>
                 </div>
               </div>
@@ -211,7 +211,7 @@ const Navigation = () => {
                     isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
                   }`}
                 >
-                  about
+                  About
                 </Link>
                 
                 {/* Work Dropdown */}
@@ -222,7 +222,7 @@ const Navigation = () => {
                     }`}
                     onClick={() => setOpenDropdown(openDropdown === "work" ? null : "work")}
                   >
-                    work
+                    Work
                     {openDropdown === "work" ? (
                       <ChevronUp size={16} className="transition-transform duration-200" />
                     ) : (
@@ -245,7 +245,7 @@ const Navigation = () => {
                             isDarkBackground ? "text-white" : "text-black"
                           }`}
                         >
-                          → Events
+                          Events
                         </Link>
                         <Link 
                           to="/products"
@@ -254,7 +254,7 @@ const Navigation = () => {
                             isDarkBackground ? "text-white" : "text-black"
                           }`}
                         >
-                          → Productions
+                          Productions
                         </Link>
                       </div>
                     </div>
@@ -284,7 +284,7 @@ const Navigation = () => {
                       isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
                     }`}
                   >
-                    clients
+                    Clients
                   </a>
                 ) : (
                   <Link 
@@ -293,7 +293,7 @@ const Navigation = () => {
                       isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
                     }`}
                   >
-                    clients
+                    Clients
                   </Link>
                 )}
 
@@ -303,7 +303,7 @@ const Navigation = () => {
                     isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
                   }`}
                 >
-                  contact
+                  Contact
                 </Link>
               </div>
             </div>

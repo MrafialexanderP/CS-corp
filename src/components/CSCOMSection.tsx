@@ -96,31 +96,32 @@ const CSCOMSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="space-y-4"
+            className="space-y-6 lg:pr-12 lg:pt-8"
           >
-            <h3 className="text-3xl sm:text-4xl font-bold italic leading-tight text-coral">
+            <h3 className="text-4xl sm:text-5xl lg:text-6xl font-bold italic leading-tight text-coral">
               Precision in Every
               <br />
               Detail: From Concept
               <br />
               to Construction.
             </h3>
-            <div className="pt-2">
+            <div className="mx-auto max-w-6xl mt-6 sm:mt-8 flex justify-end">
               <ShowMoreButtonSimple />
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="w-full flex justify-center"
+            className="w-full flex justify-center lg:justify-end"
           >
             <img
               src="/fotocampuran.png"
               alt="CSCOM production collage"
               loading="lazy"
+              className="w-full max-w-[600px] lg:max-w-[700px]"
             />
           </motion.div>
         </div>

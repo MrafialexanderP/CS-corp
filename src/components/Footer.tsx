@@ -3,30 +3,32 @@ const Footer = () => {
     <footer id="contact" className="bg-black py-12 sm:py-16 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Top Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8 pb-6 sm:pb-8 border-b border-gray-800">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-6 sm:gap-4 md:gap-6 pb-6 sm:pb-8 border-b border-gray-800">
           {/* Left - About (Takes more space) */}
           <div className="sm:col-span-2">
-            <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
+            <p className="text-gray-400 text-xs sm:text-sm leading-relaxed text-justify">
               CSPRO & CSCOM is an abbreviation, where C is an acronym for Camar, S is an Acronym for Sakti, PRO is an acronym for Production & COM is an acronym for Communication. Created from PT. CAMAR SAKTI
             </p>
           </div>
 
           {/* About Column */}
           <div>
-            <h3 className="text-white font-bold text-xs sm:text-sm mb-3 sm:mb-4">About</h3>
+            <a href="/about" className="text-white hover:text-coral font-bold text-xs sm:text-sm transition-colors">
+              About
+            </a>
           </div>
 
-          {/* Services Column */}
+          {/* Work Column with Links */}
           <div>
-            <h3 className="text-white font-bold text-xs sm:text-sm mb-3 sm:mb-4">Services</h3>
+            <h3 className="text-white font-bold text-xs sm:text-sm mb-3 sm:mb-4">Work</h3>
             <ul className="space-y-1 sm:space-y-2">
               <li>
-                <a href="#events" className="text-gray-400 hover:text-white transition-colors text-xs">
+                <a href="/events" className="text-gray-400 hover:text-white transition-colors text-xs">
                   Events
                 </a>
               </li>
               <li>
-                <a href="#production" className="text-gray-400 hover:text-white transition-colors text-xs">
+                <a href="/products" className="text-gray-400 hover:text-white transition-colors text-xs">
                   Production
                 </a>
               </li>
@@ -35,9 +37,19 @@ const Footer = () => {
 
           {/* Clients Column */}
           <div>
-            <h3 className="text-white font-bold text-xs sm:text-sm mb-3 sm:mb-4">Clients</h3>
+            <a href="/#clients" className="text-white hover:text-coral font-bold text-xs sm:text-sm transition-colors">
+              Clients
+            </a>
+          </div>
+
+          {/* Contact Column */}
+          <div>
+            <a href="/contact" className="text-white hover:text-coral font-bold text-xs sm:text-sm transition-colors">
+              Contact
+            </a>
           </div>
         </div>
+        
         
         {/* Bottom Section */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
