@@ -50,7 +50,7 @@ const ImpactSection = () => {
         <BlueDiamond className="w-10 h-10 sm:w-14 sm:h-14 md:w-20 md:h-20" />
       </motion.div>
 
-      <div className="max-w-4xl mx-auto text-center relative z-10">
+      <div className="max-w-4xl mx-auto text-left relative z-10">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -58,11 +58,9 @@ const ImpactSection = () => {
           transition={{ duration: 0.8 }}
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 sm:mb-8 leading-tight"
         >
-          <span className="text-gray-800">We create </span>
-          <span className="text-coral italic">impactful experiences</span>
+          <span className="text-coral">We create impactful experience </span>
+          <span className="text-coral italic">and Productions</span>
           <br />
-          <span className="text-gray-800">and </span>
-          <span className="text-coral italic">productions.</span>
         </motion.h2>
       </div>
     </section>

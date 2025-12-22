@@ -89,8 +89,8 @@ const Masonry: React.FC<MasonryProps> = ({
   onItemClick
 }) => {
   const columns = useMedia(
-    ['(min-width:1500px)', '(min-width:1000px)', '(min-width:600px)', '(min-width:400px)'],
-    [5, 4, 3, 2],
+    ['(min-width:768px)', '(min-width:640px)'],
+    [3, 2],
     1
   );
 
@@ -133,19 +133,31 @@ const Masonry: React.FC<MasonryProps> = ({
   const grid = useMemo<GridItem[]>(() => {
     if (!width) return [];
     const colHeights = new Array(columns).fill(0);
-    const gap = 16;
+    const gap = 20;
     const totalGaps = (columns - 1) * gap;
     const columnWidth = (width - totalGaps) / columns;
 
     return items.map(child => {
       const col = colHeights.indexOf(Math.min(...colHeights));
       const x = col * (columnWidth + gap);
-      const height = child.height / 2;
+      const height = child.height;
       const y = colHeights[col];
 
       colHeights[col] += height + gap;
       return { ...child, x, y, w: columnWidth, h: height };
     });
+  }, [columns, items, width]);
+
+  const containerHeight = useMemo(() => {
+    if (!width) return 0;
+    const colHeights = new Array(columns).fill(0);
+    const gap = 20;
+    items.forEach(child => {
+      const col = colHeights.indexOf(Math.min(...colHeights));
+      const height = child.height;
+      colHeights[col] += height + gap;
+    });
+    return Math.max(...colHeights);
   }, [columns, items, width]);
 
   const hasMounted = useRef(false);
@@ -220,7 +232,7 @@ const Masonry: React.FC<MasonryProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="relative w-full h-full">
+    <div ref={containerRef} className="relative w-full" style={{ height: containerHeight }}>
       {grid.map(item => (
         <div
           key={item.id}
@@ -231,19 +243,17 @@ const Masonry: React.FC<MasonryProps> = ({
           onMouseEnter={e => handleMouseEnter(item.id, e.currentTarget)}
           onMouseLeave={e => handleMouseLeave(item.id, e.currentTarget)}
         >
-          <div
-            className="relative w-full h-full bg-cover bg-center rounded-[10px] shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)] overflow-hidden"
-            style={{ backgroundImage: `url(${item.img})` }}
-          >
-            {colorShiftOnHover && (
-              <div className="color-overlay absolute inset-0 rounded-[10px] bg-gradient-to-tr from-pink-500/50 to-sky-500/50 opacity-0 pointer-events-none" />
-            )}
-            
-            {/* Title Overlay */}
+          <div className="relative w-full h-full rounded-[14px] bg-white shadow-[0_10px_40px_-12px_rgba(0,0,0,0.25)] overflow-hidden transition-transform duration-200 will-change-transform">
+            <div className="w-full" style={{ height: 'calc(100% - 56px)' }}>
+              <div
+                className="w-full h-full bg-cover bg-center"
+                style={{ backgroundImage: `url(${item.img})` }}
+              />
+            </div>
             {item.title && (
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                <h3 className="text-white font-bold text-sm">{item.title}</h3>
-                {item.subtitle && <p className="text-white/80 text-xs mt-1">{item.subtitle}</p>}
+              <div className="h-[56px] px-3 py-2">
+                <h3 className="text-[#111827] font-semibold text-sm leading-tight line-clamp-1">{item.title}</h3>
+                {item.subtitle && <p className="text-[#111827]/80 text-xs mt-1 leading-tight line-clamp-1">{item.subtitle}</p>}
               </div>
             )}
           </div>
