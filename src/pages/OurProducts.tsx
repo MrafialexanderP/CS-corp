@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import Masonry from '@/components/Masonry';
@@ -12,6 +12,7 @@ import type { Production } from '@/lib/api-constants';
 interface ProductItem {
   id: string;
   img: string;
+  images?: string[];
   url: string;
   height: number;
   title: string;
@@ -23,6 +24,7 @@ interface ProductItem {
 
 const OurProducts = () => {
   const [selected, setSelected] = useState<ProductItem | null>(null);
+  const [slideIndex, setSlideIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const isMobile = useIsMobile();
   const itemsPerPage = isMobile ? 4 : 15;
@@ -30,7 +32,13 @@ const OurProducts = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const defaultItems: ProductItem[] = [
+  // Desktop infinite scroll state
+  const [visibleItems, setVisibleItems] = useState<ProductItem[]>([]);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const INITIAL_LOAD_COUNT = 9;
+  const LOAD_MORE_COUNT = 6;
+
+  const defaultItems: ProductItem[] = useMemo(() => [
     { id: '1', img: '/placeholder.svg', url: '#', height: 480, title: 'Youtube Creator Collective Event Productions', subtitle: 'Organized by: Vibe Event Management', client: 'YouTube', year: '2025', location: 'Jakarta' },
     { id: '2', img: '/placeholder.svg', url: '#', height: 320, title: 'Astra Corporate Affairs Awards Event Productions', subtitle: 'Organized by: Gala Event Management', client: 'Astra', year: '2025', location: 'Jakarta' },
     { id: '3', img: '/placeholder.svg', url: '#', height: 400, title: 'Dulu Booth at Karman Paint Expo 2025', subtitle: '', client: 'Karman Paint', year: '2025', location: 'Expo' },
@@ -46,7 +54,7 @@ const OurProducts = () => {
     { id: '13', img: '/placeholder.svg', url: '#', height: 420, title: 'Branding Gondola Promotion', subtitle: '', client: 'Various', year: '2024', location: 'Retail' },
     { id: '14', img: '/placeholder.svg', url: '#', height: 360, title: 'Display Stand Activation', subtitle: '', client: 'Various', year: '2024', location: 'Retail' },
     { id: '15', img: '/placeholder.svg', url: '#', height: 440, title: 'Mall Exhibition Showcase', subtitle: '', client: 'Various', year: '2024', location: 'Exhibition' }
-  ];
+  ], []);
 
   useEffect(() => {
     const loadProductions = async () => {
@@ -110,6 +118,46 @@ const OurProducts = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
+
+  // Auto-rotate images in modal
+  useEffect(() => {
+    if (!selected) return;
+    setSlideIndex(0);
+    const imgs = selected.images && selected.images.length > 0 ? selected.images : [selected.img];
+    if (imgs.length <= 1) return;
+    const timer = setInterval(() => {
+      setSlideIndex((prev) => (prev + 1) % imgs.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [selected]);
+
+  // Initialize and handle infinite scroll for desktop only
+  useEffect(() => {
+    if (isMobile) return; // keep mobile behavior intact
+
+    // Initial load once
+    setVisibleItems(prev => (prev.length ? prev : items.slice(0, INITIAL_LOAD_COUNT)));
+
+    const target = loadMoreRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          setVisibleItems((prev) => {
+            if (prev.length >= items.length) return prev;
+            const next = items.slice(0, Math.min(prev.length + LOAD_MORE_COUNT, items.length));
+            return next;
+          });
+        }
+      },
+      { rootMargin: '1200px 0px 0px 0px' }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [isMobile, items]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -235,10 +283,10 @@ const OurProducts = () => {
                   )}
                 </>
               ) : (
-                /* Desktop Masonry Layout */
-                <div style={{ height: '1800px' }}>
+                /* Desktop Masonry Layout with Infinite Scroll */
+                <>
                   <Masonry
-                    items={items}
+                    items={visibleItems.length ? visibleItems : items.slice(0, INITIAL_LOAD_COUNT)}
                     animateFrom="bottom"
                     scaleOnHover
                     hoverScale={0.95}
@@ -246,7 +294,9 @@ const OurProducts = () => {
                     stagger={0.03}
                     onItemClick={(item) => setSelected(item as ProductItem)}
                   />
-                </div>
+              {/* Sentinel for infinite loading */}
+              <div ref={loadMoreRef} className="h-8" />
+                </>
               )}
             </>
           )}
@@ -285,40 +335,41 @@ const OurProducts = () => {
                 <X className="w-5 md:w-6 h-5 md:h-6 text-gray-700" />
               </button>
 
-              {/* Desktop stacked layout */}
+              {/* Desktop two-column layout like the design */}
               <div className="px-6 pb-8 pt-4 md:px-10 md:pb-12 md:pt-6">
-                <div className="w-full rounded-2xl overflow-hidden mb-8">
-                  <img
-                    src={selected.img}
-                    alt={selected.title}
-                    className="w-full h-72 sm:h-80 md:h-[520px] object-cover"
-                  />
-                </div>
-
-                <div className="space-y-6">
-                  <div className="space-y-3">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                  {/* Left: Text content */}
+                  <div className="order-2 md:order-1">
+                    <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 mb-4">
                       {selected.title}
                     </h2>
                     {selected.subtitle && (
-                      <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed">
-                        {selected.subtitle}
-                      </p>
+                      <div className="space-y-1 mb-8">
+                        <p className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed">
+                          {selected.subtitle}
+                        </p>
+                      </div>
                     )}
+                    <div className="grid grid-cols-2 gap-6 max-w-md">
+                      <div>
+                        <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">CLIENT</span>
+                        <p className="text-gray-900 text-sm sm:text-base">{selected.client}</p>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">YEAR</span>
+                        <p className="text-gray-900 text-sm sm:text-base">{selected.year}</p>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm md:text-base">
-                    <div>
-                      <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">CLIENT</span>
-                      <p className="text-gray-600">{selected.client}</p>
-                    </div>
-                    <div>
-                      <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">YEAR</span>
-                      <p className="text-gray-600">{selected.year}</p>
-                    </div>
-                    <div>
-                      <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">LOCATION</span>
-                      <p className="text-gray-600">{selected.location}</p>
+                  {/* Right: Auto-rotating image */}
+                  <div className="order-1 md:order-2 w-full">
+                    <div className="w-full rounded-2xl overflow-hidden md:rounded-xl">
+                      <img
+                        src={(selected.images && selected.images.length > 0 ? selected.images : [selected.img])[slideIndex]}
+                        alt={selected.title}
+                        className="w-full h-72 sm:h-80 md:h-[420px] object-cover"
+                      />
                     </div>
                   </div>
                 </div>

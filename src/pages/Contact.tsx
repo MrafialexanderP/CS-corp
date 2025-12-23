@@ -78,13 +78,13 @@ const Contact = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-start">
             {/* Left Side - Contact Info */}
             <div className="text-black">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 italic leading-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-5 sm:mb-7 italic leading-tight">
                 Ready to Fly With Us?<br />
                 Together. Get in Touch
               </h1>
               
               <button 
-                className="px-8 py-3 rounded-full font-semibold text-white mb-6"
+                className="px-10 py-3.5 rounded-full font-semibold text-white mb-7 text-lg sm:text-xl"
                 style={{
                   background: 'linear-gradient(90deg, #EF6C4E 0%, #3C597F 100%)'
                 }}
@@ -92,33 +92,33 @@ const Contact = () => {
                 Get In Touch
               </button>
 
-              <p className="text-sm sm:text-base leading-relaxed mb-6 text-black">
+              <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-7 text-black">
                 Get in touch to discuss your event activation and production needs today.
               </p>
 
               {/* Address and Phone */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <h3 className="font-bold text-base mb-2">Address:</h3>
-                  <p className="text-sm">Jl. RE Martadinata No 5A</p>
+                  <h3 className="font-bold text-lg sm:text-xl mb-2">Address:</h3>
+                  <p className="text-base sm:text-lg">Jl. RE Martadinata No 5A</p>
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-base mb-2">Phone:</h3>
-                  <p className="text-sm">+62 081219420430</p>
+                  <h3 className="font-bold text-lg sm:text-xl mb-2">Phone:</h3>
+                  <p className="text-base sm:text-lg">+62 081219420430</p>
                 </div>
               </div>
 
               {/* Working Hours and Socials */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <h3 className="font-bold text-base mb-2">Working Hours:</h3>
-                  <p className="text-sm">Mon - Fri: 9am - 6 pm</p>
+                  <h3 className="font-bold text-lg sm:text-xl mb-2">Working Hours:</h3>
+                  <p className="text-base sm:text-lg">Mon - Fri: 9am - 6 pm</p>
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-base mb-2">Socials:</h3>
-                  <div className="flex gap-3">
+                  <h3 className="font-bold text-lg sm:text-xl mb-2">Socials:</h3>
+                  <div className="flex gap-3 text-lg">
                     <a href="#" className="text-black hover:opacity-70 transition-opacity">
                       <Instagram size={20} />
                     </a>
@@ -139,7 +139,7 @@ const Contact = () => {
               <div>
                 <a 
                   href="mailto:cscorp@gmail.com" 
-                  className="text-2xl sm:text-3xl font-bold italic hover:opacity-80 transition-opacity inline-block"
+                  className="text-3xl sm:text-4xl md:text-5xl font-bold italic hover:opacity-80 transition-opacity inline-block"
                   style={{
                     background: 'linear-gradient(90deg, #EF6C4E 0%, #F89C7E 50%, #3C597F 100%)',
                     WebkitBackgroundClip: 'text',
@@ -147,7 +147,7 @@ const Contact = () => {
                     backgroundClip: 'text'
                   }}
                 >
-                  cscorp@gmail.com
+                  cscorp@Gmail.com
                 </a>
               </div>
             </div>

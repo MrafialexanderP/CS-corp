@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import ShowMoreButtonSimple from "./ShowMoreButtonSimple";
 import ProductionCard from "./ProductionCard";
+import Masonry from "./Masonry";
 
 type Production = {
   title: string;
@@ -53,44 +54,38 @@ const CSCOMSection = () => {
   return (
     <section className="bg-transparent">
       <div className="px-4 py-8 sm:py-10">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-6">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center md:text-left flex-1"
-          >
-            <h2 className="mx-auto md:mx-0 max-w-3xl text-3xl sm:text-4xl lg:text-[42px] font-bold italic leading-tight text-coral">
-              Precision in Every Detail: From
-              <br />
-              Concept to Construction
-            </h2>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            viewport={{ once: true }}
-            className="flex justify-center md:justify-end flex-shrink-0"
-          >
-            <ShowMoreButtonSimple />
-          </motion.div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-6"
+        >
+          <h2 className="mx-auto max-w-4xl text-3xl sm:text-4xl lg:text-[42px] font-bold italic leading-tight" style={{ color: '#3C597F' }}>
+            Creating Impactful Experiences
+            <br />
+            & Harmonious Collaborations
+          </h2>
+        </motion.div>
       </div>
 
-      <div className="px-4 pb-12 sm:pb-16">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {productions.map((item, index) => (
-            <ProductionCard
-              key={item.title}
-              title={item.title}
-              subtitle={item.subtitle}
-              location={item.location}
-              image={item.image}
-              index={index}
-            />
-          ))}
+      <div className="px-4 pb-6 sm:pb-8">
+        <div className="mx-auto max-w-6xl">
+          {(() => {
+            const patternHeights = [260, 420, 260, 260, 420, 260]; // H, V, H, H, V, H
+            const items = productions.map((p, idx) => ({
+              id: `${idx}-${p.title}`,
+              img: p.image,
+              url: '#',
+              height: patternHeights[idx % patternHeights.length],
+              title: p.title,
+              subtitle: p.subtitle
+            }));
+            return <Masonry items={items} animateFrom="bottom" />;
+          })()}
+        </div>
+        <div className="mx-auto max-w-6xl mt-6 sm:mt-8 flex justify-end">
+          <ShowMoreButtonSimple />
         </div>
       </div>
 
@@ -101,31 +96,32 @@ const CSCOMSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="space-y-4"
+            className="space-y-6 lg:pr-12 lg:pt-8"
           >
-            <h3 className="text-3xl sm:text-4xl font-bold italic leading-tight text-coral">
+            <h3 className="text-4xl sm:text-5xl lg:text-6xl font-bold italic leading-tight text-coral">
               Precision in Every
               <br />
               Detail: From Concept
               <br />
               to Construction.
             </h3>
-            <div className="pt-2">
+            <div className="mx-auto max-w-6xl mt-6 sm:mt-8 flex justify-end">
               <ShowMoreButtonSimple />
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="w-full flex justify-center"
+            className="w-full flex justify-center lg:justify-end"
           >
             <img
               src="/fotocampuran.png"
               alt="CSCOM production collage"
               loading="lazy"
+              className="w-full max-w-[600px] lg:max-w-[700px]"
             />
           </motion.div>
         </div>

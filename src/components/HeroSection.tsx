@@ -1,8 +1,37 @@
 import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 
 const HeroSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    setIsVisible(true);
+
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      
+      const rect = sectionRef.current.getBoundingClientRect();
+      const elementHeight = rect.height;
+      const windowHeight = window.innerHeight;
+      
+      // Calculate scroll progress for this section
+      let progress = 0;
+      if (rect.top < windowHeight) {
+        progress = Math.min(1, (windowHeight - rect.top) / (windowHeight + elementHeight));
+      }
+      
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <section 
+      ref={sectionRef}
       className="min-h-screen relative flex flex-col items-center justify-center pt-16 sm:pt-20 pb-20 sm:pb-28 md:pb-32 px-4 sm:px-6 overflow-hidden"
     >
       {/* Background image */}
@@ -18,9 +47,9 @@ const HeroSection = () => {
         {/* Main Title */}
         <motion.h1 
           initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 tracking-wide"
+          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
+          transition={{ duration: 1.2, ease: "easeOut", delay: 0 }}
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 tracking-wide whitespace-nowrap"
           style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800 }}
         >
           CAMAR SAKTI CORPORATION
@@ -29,8 +58,8 @@ const HeroSection = () => {
         {/* Subtitle */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          animate={{ opacity: scrollProgress > 0.15 ? 1 : 0, y: scrollProgress > 0.15 ? 0 : 20 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white/90 mb-8 sm:mb-12 md:mb-16 tracking-wider"
         >
           THE CS PHILOSHOPHY
@@ -40,12 +69,12 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 sm:gap-8 max-w-3xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            animate={{ opacity: scrollProgress > 0.4 ? 1 : 0, x: scrollProgress > 0.4 ? 0 : -30 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-left w-full sm:w-1/2"
           >
             <h3 className="text-base sm:text-xl md:text-2xl text-white mb-1">
-              <span className="font-bold text-vibrant-blue">C</span>amar/ <span className="italic font-light">Seagull</span>
+              <span className="font-bold text-white">C</span>amar/ <span className="italic font-light">Seagull</span>
             </h3>
             <p className="text-white/80 text-xs sm:text-sm italic">A creature of three Elements: Land,</p>
             <p className="text-white/80 text-xs sm:text-sm italic">Sea, Air</p>
@@ -53,12 +82,12 @@ const HeroSection = () => {
           
           <motion.div 
             initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+            animate={{ opacity: scrollProgress > 0.45 ? 1 : 0, x: scrollProgress > 0.45 ? 0 : 30 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-right w-full sm:w-1/2"
           >
             <h3 className="text-base sm:text-xl md:text-2xl text-white mb-1">
-              <span className="font-bold text-vibrant-blue">S</span>akti/ <span className="italic font-light">Mighty</span>
+              <span className="font-bold text-white">S</span>akti/ <span className="italic font-light">Mighty</span>
             </h3>
             <p className="text-white/80 text-xs sm:text-sm italic">The Powerful being</p>
           </motion.div>
