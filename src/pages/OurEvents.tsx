@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import Masonry from '@/components/Masonry';
@@ -9,6 +9,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 interface EventItem {
   id: string;
   img: string;
+  images?: string[];
   url: string;
   height: number;
   title: string;
@@ -20,11 +21,18 @@ interface EventItem {
 
 const OurEvents = () => {
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
+  const [slideIndex, setSlideIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const isMobile = useIsMobile();
   const itemsPerPage = isMobile ? 4 : 13;
 
-  const events: EventItem[] = [
+  // Desktop infinite scroll state
+  const [visibleEvents, setVisibleEvents] = useState<EventItem[]>([]);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const INITIAL_LOAD_COUNT = 9;
+  const LOAD_MORE_COUNT = 6;
+
+  const events: EventItem[] = useMemo(() => [
     {
       id: '1',
       img: '/placeholder.svg',
@@ -168,7 +176,7 @@ const OurEvents = () => {
       year: '2023',
       location: 'Jakarta'
     }
-  ];
+  ], []);
 
   // Pagination logic for mobile
   const totalPages = Math.ceil(events.length / itemsPerPage);
@@ -189,6 +197,46 @@ const OurEvents = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
+
+  // Auto-rotate images inside modal
+  useEffect(() => {
+    if (!selectedEvent) return;
+    setSlideIndex(0);
+    const imgs = selectedEvent.images && selectedEvent.images.length > 0 ? selectedEvent.images : [selectedEvent.img];
+    if (imgs.length <= 1) return; // no rotation needed
+    const timer = setInterval(() => {
+      setSlideIndex((prev) => (prev + 1) % imgs.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [selectedEvent]);
+
+  // Initialize and handle infinite scroll for desktop only
+  useEffect(() => {
+    if (isMobile) return; // keep mobile behavior intact
+
+    // Initial load
+    setVisibleEvents(prev => (prev.length ? prev : events.slice(0, INITIAL_LOAD_COUNT)));
+
+    const target = loadMoreRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          setVisibleEvents((prev) => {
+            if (prev.length >= events.length) return prev;
+            const next = events.slice(0, Math.min(prev.length + LOAD_MORE_COUNT, events.length));
+            return next;
+          });
+        }
+      },
+      { rootMargin: '1200px 0px 0px 0px' }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [isMobile, events]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -297,10 +345,10 @@ const OurEvents = () => {
               )}
             </>
           ) : (
-            /* Desktop Masonry Layout */
-            <div style={{ height: '1800px' }}>
+            /* Desktop Masonry Layout with Infinite Scroll */
+            <>
               <Masonry
-                items={events}
+                items={visibleEvents.length ? visibleEvents : events.slice(0, INITIAL_LOAD_COUNT)}
                 animateFrom="bottom"
                 scaleOnHover={true}
                 hoverScale={1.05}
@@ -308,7 +356,9 @@ const OurEvents = () => {
                 stagger={0.03}
                 onItemClick={(item) => setSelectedEvent(item as EventItem)}
               />
-            </div>
+              {/* Sentinel for infinite loading */}
+              <div ref={loadMoreRef} className="h-8" />
+            </>
           )}
         </div>
       </section>
@@ -345,37 +395,41 @@ const OurEvents = () => {
                 <X className="w-5 h-5 text-gray-700" />
               </button>
 
-              <div className="px-6 pb-8">
-                {/* Image */}
-                <div className="w-full rounded-2xl overflow-hidden mb-6">
-                  <img
-                    src={selectedEvent.img}
-                    alt={selectedEvent.title}
-                    className="w-full h-64 sm:h-80 object-cover"
-                  />
-                </div>
-
-                {/* Content */}
-                <div className="space-y-6">
-                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                    {selectedEvent.title}
-                  </h2>
-                  <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-                    {selectedEvent.subtitle}
-                  </p>
-
-                  <div className="space-y-4 pt-4">
-                    <div>
-                      <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">CLIENT</span>
-                      <p className="text-gray-600 text-sm sm:text-base">{selectedEvent.client}</p>
+              <div className="px-6 pb-8 md:px-10 md:pb-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                  {/* Left: Text */}
+                  <div className="order-2 md:order-1">
+                    <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 mb-4">
+                      {selectedEvent.title}
+                    </h2>
+                    <div className="space-y-1 mb-8">
+                      <p className="text-gray-700 text-sm sm:text-base">
+                        {selectedEvent.subtitle}
+                      </p>
+                      {selectedEvent.location && (
+                        <p className="text-gray-700 text-sm sm:text-base">{selectedEvent.location}</p>
+                      )}
                     </div>
-                    <div>
-                      <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">YEAR</span>
-                      <p className="text-gray-600 text-sm sm:text-base">{selectedEvent.year}</p>
+                    <div className="grid grid-cols-2 gap-6 max-w-md">
+                      <div>
+                        <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">CLIENT</span>
+                        <p className="text-gray-900 text-sm sm:text-base">{selectedEvent.client}</p>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">YEAR</span>
+                        <p className="text-gray-900 text-sm sm:text-base">{selectedEvent.year}</p>
+                      </div>
                     </div>
-                    <div>
-                      <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">LOCATION</span>
-                      <p className="text-gray-600 text-sm sm:text-base">{selectedEvent.location}</p>
+                  </div>
+
+                  {/* Right: Auto-rotating Image */}
+                  <div className="order-1 md:order-2 w-full">
+                    <div className="w-full rounded-2xl overflow-hidden md:rounded-xl">
+                      <img
+                        src={(selectedEvent.images && selectedEvent.images.length > 0 ? selectedEvent.images : [selectedEvent.img])[slideIndex]}
+                        alt={selectedEvent.title}
+                        className="w-full h-64 sm:h-80 md:h-[420px] object-cover"
+                      />
                     </div>
                   </div>
                 </div>
