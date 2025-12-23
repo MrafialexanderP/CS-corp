@@ -1,8 +1,10 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Instagram, Linkedin } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { fetchVisions } from '@/lib/api-services';
+import type { Vision } from '@/lib/api-constants';
 
 const coreValues = [
   {
@@ -63,6 +65,28 @@ const teamMembers = [
 
 const About = () => {
   const [selectedMember, setSelectedMember] = useState<typeof teamMembers[0] | null>(null);
+  const [visions, setVisions] = useState<Vision[]>([]);
+  const [visionsLoading, setVisionsLoading] = useState(true);
+  const [visionsError, setVisionsError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadVisions = async () => {
+      try {
+        setVisionsLoading(true);
+        const data = await fetchVisions();
+        setVisions(Array.isArray(data) ? data : []);
+        setVisionsError(null);
+      } catch (err) {
+        console.error('Failed to load visions:', err);
+        setVisionsError('Failed to load visions');
+        setVisions([]);
+      } finally {
+        setVisionsLoading(false);
+      }
+    };
+
+    loadVisions();
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -205,10 +229,20 @@ const About = () => {
             className="mb-12 sm:mb-16"
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">VISION</h2>
-            <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl">
-              To become an <span className="text-coral font-semibold">Activation partner</span>, recognized 
-              for boundless creativity and the ability to create deep and inspiring events.
-            </p>
+            {visionsError ? (
+              <p className="text-red-300 text-sm sm:text-base">{visionsError}</p>
+            ) : visionsLoading ? (
+              <p className="text-white/70 text-sm sm:text-base">Loading vision...</p>
+            ) : visions.length > 0 ? (
+              <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl">
+                {visions[0].visi}
+              </p>
+            ) : (
+              <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl">
+                To become an <span className="text-coral font-semibold">Activation partner</span>, recognized 
+                for boundless creativity and the ability to create deep and inspiring events.
+              </p>
+            )}
           </motion.div>
 
           {/* Mission Section */}
@@ -220,13 +254,23 @@ const About = () => {
             className="text-left sm:text-right mb-16 sm:mb-20"
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">MISSION</h2>
-            <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl sm:ml-auto">
-              With the philosophy of the mighty seagull, <span className="text-coral font-semibold">Camar Sakti</span> is 
-              ready to elevate every project to become a memorable experiences with the mightiness{' '}
-              <span className="text-coral font-semibold">creativity</span> and{' '}
-              <span className="text-coral font-semibold">excellence execution</span> through{' '}
-              <span className="text-coral font-semibold">harmonious collaboration</span>.
-            </p>
+            {visionsError ? (
+              <p className="text-red-300 text-sm sm:text-base">{visionsError}</p>
+            ) : visionsLoading ? (
+              <p className="text-white/70 text-sm sm:text-base">Loading mission...</p>
+            ) : visions.length > 0 ? (
+              <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl sm:ml-auto">
+                {visions[0].misi}
+              </p>
+            ) : (
+              <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl sm:ml-auto">
+                With the philosophy of the mighty seagull, <span className="text-coral font-semibold">Camar Sakti</span> is 
+                ready to elevate every project to become a memorable experiences with the mightiness{' '}
+                <span className="text-coral font-semibold">creativity</span> and{' '}
+                <span className="text-coral font-semibold">excellence execution</span> through{' '}
+                <span className="text-coral font-semibold">harmonious collaboration</span>.
+              </p>
+            )}
           </motion.div>
 
           {/* Meet Our Team Section - Inside same background */}

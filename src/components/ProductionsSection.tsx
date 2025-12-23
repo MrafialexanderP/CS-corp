@@ -1,119 +1,60 @@
 import Masonry from "@/components/Masonry";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-
-const productions = [
-  {
-    id: '1',
-    title: 'K-Content BizWeek 2025 by KOCCA',
-    subtitle: 'Agency Daehang Congratulates Indonesia Organized by CSCOM',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 600
-  },
-  {
-    id: '2',
-    title: 'Pesta IWET 2025 by Tlnet',
-    subtitle: 'Pesta Iklim & Iklim Pesta Organized by Cooperation Partner',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 500
-  },
-  {
-    id: '3',
-    title: 'Great Chinggu Launch 2024',
-    subtitle: 'New Product Launch',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 550
-  },
-  {
-    id: '4',
-    title: 'Launching Buku Apresiasi Jan 25th 2025',
-    subtitle: 'Book Launch Event',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 450
-  },
-  {
-    id: '5',
-    title: 'KRU Hondas Sultan Activation',
-    subtitle: 'Brand Activation Campaign',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 520
-  },
-  {
-    id: '6',
-    title: 'A MOMENT AT JAM House (Launchingshowcase)',
-    subtitle: 'Music Showcase Event',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 580
-  },
-  {
-    id: '7',
-    title: 'Panini Indonesia Activation',
-    subtitle: 'Brand Activation & Exhibition',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 490
-  },
-  {
-    id: '8',
-    title: 'AQUA DANONE KLHK AMDAL',
-    subtitle: 'Environmental Program',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 530
-  },
-  {
-    id: '9',
-    title: 'Vitamin Kesesah Original Harvest',
-    subtitle: 'Product Launch Campaign',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 510
-  },
-  {
-    id: '10',
-    title: 'OpenYork Palmeran (retorative 2024 Jakarta)',
-    subtitle: 'Corporate Event',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 470
-  },
-  {
-    id: '11',
-    title: 'Exam Buleuseed Invitation 2024',
-    subtitle: 'Educational Event',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 560
-  },
-  {
-    id: '12',
-    title: 'McDonalds K-Grand',
-    subtitle: 'Restaurant Grand Opening',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 500
-  },
-  {
-    id: '13',
-    title: 'RAPP(invent Focus Collaboration 2023)',
-    subtitle: 'Partnership Event',
-    img: '/placeholder.svg',
-    url: '#',
-    height: 540
-  }
-];
+import { useState, useEffect } from "react";
+import { fetchProductions } from "@/lib/api-services";
+import { getImageUrl } from "@/lib/api-constants";
+import type { Production } from "@/lib/api-constants";
 
 const ProductionsSection = () => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  const [productions, setProductions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadProductions = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchProductions();
+        
+        // Map API data to component format
+        const mappedProductions = data.map((prod: Production, index: number) => {
+          // Prioritize image_url from API, fallback to constructed URL
+          const imageUrl = prod.images && prod.images.length > 0
+            ? prod.images[0].image_url || getImageUrl(prod.images[0].image)
+            : '/placeholder.svg';
+          
+          const heights = [600, 500, 550, 450, 520, 580, 490, 530, 510, 470, 560, 500, 540];
+          
+          return {
+            id: String(prod.id),
+            title: prod.judul,
+            subtitle: prod.deskripsi,
+            img: imageUrl,
+            url: '#',
+            height: heights[index % heights.length],
+          };
+        });
+        
+        setProductions(mappedProductions);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to load productions:', err);
+        setError('Failed to load productions');
+        // Fallback to empty array
+        setProductions([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProductions();
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -156,23 +97,37 @@ const ProductionsSection = () => {
           </div>
         </motion.div>
         
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="relative"
-        >
-          <div style={{ height: '2000px' }}>
-            <Masonry
-              items={productions}
-              animateFrom="bottom"
-              scaleOnHover
-              hoverScale={0.95}
-              blurToFocus
-              stagger={0.04}
-            />
+        {error && (
+          <div className="text-center py-8 text-red-500">
+            <p>{error}</p>
           </div>
-        </motion.div>
+        )}
+        
+        {loading && (
+          <div className="text-center py-8 text-gray-500">
+            <p>Loading productions...</p>
+          </div>
+        )}
+        
+        {!loading && !error && productions.length > 0 && (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            className="relative"
+          >
+            <div style={{ height: '2000px' }}>
+              <Masonry
+                items={productions}
+                animateFrom="bottom"
+                scaleOnHover
+                hoverScale={0.95}
+                blurToFocus
+                stagger={0.04}
+              />
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );

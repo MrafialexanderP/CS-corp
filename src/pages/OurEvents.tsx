@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import Masonry from '@/components/Masonry';
 import Footer from '@/components/Footer';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { fetchEvents } from '@/lib/api-services';
+import { getImageUrl } from '@/lib/api-constants';
+import type { Event } from '@/lib/api-constants';
 
 interface EventItem {
   id: string;
@@ -23,8 +26,11 @@ const OurEvents = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const isMobile = useIsMobile();
   const itemsPerPage = isMobile ? 4 : 13;
+  const [events, setEvents] = useState<EventItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const events: EventItem[] = [
+  const defaultEvents: EventItem[] = [
     {
       id: '1',
       img: '/placeholder.svg',
@@ -170,6 +176,48 @@ const OurEvents = () => {
     }
   ];
 
+  useEffect(() => {
+    const loadEvents = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchEvents();
+        
+        // Map API data to EventItem format
+        const mappedEvents = data.map((evt: Event, index: number) => {
+          const imageUrl = evt.images && evt.images.length > 0
+            ? evt.images[0].image_url || getImageUrl(evt.images[0].image)
+            : '/placeholder.svg';
+          
+          const heights = [600, 500, 550, 450, 520, 580, 490, 530, 510, 470, 560, 500, 540];
+          const year = new Date(evt.tanggal).getFullYear().toString();
+          
+          return {
+            id: String(evt.id),
+            img: imageUrl,
+            url: '#',
+            height: heights[index % heights.length],
+            title: evt.judul,
+            subtitle: evt.deskripsi,
+            client: evt.client,
+            year: year,
+            location: 'Jakarta', // Default location - adjust if API provides it
+          };
+        });
+        
+        setEvents(mappedEvents.length > 0 ? mappedEvents : defaultEvents);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to load events:', err);
+        setError('Failed to load events');
+        setEvents(defaultEvents); // Fallback to default events
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEvents();
+  }, []);
+
   // Pagination logic for mobile
   const totalPages = Math.ceil(events.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -220,95 +268,111 @@ const OurEvents = () => {
       {/* Masonry Gallery */}
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          {/* Mobile Grid Layout */}
-          {isMobile ? (
+          {error && (
+            <div className="text-center py-12 text-red-500">
+              <p>{error}</p>
+            </div>
+          )}
+          
+          {loading && (
+            <div className="text-center py-12 text-gray-500">
+              <p>Loading events...</p>
+            </div>
+          )}
+          
+          {!loading && !error && events.length > 0 && (
             <>
-              <div className="grid grid-cols-1 gap-6">
-                {paginatedEvents.map((event) => (
-                  <motion.div
-                    key={event.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="relative bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
-                    onClick={() => setSelectedEvent(event)}
-                  >
-                    <div className="aspect-[4/3] w-full overflow-hidden">
-                      <img
-                        src={event.img}
-                        alt={event.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4 pt-12">
-                      <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">
-                        {event.title}
-                      </h3>
-                      <p className="text-white/90 text-sm line-clamp-1">
-                        {event.subtitle}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Pagination Controls */}
-              {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-4 mt-12">
-                  <button
-                    onClick={handlePrevPage}
-                    disabled={currentPage === 1}
-                    className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    aria-label="Previous page"
-                  >
-                    <ChevronLeft className="w-5 h-5 text-gray-700" />
-                  </button>
-                  
-                  <div className="flex items-center gap-2">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <button
-                        key={page}
-                        onClick={() => {
-                          setCurrentPage(page);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                        className={`w-8 h-8 rounded-full text-sm font-semibold transition-colors ${
-                          currentPage === page
-                            ? 'bg-gray-800 text-white'
-                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                        }`}
-                        aria-label={`Go to page ${page}`}
-                        aria-current={currentPage === page ? 'page' : undefined}
+              {/* Mobile Grid Layout */}
+              {isMobile ? (
+                <>
+                  <div className="grid grid-cols-1 gap-6">
+                    {paginatedEvents.map((event) => (
+                      <motion.div
+                        key={event.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="relative bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+                        onClick={() => setSelectedEvent(event)}
                       >
-                        {page}
-                      </button>
+                        <div className="aspect-[4/3] w-full overflow-hidden">
+                          <img
+                            src={event.img}
+                            alt={event.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4 pt-12">
+                          <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">
+                            {event.title}
+                          </h3>
+                          <p className="text-white/90 text-sm line-clamp-1">
+                            {event.subtitle}
+                          </p>
+                        </div>
+                      </motion.div>
                     ))}
                   </div>
 
-                  <button
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    aria-label="Next page"
-                  >
-                    <ChevronRight className="w-5 h-5 text-gray-700" />
-                  </button>
+                  {/* Pagination Controls */}
+                  {totalPages > 1 && (
+                    <div className="flex items-center justify-center gap-4 mt-12">
+                      <button
+                        onClick={handlePrevPage}
+                        disabled={currentPage === 1}
+                        className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        aria-label="Previous page"
+                      >
+                        <ChevronLeft className="w-5 h-5 text-gray-700" />
+                      </button>
+                      
+                      <div className="flex items-center gap-2">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                          <button
+                            key={page}
+                            onClick={() => {
+                              setCurrentPage(page);
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
+                            className={`w-8 h-8 rounded-full text-sm font-semibold transition-colors ${
+                              currentPage === page
+                                ? 'bg-gray-800 text-white'
+                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            }`}
+                            aria-label={`Go to page ${page}`}
+                            aria-current={currentPage === page ? 'page' : undefined}
+                          >
+                            {page}
+                          </button>
+                        ))}
+                      </div>
+
+                      <button
+                        onClick={handleNextPage}
+                        disabled={currentPage === totalPages}
+                        className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        aria-label="Next page"
+                      >
+                        <ChevronRight className="w-5 h-5 text-gray-700" />
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                /* Desktop Masonry Layout */
+                <div style={{ height: '1800px' }}>
+                  <Masonry
+                    items={events}
+                    animateFrom="bottom"
+                    scaleOnHover={true}
+                    hoverScale={1.05}
+                    blurToFocus={true}
+                    stagger={0.03}
+                    onItemClick={(item) => setSelectedEvent(item as EventItem)}
+                  />
                 </div>
               )}
             </>
-          ) : (
-            /* Desktop Masonry Layout */
-            <div style={{ height: '1800px' }}>
-              <Masonry
-                items={events}
-                animateFrom="bottom"
-                scaleOnHover={true}
-                hoverScale={1.05}
-                blurToFocus={true}
-                stagger={0.03}
-                onItemClick={(item) => setSelectedEvent(item as EventItem)}
-              />
-            </div>
           )}
         </div>
       </section>
