@@ -23,6 +23,25 @@ export const EVENTS_API = {
   DETAIL: (id: number) => `${API_BASE_URL}/events/${id}`,
 };
 
+// Structurals API Endpoints
+export const STRUCTURALS_API = {
+  BASE: `${API_BASE_URL}/structurals`,
+  LIST: `${API_BASE_URL}/structurals`,
+  DETAIL: (id: number) => `${API_BASE_URL}/structurals/${id}`,
+};
+
+// Contacts API Endpoints
+export const CONTACTS_API = {
+  BASE: `${API_BASE_URL}/contacs`,
+  LIST: `${API_BASE_URL}/contacs`,
+};
+
+// Sosmeds API Endpoints
+export const SOSMEDS_API = {
+  BASE: `${API_BASE_URL}/sosmeds`,
+  LIST: `${API_BASE_URL}/sosmeds`,
+};
+
 // API Response Types
 export interface ProductionImage {
   id: number;
@@ -72,6 +91,56 @@ export interface Vision {
   updated_at: string;
 }
 
+export interface StructuralSkill {
+  id: number;
+  structural_id: number;
+  pengalaman: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface StructuralSosmed {
+  id: number;
+  structural_id: number;
+  nama_sosmed: string;
+  icon_class: string;
+  url: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Structural {
+  id: number;
+  nama: string;
+  jabatan: string;
+  image: string;
+  image_url?: string;
+  deskripsi: string;
+  created_at: string;
+  updated_at: string;
+  skills: StructuralSkill[];
+  sosmeds: StructuralSosmed[];
+}
+
+export interface Contact {
+  id: number;
+  whatsapp: string;
+  email: string;
+  working_hours: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Sosmed {
+  id: number;
+  nama_sosmed: string;
+  url: string;
+  icon: string | null;
+  icon_class: string;
+  created_at: string;
+  updated_at: string;
+}
+
 // Default timeout for API calls (in milliseconds)
 export const API_TIMEOUT = 30000;
 
@@ -82,10 +151,12 @@ export const CACHE_DURATION = {
 };
 
 // Helper function to construct image URLs
-export const getImageUrl = (imagePath: string): string => {
+export const getImageUrl = (imagePath: string | undefined, imageUrl?: string): string => {
+  // Prefer image_url if provided (full URL from API)
+  if (imageUrl) return imageUrl;
   if (!imagePath) return '/placeholder.svg';
   // If it already has a full URL, return as is
   if (imagePath.startsWith('https')) return imagePath;
   // Otherwise, construct the full URL from storage
-  return `${STORAGE_BASE_URL}/app/public/${imagePath}`;
+  return `${STORAGE_BASE_URL}/${imagePath}`;
 };

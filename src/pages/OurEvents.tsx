@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import Masonry from '@/components/Masonry';
 import Footer from '@/components/Footer';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { fetchEvents } from '@/lib/api-services';
+import type { Event, EventImage } from '@/lib/api-constants';
 import { getImageUrl } from '@/lib/api-constants';
-import type { Event } from '@/lib/api-constants';
 
 interface EventItem {
   id: string;
@@ -19,243 +19,430 @@ interface EventItem {
   subtitle: string;
   client: string;
   year: string;
-  location: string;
+  location?: string;
 }
 
-const INITIAL_LOAD_COUNT = 9;
-const LOAD_MORE_COUNT = 6;
+interface SelectedEventData extends EventItem {
+  allImages: string[];
+}
 
 const OurEvents = () => {
-  const isMobile = useIsMobile();
-
-  const [events, setEvents] = useState<EventItem[]>([]);
-  const [visibleEvents, setVisibleEvents] = useState<EventItem[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<SelectedEventData | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const isMobile = useIsMobile();
+  const itemsPerPage = isMobile ? 4 : 13;
+
+  // API data state
+  const [eventsData, setEventsData] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Desktop infinite scroll state
+  const [visibleEvents, setVisibleEvents] = useState<EventItem[]>([]);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const INITIAL_LOAD_COUNT = 9;
+  const LOAD_MORE_COUNT = 6;
 
-  const itemsPerPage = isMobile ? 4 : 13;
+  // Transform API data to EventItem format
+  const events: EventItem[] = useMemo(() => {
+    if (!eventsData.length) return [];
+    
+    return eventsData.map((event) => {
+      const mainImage = event.images && event.images.length > 0 
+        ? getImageUrl(event.images[0].image, event.images[0].image_url)
+        : '/placeholder.svg';
+      
+      // Calculate height based on image count (for variety in masonry)
+      const height = 400 + (event.images?.length || 0) * 50;
 
-  /* ===================== DEFAULT UI (FALLBACK) ===================== */
-  const defaultEvents: EventItem[] = useMemo(
-    () => [
-      {
-        id: '1',
-        img: '/placeholder.svg',
-        images: ['/placeholder.svg'],
+      // Extract year from tanggal
+      const year = event.tanggal ? new Date(event.tanggal).getFullYear().toString() : '';
+
+      return {
+        id: event.id.toString(),
+        img: mainImage,
         url: '#',
-        height: 600,
-        title: 'K-Content BizWeek 2025 by KOCCA',
-        subtitle: 'Agency Daehang Congratulates Indonesia Organized by CSCOM',
-        client: 'Daehang Communications Indonesia',
-        year: '2025',
-        location: 'Jakarta',
-      },
-      {
-        id: '2',
-        img: '/placeholder.svg',
-        images: ['/placeholder.svg'],
-        url: '#',
-        height: 520,
-        title: 'Great Chinggu Launch 2024',
-        subtitle: 'New Product Launch',
-        client: 'Great Chinggu',
-        year: '2024',
-        location: 'Jakarta',
-      },
-    ],
-    []
-  );
+        height: Math.min(height, 700), // Cap at 700
+        title: event.judul,
+        subtitle: event.deskripsi,
+        client: event.client,
+        year: year,
+        location: undefined, // Not in API, keeping optional
+      };
+    });
+  }, [eventsData]);
 
-  /* ===================== FETCH API ===================== */
+  // Load events from API
   useEffect(() => {
     const loadEvents = async () => {
       try {
         setLoading(true);
         setError(null);
-
         const data = await fetchEvents();
-
-        if (!data || data.length === 0) {
-          setEvents(defaultEvents);
-          return;
-        }
-
-        const heights = [600, 500, 550, 450, 520, 580, 490, 530, 510, 470];
-
-// ===================== dummy lokasi =====================
-
-       const mapped: EventItem[] = data.map((evt: Event, index: number) => {
-  const images =
-    evt.images && evt.images.length > 0
-      ? evt.images.map((img) => img.image_url || getImageUrl(img.image))
-      : ['/placeholder.svg'];
-
-  return {
-    id: String(evt.id),
-    img: images[0],
-    images,
-    url: '#',
-    height: heights[index % heights.length],
-    title: evt.judul,
-    subtitle: evt.deskripsi,
-    client: evt.client,
-    year: new Date(evt.tanggal).getFullYear().toString(),
-
-    // ✅ DUMMY LOCATION (AMAN)
-    location: 'Jakarta',
-  };
-});
-
-        setEvents(mapped);
-      } catch (e) {
-        console.error(e);
+        setEventsData(data || []);
+      } catch (err) {
+        console.error('Failed to load events:', err);
         setError('Failed to load events');
-        setEvents(defaultEvents);
+        setEventsData([]);
       } finally {
         setLoading(false);
       }
     };
 
     loadEvents();
-  }, [defaultEvents]);
+  }, []);
 
-  /* ===================== MOBILE PAGINATION ===================== */
+  // Pagination logic for mobile
   const totalPages = Math.ceil(events.length / itemsPerPage);
-  const paginatedEvents = events.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedEvents = events.slice(startIndex, endIndex);
 
-  /* ===================== DESKTOP INFINITE SCROLL ===================== */
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // Handle event click - transform to include all images
+  const handleEventClick = (eventItem: EventItem) => {
+    const apiEvent = eventsData.find(e => e.id.toString() === eventItem.id);
+    const allImages = apiEvent && apiEvent.images && apiEvent.images.length > 0
+      ? apiEvent.images.map(img => getImageUrl(img.image, img.image_url))
+      : [eventItem.img];
+    
+    setSelectedEvent({
+      ...eventItem,
+      allImages,
+    });
+    setSlideIndex(0);
+  };
+
+  // Manual image navigation
+  const handlePrevImage = () => {
+    if (!selectedEvent) return;
+    setSlideIndex((prev) => (prev - 1 + selectedEvent.allImages.length) % selectedEvent.allImages.length);
+  };
+
+  const handleNextImage = () => {
+    if (!selectedEvent) return;
+    setSlideIndex((prev) => (prev + 1) % selectedEvent.allImages.length);
+  };
+
+  // Initialize and handle infinite scroll for desktop only
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile) return; // keep mobile behavior intact
 
-    setVisibleEvents(events.slice(0, INITIAL_LOAD_COUNT));
+    // Initial load
+    setVisibleEvents(prev => (prev.length ? prev : events.slice(0, INITIAL_LOAD_COUNT)));
 
     const target = loadMoreRef.current;
     if (!target) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
+      (entries) => {
+        const entry = entries[0];
         if (entry.isIntersecting) {
-          setVisibleEvents((prev) =>
-            prev.length >= events.length
-              ? prev
-              : events.slice(0, prev.length + LOAD_MORE_COUNT)
-          );
+          setVisibleEvents((prev) => {
+            if (prev.length >= events.length) return prev;
+            const next = events.slice(0, Math.min(prev.length + LOAD_MORE_COUNT, events.length));
+            return next;
+          });
         }
       },
-      { rootMargin: '1000px' }
+      { rootMargin: '1200px 0px 0px 0px' }
     );
 
     observer.observe(target);
     return () => observer.disconnect();
-  }, [events, isMobile]);
-
-  /* ===================== MODAL IMAGE SLIDER ===================== */
-  useEffect(() => {
-    if (!selectedEvent) return;
-
-    setSlideIndex(0);
-    const imgs = selectedEvent.images ?? [selectedEvent.img];
-    if (imgs.length <= 1) return;
-
-    const timer = setInterval(
-      () => setSlideIndex((i) => (i + 1) % imgs.length),
-      3000
-    );
-
-    return () => clearInterval(timer);
-  }, [selectedEvent]);
+  }, [isMobile, events]);
 
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-
-      {/* ================= HERO ================= */}
-      <section
-        className="relative h-[50vh] bg-cover bg-center"
-        style={{ backgroundImage: 'url(/OurEvents.png)' }}
-      >
+      
+      {/* Hero Section */}
+      <section className="relative h-[40vh] sm:h-[50vh] md:h-[60vh] bg-cover bg-center" style={{ backgroundImage: 'url(/OurEvents.png)' }}>
         <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 h-full flex flex-col items-center justify-center text-white text-center">
-          <h1 className="text-5xl font-bold">OUR EVENTS</h1>
-          <p className="mt-4 text-lg">
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3 sm:mb-4 md:mb-6"
+          >
+            OUR EVENTS
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white max-w-3xl px-2"
+          >
             Creating Impactful Experiences & Harmonious Collaborations
-          </p>
+          </motion.p>
         </div>
       </section>
 
-      {/* ================= CONTENT ================= */}
-      <section className="py-20 px-4 max-w-7xl mx-auto">
-        {loading && <p className="text-center">Loading...</p>}
-        {error && <p className="text-center text-red-500">{error}</p>}
-
-        {!loading && !error && (
-          <>
-            {isMobile ? (
-              <div className="grid gap-6">
-                {paginatedEvents.map((e) => (
-                  <div
-                    key={e.id}
-                    onClick={() => setSelectedEvent(e)}
-                    className="rounded-xl overflow-hidden shadow cursor-pointer"
-                  >
-                    <img src={e.img} className="h-56 w-full object-cover" />
-                    <div className="p-4">
-                      <h3 className="font-bold">{e.title}</h3>
-                      <p className="text-sm text-gray-600">{e.subtitle}</p>
+      {/* Masonry Gallery */}
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
+          {loading && (
+            <div className="text-center py-12">
+              <p className="text-gray-600">Loading events...</p>
+            </div>
+          )}
+          {error && (
+            <div className="text-center py-12">
+              <p className="text-red-600">{error}</p>
+            </div>
+          )}
+          {!loading && !error && events.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-600">No events available</p>
+            </div>
+          )}
+          {!loading && !error && events.length > 0 && (
+            <>
+              {/* Mobile Grid Layout */}
+              {isMobile ? (
+                <>
+                  <div className="grid grid-cols-1 gap-6">
+                    {paginatedEvents.map((event) => (
+                      <motion.div
+                        key={event.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+                        onClick={() => handleEventClick(event)}
+                      >
+                    <div className="w-full h-64 overflow-hidden rounded-t-xl bg-gray-100">
+                      <img
+                        src={event.img}
+                        alt={event.title}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                  </div>
+                    <div className="p-4">
+                      <h3 className="text-gray-900 font-bold text-lg mb-1 line-clamp-2">
+                        {event.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm line-clamp-1">
+                        {event.subtitle}
+                      </p>
+                    </div>
+                  </motion.div>
                 ))}
               </div>
-            ) : (
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-4 mt-12">
+                  <button
+                    onClick={handlePrevPage}
+                    disabled={currentPage === 1}
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    aria-label="Previous page"
+                  >
+                    <ChevronLeft className="w-5 h-5 text-gray-700" />
+                  </button>
+                  
+                  <div className="flex items-center gap-2">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => {
+                          setCurrentPage(page);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className={`w-8 h-8 rounded-full text-sm font-semibold transition-colors ${
+                          currentPage === page
+                            ? 'bg-gray-800 text-white'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                        }`}
+                        aria-label={`Go to page ${page}`}
+                        aria-current={currentPage === page ? 'page' : undefined}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    aria-label="Next page"
+                  >
+                    <ChevronRight className="w-5 h-5 text-gray-700" />
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+              /* Desktop Masonry Layout with Infinite Scroll */
               <>
                 <Masonry
-                  items={visibleEvents}
-                  onItemClick={(item) => setSelectedEvent(item as EventItem)}
+                  items={visibleEvents.length ? visibleEvents : events.slice(0, INITIAL_LOAD_COUNT)}
+                  animateFrom="bottom"
+                  scaleOnHover={true}
+                  hoverScale={1.05}
+                  blurToFocus={true}
+                  stagger={0.03}
+                  onItemClick={(item) => handleEventClick(item as EventItem)}
                 />
-                <div ref={loadMoreRef} className="h-10" />
+                {/* Sentinel for infinite loading */}
+                <div ref={loadMoreRef} className="h-8" />
               </>
             )}
-          </>
-        )}
+            </>
+          )}
+        </div>
       </section>
 
-      {/* ================= MODAL ================= */}
+      {/* Bottom Sheet Modal */}
       <AnimatePresence>
         {selectedEvent && (
           <motion.div
-            className="fixed inset-0 bg-black/70 z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/70"
             onClick={() => setSelectedEvent(null)}
           >
             <motion.div
-              className="absolute bottom-0 w-full bg-white rounded-t-3xl p-6"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[90vh] overflow-y-auto shadow-2xl md:rounded-3xl md:max-h-[90vh] md:w-[98vw] md:max-w-none md:mx-auto"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Handle Bar - Mobile Only */}
+              <div className="flex md:hidden justify-center pt-3 pb-2 sticky top-0 bg-white z-10">
+                <div className="w-12 h-1.5 bg-gray-300 rounded-full"></div>
+              </div>
+
+              {/* Close Button */}
               <button
-                className="absolute top-4 right-4"
                 onClick={() => setSelectedEvent(null)}
+                className="absolute top-4 right-4 md:top-5 md:right-5 z-20 w-10 md:w-11 h-10 md:h-11 flex items-center justify-center bg-gray-100 md:bg-white rounded-full hover:bg-gray-200 transition-colors"
+                aria-label="Close modal"
               >
-                <X />
+                <X className="w-5 md:w-6 h-5 md:h-6 text-gray-700" />
               </button>
 
-              <img
-                src={
-                  (selectedEvent.images ?? [selectedEvent.img])[slideIndex]
-                }
-                className="h-64 w-full object-cover rounded-xl mb-6"
-              />
+              {/* Desktop two-column layout */}
+              <div className="px-6 pb-8 pt-4 md:px-10 md:pb-12 md:pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                  {/* Left: Text content */}
+                  <div className="order-2 md:order-1">
+                    <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 mb-4">
+                      {selectedEvent.title}
+                    </h2>
+                    {selectedEvent.subtitle && (
+                      <div className="space-y-1 mb-8">
+                        <p className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed">
+                          {selectedEvent.subtitle}
+                        </p>
+                        {selectedEvent.location && (
+                          <p className="text-gray-700 text-sm sm:text-base md:text-lg">{selectedEvent.location}</p>
+                        )}
+                      </div>
+                    )}
+                    <div className="grid grid-cols-2 gap-6 max-w-md">
+                      <div>
+                        <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">CLIENT</span>
+                        <p className="text-gray-900 text-sm sm:text-base">{selectedEvent.client}</p>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">YEAR</span>
+                        <p className="text-gray-900 text-sm sm:text-base">{selectedEvent.year}</p>
+                      </div>
+                    </div>
+                  </div>
 
-              <h2 className="text-2xl font-bold">{selectedEvent.title}</h2>
-              <p className="text-gray-600 mt-2">
-                {selectedEvent.subtitle}
-              </p>
+                  {/* Right: Image Gallery */}
+                  <div className="order-1 md:order-2 w-full">
+                    <div className="relative w-full rounded-2xl overflow-hidden md:rounded-xl">
+                      {selectedEvent.allImages.length > 0 ? (
+                        <>
+                          <img
+                            src={selectedEvent.allImages[slideIndex]}
+                            alt={selectedEvent.title}
+                            className="w-full h-64 sm:h-80 md:h-[420px] object-cover"
+                          />
+                          {selectedEvent.allImages.length > 1 && (
+                            <>
+                              {/* Navigation Buttons */}
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handlePrevImage();
+                                }}
+                                className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white transition-colors z-10"
+                                aria-label="Previous image"
+                              >
+                                <ChevronLeftIcon className="w-5 h-5" />
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleNextImage();
+                                }}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white transition-colors z-10"
+                                aria-label="Next image"
+                              >
+                                <ChevronRightIcon className="w-5 h-5" />
+                              </button>
+                              
+                              {/* Image Counter */}
+                              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+                                {slideIndex + 1} / {selectedEvent.allImages.length}
+                              </div>
+                              
+                              {/* Thumbnail Indicators */}
+                              {selectedEvent.allImages.length <= 6 && (
+                                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                                  {selectedEvent.allImages.map((img, idx) => (
+                                    <button
+                                      key={idx}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSlideIndex(idx);
+                                      }}
+                                      className={`w-2 h-2 rounded-full transition-all ${
+                                        slideIndex === idx ? 'bg-white w-6' : 'bg-white/50 hover:bg-white/75'
+                                      }`}
+                                      aria-label={`Go to image ${idx + 1}`}
+                                    />
+                                  ))}
+                                </div>
+                              )}
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <img
+                          src={selectedEvent.img}
+                          alt={selectedEvent.title}
+                          className="w-full h-64 sm:h-80 md:h-[420px] object-cover"
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         )}

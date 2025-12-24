@@ -2,9 +2,15 @@ import {
   Production,
   Vision,
   Event,
+  Structural,
+  Contact,
+  Sosmed,
   PRODUCTION_API,
   VISIONS_API,
   EVENTS_API,
+  STRUCTURALS_API,
+  CONTACTS_API,
+  SOSMEDS_API,
   API_TIMEOUT,
 } from './api-constants';
 
@@ -181,6 +187,125 @@ export async function fetchEventById(id: number): Promise<Event> {
     return await response.json();
   } catch (error) {
     console.error('Error fetching event:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetch structurals from the API
+ */
+export async function fetchStructurals(): Promise<Structural[]> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+    const response = await fetch(STRUCTURALS_API.LIST, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch structurals: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('Error fetching structurals:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetch a single structural by ID
+ */
+export async function fetchStructuralById(id: number): Promise<Structural> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+    const response = await fetch(STRUCTURALS_API.DETAIL(id), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch structural: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching structural:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetch contacts from the API
+ */
+export async function fetchContacts(): Promise<Contact[]> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+    const response = await fetch(CONTACTS_API.LIST, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch contacts: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('Error fetching contacts:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetch sosmeds from the API
+ */
+export async function fetchSosmeds(): Promise<Sosmed[]> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+    const response = await fetch(SOSMEDS_API.LIST, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch sosmeds: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('Error fetching sosmeds:', error);
     throw error;
   }
 }

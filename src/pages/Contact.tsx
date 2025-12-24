@@ -1,16 +1,13 @@
-import { Mail, Phone, Instagram, Youtube, Linkedin, User } from 'lucide-react';
-import { useState } from 'react';
+import { Mail, Phone, User } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { toast, Toaster } from 'sonner';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import AnimatedSubmitButton from '../components/AnimatedSubmitButton';
 import { sendContactEmail, validateContactForm } from '../lib/email';
-
-const TikTokIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-  </svg>
-);
+import { fetchContacts, fetchSosmeds } from '../lib/api-services';
+import type { Contact, Sosmed } from '../lib/api-constants';
+import { getSocialIcon } from '../lib/icon-helper';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +17,31 @@ const Contact = () => {
     message: ''
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [contactData, setContactData] = useState<Contact | null>(null);
+  const [sosmeds, setSosmeds] = useState<Sosmed[]>([]);
+
+  // Load contacts and sosmeds from API
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [contacts, sosmedsData] = await Promise.all([
+          fetchContacts(),
+          fetchSosmeds()
+        ]);
+        
+        // Get first contact (usually only one)
+        if (contacts.length > 0) {
+          setContactData(contacts[0]);
+        }
+        
+        setSosmeds(sosmedsData);
+      } catch (error) {
+        console.error('Failed to load contact data:', error);
+      }
+    };
+
+    loadData();
+  }, []);
 
   // Validate form - check if all fields are filled
   const isFormValid = () => {
@@ -105,7 +127,9 @@ const Contact = () => {
 
                 <div>
                   <h3 className="font-bold text-lg sm:text-xl mb-2">Phone:</h3>
-                  <p className="text-base sm:text-lg">+62 081219420430</p>
+                  <p className="text-base sm:text-lg">
+                    {contactData ? `+62 ${contactData.whatsapp}` : '+62 081219420430'}
+                  </p>
                 </div>
               </div>
 
@@ -113,24 +137,29 @@ const Contact = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                 <div>
                   <h3 className="font-bold text-lg sm:text-xl mb-2">Working Hours:</h3>
-                  <p className="text-base sm:text-lg">Mon - Fri: 9am - 6 pm</p>
+                  <p className="text-base sm:text-lg">
+                    {contactData?.working_hours || 'Mon - Fri: 9am - 6 pm'}
+                  </p>
                 </div>
 
                 <div>
                   <h3 className="font-bold text-lg sm:text-xl mb-2">Socials:</h3>
                   <div className="flex gap-3 text-lg">
-                    <a href="#" className="text-black hover:opacity-70 transition-opacity">
-                      <Instagram size={20} />
-                    </a>
-                    <a href="#" className="text-black hover:opacity-70 transition-opacity">
-                      <TikTokIcon />
-                    </a>
-                    <a href="#" className="text-black hover:opacity-70 transition-opacity">
-                      <Youtube size={20} />
-                    </a>
-                    <a href="#" className="text-black hover:opacity-70 transition-opacity">
-                      <Linkedin size={20} />
-                    </a>
+                    {sosmeds.map((sosmed) => {
+                      const IconComponent = getSocialIcon(sosmed.icon_class, sosmed.nama_sosmed);
+                      return (
+                        <a
+                          key={sosmed.id}
+                          href={sosmed.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-black hover:opacity-70 transition-opacity"
+                          aria-label={sosmed.nama_sosmed}
+                        >
+                          <IconComponent size={20} />
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -138,7 +167,7 @@ const Contact = () => {
               {/* Email */}
               <div>
                 <a 
-                  href="mailto:cscorp@gmail.com" 
+                  href={contactData ? `mailto:${contactData.email}` : 'mailto:cscorp@gmail.com'} 
                   className="text-3xl sm:text-4xl md:text-5xl font-bold italic hover:opacity-80 transition-opacity inline-block"
                   style={{
                     background: 'linear-gradient(90deg, #EF6C4E 0%, #F89C7E 50%, #3C597F 100%)',
@@ -147,7 +176,7 @@ const Contact = () => {
                     backgroundClip: 'text'
                   }}
                 >
-                  cscorp@Gmail.com
+                  {contactData?.email || 'cscorp@Gmail.com'}
                 </a>
               </div>
             </div>

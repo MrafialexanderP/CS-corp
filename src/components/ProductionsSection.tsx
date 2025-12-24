@@ -26,7 +26,7 @@ const ProductionsSection = () => {
         const mappedProductions = data.map((prod: Production, index: number) => {
           // Prioritize image_url from API, fallback to constructed URL
           const imageUrl = prod.images && prod.images.length > 0
-            ? prod.images[0].image_url || getImageUrl(prod.images[0].image)
+            ? getImageUrl(prod.images[0].image, prod.images[0].image_url)
             : '/placeholder.svg';
           
           const heights = [600, 500, 550, 450, 520, 580, 490, 530, 510, 470, 560, 500, 540];

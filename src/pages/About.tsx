@@ -1,10 +1,12 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { X, Instagram, Linkedin } from 'lucide-react';
+import { X } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { fetchVisions } from '@/lib/api-services';
-import type { Vision } from '@/lib/api-constants';
+import { fetchVisions, fetchStructurals } from '@/lib/api-services';
+import type { Vision, Structural } from '@/lib/api-constants';
+import { getImageUrl } from '@/lib/api-constants';
+import { getSocialIcon } from '@/lib/icon-helper';
 
 const coreValues = [
   {
@@ -30,45 +32,29 @@ const coreValues = [
   }
 ];
 
-const teamMembers = [
-  {
-    name: 'Faris Gibran',
-    role: 'CHIEF EXPERIENCE OFFICER',
-    image: '/FarisGibran.png',
-    specialty: 'Event Consultancy and Cost-Efficiency Strategy',
-    experience: 'Over 5 years of experience in the event and production industry',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-    instagram: '#',
-    linkedin: '#',
-  },
-  {
-    name: 'Michael Chen',
-    role: 'CHIEF CREATIVE OFFICER',
-    image: '/placeholder.svg',
-    specialty: 'Creative Direction and Brand Innovation',
-    experience: 'Over 10 years of experience in creative strategy',
-    bio: 'Michael Chen is a visionary creative leader with a background in design and brand strategy. He oversees all creative initiatives and ensures that every project reflects the highest standards of artistic excellence.',
-    instagram: '#',
-    linkedin: '#',
-  },
-  {
-    name: 'Sean Hendelman',
-    role: 'CHIEF TECHNOLOGY OFFICER',
-    image: '/placeholder.svg',
-    specialty: 'Technology and Digital Innovation',
-    experience: 'Over 8 years of experience in digital transformation',
-    bio: 'Sean Hendelman leads the technology division, bringing cutting-edge solutions to event production. His expertise in digital innovation has revolutionized how we approach modern event experiences.',
-    instagram: '#',
-    linkedin: '#',
-  },
-];
+interface TeamMember {
+  name: string;
+  role: string;
+  image: string;
+  skills: string[];
+  bio: string;
+  sosmeds: Array<{
+    name: string;
+    url: string;
+    iconClass: string;
+  }>;
+}
 
 const About = () => {
-  const [selectedMember, setSelectedMember] = useState<typeof teamMembers[0] | null>(null);
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [visions, setVisions] = useState<Vision[]>([]);
   const [visionsLoading, setVisionsLoading] = useState(true);
   const [visionsError, setVisionsError] = useState<string | null>(null);
+  const [membersLoading, setMembersLoading] = useState(true);
+  const [membersError, setMembersError] = useState<string | null>(null);
 
+  // Load visions
   useEffect(() => {
     const loadVisions = async () => {
       try {
@@ -86,6 +72,49 @@ const About = () => {
     };
 
     loadVisions();
+  }, []);
+
+  // Load structurals (team members)
+  useEffect(() => {
+    const loadStructurals = async () => {
+      try {
+        setMembersLoading(true);
+        setMembersError(null);
+        const data = await fetchStructurals();
+        
+        // Transform API data to TeamMember format
+        const transformedMembers: TeamMember[] = data.map((structural: Structural) => {
+          // Get all skills (pengalaman) - not just first 2
+          const skills = (structural.skills || []).map(skill => skill.pengalaman);
+
+          // Transform sosmeds
+          const sosmeds = (structural.sosmeds || []).map(sosmed => ({
+            name: sosmed.nama_sosmed,
+            url: sosmed.url,
+            iconClass: sosmed.icon_class,
+          }));
+
+          return {
+            name: structural.nama,
+            role: structural.jabatan,
+            image: getImageUrl(structural.image, structural.image_url),
+            skills: skills,
+            bio: structural.deskripsi || '',
+            sosmeds: sosmeds,
+          };
+        });
+
+        setTeamMembers(transformedMembers);
+      } catch (err) {
+        console.error('Failed to load structurals:', err);
+        setMembersError('Failed to load team members');
+        setTeamMembers([]);
+      } finally {
+        setMembersLoading(false);
+      }
+    };
+
+    loadStructurals();
   }, []);
 
   return (
@@ -285,8 +314,19 @@ const About = () => {
             <p className="text-white/70 text-sm sm:text-base">Driving Growth and Client Success</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 md:gap-16 pb-12 sm:pb-16">
-            {teamMembers.map((member, index) => (
+          {membersLoading && (
+            <div className="text-center py-12">
+              <p className="text-white/70">Loading team members...</p>
+            </div>
+          )}
+          {membersError && (
+            <div className="text-center py-12">
+              <p className="text-red-300">{membersError}</p>
+            </div>
+          )}
+          {!membersLoading && !membersError && teamMembers.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 md:gap-16 pb-12 sm:pb-16">
+              {teamMembers.map((member, index) => (
               <motion.div
                 key={member.name}
                 initial={{ opacity: 0, y: 30 }}
@@ -327,8 +367,9 @@ const About = () => {
                   </div>
                 </div>
               </motion.div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -378,19 +419,21 @@ const About = () => {
                   </p>
 
                   <div className="space-y-4 md:space-y-6 text-sm md:text-base pb-4 md:pb-0">
-                    {/* Specialty */}
-                    <div className="border-b border-gray-200 pb-4">
-                      <p className="text-gray-900 italic">
-                        {selectedMember.specialty}
-                      </p>
-                    </div>
-
-                    {/* Experience */}
-                    <div className="border-b border-gray-200 pb-4">
-                      <p className="text-gray-900 italic">
-                        {selectedMember.experience}
-                      </p>
-                    </div>
+                    {/* Skills - Display all skills */}
+                    {selectedMember.skills && selectedMember.skills.length > 0 && (
+                      <>
+                        {selectedMember.skills.map((skill, index) => (
+                          <div 
+                            key={index}
+                            className={index < selectedMember.skills.length - 1 ? "border-b border-gray-200 pb-4" : ""}
+                          >
+                            <p className="text-gray-900 italic">
+                              {skill}
+                            </p>
+                          </div>
+                        ))}
+                      </>
+                    )}
 
                     {/* Bio */}
                     <div>
@@ -400,24 +443,25 @@ const About = () => {
                     </div>
 
                     {/* Social Media */}
-                    <div className="flex gap-3 md:gap-4 pt-4 md:pt-6">
-                      <a
-                        href={selectedMember.instagram}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-10 sm:w-12 h-10 sm:h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors flex-shrink-0"
-                      >
-                        <Instagram className="w-5 sm:w-6 h-5 sm:h-6 text-white" />
-                      </a>
-                      <a
-                        href={selectedMember.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-10 sm:w-12 h-10 sm:h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors flex-shrink-0"
-                      >
-                        <Linkedin className="w-5 sm:w-6 h-5 sm:h-6 text-white" />
-                      </a>
-                    </div>
+                    {selectedMember.sosmeds && selectedMember.sosmeds.length > 0 && (
+                      <div className="flex gap-3 md:gap-4 pt-4 md:pt-6">
+                        {selectedMember.sosmeds.map((sosmed, idx) => {
+                          const IconComponent = getSocialIcon(sosmed.iconClass, sosmed.name);
+                          return (
+                            <a
+                              key={idx}
+                              href={sosmed.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-10 sm:w-12 h-10 sm:h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors flex-shrink-0"
+                              aria-label={sosmed.name}
+                            >
+                              <IconComponent className="w-5 sm:w-6 h-5 sm:h-6 text-white" />
+                            </a>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
