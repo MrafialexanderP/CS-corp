@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from '@/components/Navigation';
-import Masonry from '@/components/Masonry';
+import CustomMasonry from '@/components/CustomMasonry';
 import Footer from '@/components/Footer';
 import { X, ChevronLeft, ChevronRight, ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -295,14 +295,10 @@ const OurProducts = () => {
           ) : (
               /* Desktop Masonry Layout with Infinite Scroll */
               <>
-                <Masonry
+                <CustomMasonry
                   items={visibleItems.length ? visibleItems : items.slice(0, INITIAL_LOAD_COUNT)}
-                  animateFrom="bottom"
-                  scaleOnHover
-                  hoverScale={0.95}
-                  blurToFocus
-                  stagger={0.03}
                   onItemClick={(item) => handleItemClick(item as ProductItem)}
+                  columns={3}
                 />
                 {/* Sentinel for infinite loading */}
                 <div ref={loadMoreRef} className="h-8" />
