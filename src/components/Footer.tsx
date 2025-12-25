@@ -3,50 +3,53 @@ const Footer = () => {
     <footer id="contact" className="bg-black py-12 sm:py-16 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Top Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-6 sm:gap-4 md:gap-6 pb-6 sm:pb-8 border-b border-gray-800">
+        <div className="flex flex-col sm:flex-row items-start justify-between gap-6 sm:gap-8 pb-6 sm:pb-8 border-b border-gray-800">
           {/* Left - About (Takes more space) */}
-          <div className="sm:col-span-2">
+          <div className="flex-1">
             <p className="text-gray-400 text-xs sm:text-sm leading-relaxed text-justify">
               CSPRO & CSCOM is an abbreviation, where C is an acronym for Camar, S is an Acronym for Sakti, PRO is an acronym for Production & COM is an acronym for Communication. Created from PT. CAMAR SAKTI
             </p>
           </div>
 
-          {/* About Column */}
-          <div>
-            <a href="/about" className="text-white hover:text-coral font-bold text-xs sm:text-sm transition-colors">
-              About
-            </a>
-          </div>
+          {/* Right - Navigation Links */}
+          <div className="flex gap-8 sm:gap-6 md:gap-8 flex-shrink-0">
+            {/* About Column */}
+            <div>
+              <a href="/about" className="text-white hover:text-coral font-bold text-xs sm:text-sm transition-colors">
+                About
+              </a>
+            </div>
 
-          {/* Work Column with Links */}
-          <div>
-            <h3 className="text-white font-bold text-xs sm:text-sm mb-3 sm:mb-4">Work</h3>
-            <ul className="space-y-1 sm:space-y-2">
-              <li>
-                <a href="/events" className="text-gray-400 hover:text-white transition-colors text-xs">
-                  Events
-                </a>
-              </li>
-              <li>
-                <a href="/products" className="text-gray-400 hover:text-white transition-colors text-xs">
-                  Production
-                </a>
-              </li>
-            </ul>
-          </div>
+            {/* Work Column with Links */}
+            <div>
+              <h3 className="text-white font-bold text-xs sm:text-sm mb-3 sm:mb-4">Work</h3>
+              <ul className="space-y-1 sm:space-y-2">
+                <li>
+                  <a href="/events" className="text-gray-400 hover:text-white transition-colors text-xs">
+                    Events
+                  </a>
+                </li>
+                <li>
+                  <a href="/products" className="text-gray-400 hover:text-white transition-colors text-xs">
+                    Production
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          {/* Clients Column */}
-          <div>
-            <a href="/#clients" className="text-white hover:text-coral font-bold text-xs sm:text-sm transition-colors">
-              Clients
-            </a>
-          </div>
+            {/* Clients Column */}
+            <div>
+              <a href="/#clients" className="text-white hover:text-coral font-bold text-xs sm:text-sm transition-colors">
+                Clients
+              </a>
+            </div>
 
-          {/* Contact Column */}
-          <div>
-            <a href="/contact" className="text-white hover:text-coral font-bold text-xs sm:text-sm transition-colors">
-              Contact
-            </a>
+            {/* Contact Column */}
+            <div>
+              <a href="/contact" className="text-white hover:text-coral font-bold text-xs sm:text-sm transition-colors">
+                Contact
+              </a>
+            </div>
           </div>
         </div>
         

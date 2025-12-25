@@ -1,10 +1,40 @@
 import { motion } from 'framer-motion';
+import { useEffect, useState, useRef } from 'react';
 import ScrollStack, { ScrollStackItem } from './ScrollStack';
 import ShowMoreButtonSimple from './ShowMoreButtonSimple';
 
 const ExperienceSection = () => {
+    const [buttonOffset, setButtonOffset] = useState(0);
+    const sectionRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+      const handleScroll = () => {
+        if (sectionRef.current) {
+          const cards = sectionRef.current.querySelectorAll('.scroll-stack-card');
+          if (cards.length > 0) {
+            const lastCard = cards[cards.length - 1] as HTMLElement;
+            const lastCardRect = lastCard.getBoundingClientRect();
+            const sectionRect = sectionRef.current.getBoundingClientRect();
+          
+            // Calculate offset from the bottom of the last visible card
+            const offset = lastCardRect.bottom - sectionRect.top;
+            setButtonOffset(Math.max(offset + 30, 600)); // minimum offset 600px
+          }
+        }
+      };
+
+      handleScroll(); // Initial call
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('resize', handleScroll, { passive: true });
+    
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleScroll);
+      };
+    }, []);
+
   return (
-    <section className="relative bg-gray-50 py-12 sm:py-16 md:py-20">
+    <section ref={sectionRef} className="relative bg-gray-50 py-8 sm:py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <motion.div
@@ -12,7 +42,7 @@ const ExperienceSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-6 sm:mb-8 md:mb-10"
+          className="text-center mb-1 sm:mb-0 md:mb-0"
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#3C597F] italic">
             Creating Impactful Experiences<br />
@@ -105,15 +135,18 @@ const ExperienceSection = () => {
         </ScrollStack>
 
         {/* Button Below ScrollStack */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex justify-center mt-0"
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: `${buttonOffset}px`,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            transition: 'top 0.1s ease-out',
+            zIndex: 10
+          }}
         >
           <ShowMoreButtonSimple />
-        </motion.div>
+        </div>
       </div>
     </section>
   );
