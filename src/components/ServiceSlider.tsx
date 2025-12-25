@@ -55,19 +55,19 @@ const ServiceSlider = () => {
       {/* Mobile: Horizontal selector + vertical content */}
       {isMobile ? (
         <div className="py-8 px-4 space-y-6">
-          <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory">
+          <div className="flex gap-4 justify-center pb-4">
             {panels.map((panel) => (
               <button
                 key={panel.key}
                 onClick={() => setActivePanel(panel.key)}
-                className={`snap-center flex items-center gap-2 px-4 py-3 rounded-full border text-sm font-semibold whitespace-nowrap transition-colors ${
+                className={`flex flex-col items-center gap-2 px-6 py-4 rounded-2xl border-2 font-bold transition-all duration-300 ${
                   activePanel === panel.key
-                    ? 'bg-[#3C597F] text-white border-[#3C597F]'
-                    : 'bg-white text-gray-800 border-gray-200'
+                    ? 'bg-[#3C597F] text-white border-[#3C597F] shadow-lg scale-105'
+                    : 'bg-white text-gray-800 border-gray-300 hover:border-gray-400'
                 }`}
               >
-                <img src={panel.logo} alt={panel.key} className="h-8" />
-                <span>{panel.key.toUpperCase()}</span>
+                <img src={panel.logo} alt={panel.key} className="h-10 object-contain" />
+                <span className="text-xs tracking-wider">{panel.key.toUpperCase()}</span>
               </button>
             ))}
           </div>

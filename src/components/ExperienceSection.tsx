@@ -6,21 +6,29 @@ import ShowMoreButtonSimple from './ShowMoreButtonSimple';
 const ExperienceSection = () => {
     const [buttonOffset, setButtonOffset] = useState(0);
     const sectionRef = useRef<HTMLElement>(null);
+    const debounceTimeoutRef = useRef<number | null>(null);
 
     useEffect(() => {
       const handleScroll = () => {
-        if (sectionRef.current) {
-          const cards = sectionRef.current.querySelectorAll('.scroll-stack-card');
-          if (cards.length > 0) {
-            const lastCard = cards[cards.length - 1] as HTMLElement;
-            const lastCardRect = lastCard.getBoundingClientRect();
-            const sectionRect = sectionRef.current.getBoundingClientRect();
-          
-            // Calculate offset from the bottom of the last visible card
-            const offset = lastCardRect.bottom - sectionRect.top;
-            setButtonOffset(Math.max(offset + 30, 600)); // minimum offset 600px
-          }
+        // Clear previous debounce timeout
+        if (debounceTimeoutRef.current) {
+          clearTimeout(debounceTimeoutRef.current);
         }
+
+  debounceTimeoutRef.current = window.setTimeout(() => {
+          if (sectionRef.current) {
+            const cards = sectionRef.current.querySelectorAll('.scroll-stack-card');
+            if (cards.length > 0) {
+              const lastCard = cards[cards.length - 1] as HTMLElement;
+              const lastCardRect = lastCard.getBoundingClientRect();
+              const sectionRect = sectionRef.current.getBoundingClientRect();
+            
+              // Calculate offset from the bottom of the last visible card
+              const offset = lastCardRect.bottom - sectionRect.top;
+              setButtonOffset(Math.max(offset + 30, 600)); // minimum offset 600px
+            }
+          }
+        }, 16); // ~60fps debounce
       };
 
       handleScroll(); // Initial call
@@ -28,6 +36,9 @@ const ExperienceSection = () => {
       window.addEventListener('resize', handleScroll, { passive: true });
     
       return () => {
+        if (debounceTimeoutRef.current) {
+          clearTimeout(debounceTimeoutRef.current);
+        }
         window.removeEventListener('scroll', handleScroll);
         window.removeEventListener('resize', handleScroll);
       };
@@ -141,7 +152,6 @@ const ExperienceSection = () => {
             top: `${buttonOffset}px`,
             left: '50%',
             transform: 'translateX(-50%)',
-            transition: 'top 0.1s ease-out',
             zIndex: 10
           }}
         >

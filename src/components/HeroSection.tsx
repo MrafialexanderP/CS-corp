@@ -32,7 +32,7 @@ const HeroSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="min-h-screen relative flex flex-col items-center justify-center pt-16 sm:pt-20 pb-20 sm:pb-28 md:pb-32 px-4 sm:px-6 overflow-hidden"
+      className="min-h-screen relative flex flex-col items-center justify-center pt-12 sm:pt-20 pb-24 sm:pb-28 md:pb-32 px-3 sm:px-6 overflow-hidden"
     >
       {/* Background image */}
       <div 
@@ -43,14 +43,14 @@ const HeroSection = () => {
       />
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto text-center relative z-10 w-full">
+      <div className="max-w-4xl mx-auto text-center relative z-10 w-full px-2 sm:px-0">
         {/* Main Title */}
         <motion.h1 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
           transition={{ duration: 1.2, ease: "easeOut", delay: 0 }}
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 tracking-wide whitespace-nowrap"
-          style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800 }}
+          className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 tracking-wide sm:whitespace-nowrap"
+          style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, lineHeight: '1.2' }}
         >
           CAMAR SAKTI CORPORATION
         </motion.h1>
@@ -60,20 +60,20 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: scrollProgress > 0.15 ? 1 : 0, y: scrollProgress > 0.15 ? 0 : 20 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white/90 mb-8 sm:mb-12 md:mb-16 tracking-wider"
+          className="text-base sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white/90 mb-6 sm:mb-12 md:mb-16 tracking-wider"
         >
           THE CS PHILOSHOPHY
         </motion.h2>
         
         {/* Camar and Sakti Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 sm:gap-8 max-w-3xl mx-auto">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-8 max-w-3xl mx-auto px-2 sm:px-0">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: scrollProgress > 0.4 ? 1 : 0, x: scrollProgress > 0.4 ? 0 : -30 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-left w-full sm:w-1/2"
           >
-            <h3 className="text-base sm:text-xl md:text-2xl text-white mb-1">
+            <h3 className="text-sm sm:text-xl md:text-2xl text-white mb-1">
               <span className="font-bold text-white">C</span>amar/ <span className="italic font-light">Seagull</span>
             </h3>
             <p className="text-white/80 text-xs sm:text-sm italic">A creature of three Elements: Land,</p>
@@ -86,7 +86,7 @@ const HeroSection = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-right w-full sm:w-1/2"
           >
-            <h3 className="text-base sm:text-xl md:text-2xl text-white mb-1">
+            <h3 className="text-sm sm:text-xl md:text-2xl text-white mb-1">
               <span className="font-bold text-white">S</span>akti/ <span className="italic font-light">Mighty</span>
             </h3>
             <p className="text-white/80 text-xs sm:text-sm italic">The Powerful being</p>

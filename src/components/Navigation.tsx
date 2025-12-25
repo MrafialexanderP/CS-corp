@@ -67,7 +67,7 @@ const Navigation = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         {isMobile ? (
           // Mobile Navigation - No blur background
           <>
@@ -197,14 +197,14 @@ const Navigation = () => {
           </>
         ) : (
           // Desktop Navigation
-          <div className={`relative rounded-full px-8 py-4 backdrop-blur-md shadow-lg transition-all duration-300 ${
+          <div className={`relative rounded-full px-6 py-3 max-w-[960px] mx-auto backdrop-blur-md shadow-lg transition-all duration-300 ${
             isDarkBackground 
               ? "bg-white/10" 
               : "bg-white/20"
           }`}>
             <div className="flex items-center justify-between">
               {/* Left Links */}
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-4">
                 <Link 
                   to="/about"
                   className={`transition-colors duration-300 text-sm font-bold ${
@@ -265,7 +265,7 @@ const Navigation = () => {
               {/* Center Logo */}
               <Link 
                 to="/" 
-                className="px-4"
+                className="px-2"
               >
                 <img 
                   src="/logocs.png" 
@@ -275,7 +275,7 @@ const Navigation = () => {
               </Link>
               
               {/* Right Links */}
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-4">
                 {isHomePage ? (
                   <a 
                     href="#client" 
