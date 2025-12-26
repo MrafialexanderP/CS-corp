@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 // Blue diamond/star decoration component
 const BlueDiamond = ({ className }: { className?: string }) => (
@@ -27,10 +28,27 @@ const BlueDiamond = ({ className }: { className?: string }) => (
 );
 
 const ImpactSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"]
+  });
+
+  // Define words to animate with their scroll trigger points
+  const words = [
+    { text: "We", start: 0, end: 0.1 },
+    { text: "create", start: 0.1, end: 0.2 },
+    { text: "impactful", start: 0.2, end: 0.35 },
+    { text: "experience", start: 0.35, end: 0.5 },
+    { text: "and", start: 0.5, end: 0.65 },
+    { text: "Productions", start: 0.65, end: 0.85, italic: true }
+  ];
+
   return (
-    <section id="about" className="bg-white py-16 sm:py-20 md:py-24 px-4 sm:px-6 relative overflow-hidden">
-      {/* Blue Diamond Decorations */}
-      <motion.div
+    <section ref={sectionRef} id="about" className="relative h-[300vh]">
+      <div className="sticky top-0 h-screen bg-white px-4 sm:px-6 flex items-center justify-center overflow-hidden">
+        {/* Blue Diamond Decorations */}
+        <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
@@ -51,17 +69,31 @@ const ImpactSection = () => {
       </motion.div>
 
       <div className="max-w-4xl mx-auto text-left relative z-10">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 sm:mb-8 leading-tight"
-        >
-          <span className="text-coral">We create impactful experience </span>
-          <span className="text-coral italic">and Productions</span>
-          <br />
-        </motion.h2>
+        <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 sm:mb-8 leading-tight">
+          {words.map((word, index) => {
+            const opacity = useTransform(
+              scrollYProgress,
+              [word.start, word.end],
+              [0, 1]
+            );
+            const y = useTransform(
+              scrollYProgress,
+              [word.start, word.end],
+              [50, 0]
+            );
+
+            return (
+              <motion.span
+                key={index}
+                style={{ opacity, y }}
+                className={`text-coral ${word.italic ? 'italic' : ''} inline-block mr-2 sm:mr-3`}
+              >
+                {word.text}
+              </motion.span>
+            );
+          })}
+        </div>
+      </div>
       </div>
     </section>
   );

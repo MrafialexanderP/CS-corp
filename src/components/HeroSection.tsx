@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [showPhilosophy, setShowPhilosophy] = useState(false);
+  const [showCamarSakti, setShowCamarSakti] = useState(false);
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -23,11 +25,19 @@ const HeroSection = () => {
       }
       
       setScrollProgress(progress);
+      
+      // Trigger animations once when scrolled to threshold
+      if (progress > 0.05 && !showPhilosophy) {
+        setShowPhilosophy(true);
+      }
+      if (progress > 0.3 && !showCamarSakti) {
+        setShowCamarSakti(true);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [showPhilosophy, showCamarSakti]);
 
   return (
     <section 
@@ -48,7 +58,7 @@ const HeroSection = () => {
         <motion.h1 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
-          transition={{ duration: 1.2, ease: "easeOut", delay: 0 }}
+          transition={{ duration: 2.5, ease: "easeOut", delay: 0.3 }}
           className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 tracking-wide sm:whitespace-nowrap"
           style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, lineHeight: '1.2' }}
         >
@@ -58,8 +68,8 @@ const HeroSection = () => {
         {/* Subtitle */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: scrollProgress > 0.15 ? 1 : 0, y: scrollProgress > 0.15 ? 0 : 20 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          animate={{ opacity: showPhilosophy ? 1 : 0, y: showPhilosophy ? 0 : 20 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
           className="text-base sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white/90 mb-6 sm:mb-12 md:mb-16 tracking-wider"
         >
           THE CS PHILOSHOPHY
@@ -69,8 +79,8 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-8 max-w-3xl mx-auto px-2 sm:px-0">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: scrollProgress > 0.4 ? 1 : 0, x: scrollProgress > 0.4 ? 0 : -30 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            animate={{ opacity: showCamarSakti ? 1 : 0, x: showCamarSakti ? 0 : -30 }}
+            transition={{ duration: 1, ease: "easeOut" }}
             className="text-left w-full sm:w-1/2"
           >
             <h3 className="text-sm sm:text-xl md:text-2xl text-white mb-1">
@@ -82,8 +92,8 @@ const HeroSection = () => {
           
           <motion.div 
             initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: scrollProgress > 0.45 ? 1 : 0, x: scrollProgress > 0.45 ? 0 : 30 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            animate={{ opacity: showCamarSakti ? 1 : 0, x: showCamarSakti ? 0 : 30 }}
+            transition={{ duration: 1, ease: "easeOut" }}
             className="text-right w-full sm:w-1/2"
           >
             <h3 className="text-sm sm:text-xl md:text-2xl text-white mb-1">
