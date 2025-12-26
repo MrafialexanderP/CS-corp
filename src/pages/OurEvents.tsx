@@ -290,11 +290,13 @@ const OurEvents = () => {
                   )}
                 </>
               ) : (
-                /* Desktop Custom Masonry with Vertical-Horizontal-Vertical Pattern */
+                /* Desktop Masonry Layout with Infinite Scroll */
                 <>
                   <CustomMasonry
                     items={visibleEvents.length ? visibleEvents : events.slice(0, INITIAL_LOAD_COUNT)}
                     onItemClick={(item) => handleEventClick(item as EventItem)}
+                    columns={3}
+                    variant="featured"
                   />
                   {/* Sentinel for infinite loading */}
                   <div ref={loadMoreRef} className="h-8" />
@@ -375,7 +377,7 @@ const OurEvents = () => {
                           <img
                             src={selectedEvent.allImages[slideIndex]}
                             alt={selectedEvent.title}
-                            className="w-full h-64 sm:h-80 md:h-[420px] object-cover"
+                            className="w-full h-72 sm:h-80 md:h-[420px] object-cover"
                           />
                           {selectedEvent.allImages.length > 1 && (
                             <>
@@ -431,7 +433,7 @@ const OurEvents = () => {
                         <img
                           src={selectedEvent.img}
                           alt={selectedEvent.title}
-                          className="w-full h-64 sm:h-80 md:h-[420px] object-cover"
+                          className="w-full h-72 sm:h-80 md:h-[420px] object-cover"
                         />
                       )}
                     </div>

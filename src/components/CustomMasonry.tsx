@@ -13,12 +13,14 @@ interface CustomMasonryProps {
   items: Item[];
   onItemClick?: (item: Item) => void;
   columns?: number;
+  variant?: 'default' | 'featured'; // 'featured' for special pattern layout
 }
 
 const CustomMasonry: React.FC<CustomMasonryProps> = ({ 
   items, 
   onItemClick,
   columns = 3,
+  variant = 'default',
 }) => {
   const [imagesLoaded, setImagesLoaded] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -64,7 +66,72 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
     },
   };
 
-  // Calculate column heights for Pinterest-style layout
+  // Featured variant: Large-Small-Large pattern
+  if (variant === 'featured' && items.length >= 5) {
+    return (
+      <motion.div
+        ref={containerRef}
+        className="w-full"
+        variants={containerVariants}
+        initial="hidden"
+        animate={imagesLoaded > 0 ? "visible" : "hidden"}
+      >
+        <div className="grid grid-cols-3 gap-2 auto-rows-max">
+          {items.map((item, idx) => {
+            let colSpan = 'col-span-1';
+            let rowSpan = 'row-span-2';
+
+            // Pattern: Left tall, Middle normal, Right tall, Middle small, etc.
+            if (idx % 5 === 0 || idx % 5 === 2) {
+              // Tall items on left and right (indices 0, 2, 5, 7, 10, 12...)
+              rowSpan = 'row-span-2';
+            } else if (idx % 5 === 1 || idx % 5 === 3 || idx % 5 === 4) {
+              // Normal height items in middle
+              rowSpan = 'row-span-1';
+            }
+
+            return (
+              <motion.div
+                key={item.id}
+                className={`cursor-pointer group overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-95 ${colSpan} ${rowSpan}`}
+                variants={itemVariants}
+              >
+                <div className="relative w-full h-full">
+                  {/* Image */}
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className="w-full h-full object-cover"
+                  />
+
+                  {/* Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  {/* Text Overlay */}
+                  {(item.title || item.subtitle) && (
+                    <div className="absolute bottom-0 left-0 right-0 p-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {item.title && (
+                        <h3 className="font-bold text-sm line-clamp-2">
+                          {item.title}
+                        </h3>
+                      )}
+                      {item.subtitle && (
+                        <p className="text-xs text-white/80 line-clamp-1 mt-0.5">
+                          {item.subtitle}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </motion.div>
+    );
+  }
+
+  // Default variant: Standard column-based masonry
   const columnHeights = useRef<number[]>([]);
   const columnItems = useRef<Item[][]>([]);
 

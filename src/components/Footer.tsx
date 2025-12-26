@@ -5,14 +5,14 @@ const Footer = () => {
         {/* Top Section */}
         <div className="flex flex-col sm:flex-row items-start justify-between gap-6 sm:gap-8 pb-6 sm:pb-8 border-b border-gray-800">
           {/* Left - About (Takes more space) */}
-          <div className="flex-1">
+          <div className="flex-1 w-full sm:w-auto">
             <p className="text-gray-400 text-xs sm:text-sm leading-relaxed text-justify">
               CSPRO & CSCOM is an abbreviation, where C is an acronym for Camar, S is an Acronym for Sakti, PRO is an acronym for Production & COM is an acronym for Communication. Created from PT. CAMAR SAKTI
             </p>
           </div>
 
           {/* Right - Navigation Links */}
-          <div className="flex gap-8 sm:gap-6 md:gap-8 flex-shrink-0">
+          <div className="flex gap-4 sm:gap-6 md:gap-8 flex-shrink-0 w-full sm:w-auto justify-between sm:justify-start">
             {/* About Column */}
             <div>
               <a href="/about" className="text-white hover:text-coral font-bold text-xs sm:text-sm transition-colors">
@@ -22,7 +22,7 @@ const Footer = () => {
 
             {/* Work Column with Links */}
             <div>
-              <h3 className="text-white font-bold text-xs sm:text-sm mb-3 sm:mb-4">Work</h3>
+              <h3 className="text-white font-bold text-xs sm:text-sm leading-tight mb-4">Work</h3>
               <ul className="space-y-1 sm:space-y-2">
                 <li>
                   <a href="/events" className="text-gray-400 hover:text-white transition-colors text-xs">
