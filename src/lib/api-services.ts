@@ -5,12 +5,14 @@ import {
   Structural,
   Contact,
   Sosmed,
+  Client,
   PRODUCTION_API,
   VISIONS_API,
   EVENTS_API,
   STRUCTURALS_API,
   CONTACTS_API,
   SOSMEDS_API,
+  CLIENTS_API,
   API_TIMEOUT,
 } from './api-constants';
 
@@ -276,6 +278,36 @@ export async function fetchContacts(): Promise<Contact[]> {
     return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error('Error fetching contacts:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetch clients from the API
+ */
+export async function fetchClients(): Promise<Client[]> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+    const response = await fetch(CLIENTS_API.LIST, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch clients: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('Error fetching clients:', error);
     throw error;
   }
 }

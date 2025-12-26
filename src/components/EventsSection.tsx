@@ -1,25 +1,16 @@
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchEvents } from "@/lib/api-services";
+import { getImageUrl } from "@/lib/api-constants";
+import type { Event } from "@/lib/api-constants";
 
-const events = [
-  {
-    title: "K-Content BizWeek 2025 by KOCCA",
-    date: "Jan 24th-30th 2025",
-    image: "/placeholder.svg"
-  },
-  {
-    title: "Shila Fun Run 2025",
-    date: "Jan 7th 2025",
-    image: "/placeholder.svg"
-  },
-  {
-    title: "The New BMW X3 & BMW Z Grand Coupe Launch by BMW",
-    date: "",
-    image: "/placeholder.svg"
-  }
-];
+interface EventItem {
+  title: string;
+  date: string;
+  image: string;
+}
 
 const ImageWithLoading = ({ src, alt }: { src: string; alt: string }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -64,6 +55,63 @@ const EventsSection = () => {
     threshold: 0.1,
   });
 
+  const [events, setEvents] = useState<EventItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadEvents = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchEvents();
+        
+        // Transform API data and limit to 9 events max
+        const transformedEvents: EventItem[] = data
+          .slice(0, 9) // Limit to maximum 9 events
+          .map((event: Event) => {
+            const mainImage = event.images && event.images.length > 0 
+              ? getImageUrl(event.images[0].image, event.images[0].image_url)
+              : '/placeholder.svg';
+            
+            // Format date from tanggal
+            let formattedDate = '';
+            if (event.tanggal) {
+              const date = new Date(event.tanggal);
+              const day = date.getDate();
+              const month = date.toLocaleDateString('en-US', { month: 'short' });
+              const year = date.getFullYear();
+              formattedDate = `${month} ${day}${getDaySuffix(day)} ${year}`;
+            }
+
+            return {
+              title: event.judul,
+              date: formattedDate,
+              image: mainImage,
+            };
+          });
+        
+        setEvents(transformedEvents);
+      } catch (error) {
+        console.error('Failed to load events:', error);
+        setEvents([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEvents();
+  }, []);
+
+  // Helper function to get day suffix (st, nd, rd, th)
+  const getDaySuffix = (day: number): string => {
+    if (day > 3 && day < 21) return 'th';
+    switch (day % 10) {
+      case 1: return 'st';
+      case 2: return 'nd';
+      case 3: return 'rd';
+      default: return 'th';
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -82,7 +130,7 @@ const EventsSection = () => {
       y: 0,
       transition: {
         duration: 0.8,
-        ease: "easeOut",
+        ease: [0.4, 0, 0.2, 1] as const,
       },
     },
   };
@@ -110,18 +158,28 @@ const EventsSection = () => {
           <div className="rounded-full px-12 py-6" style={{ backgroundColor: '#EF6C4E' }}>
             <h2 className="text-4xl font-bold text-white">OUR EVENTS</h2>
           </div>
-          <button className="text-lg font-semibold hover:opacity-70 transition-opacity">
+          <a 
+            href="/events" 
+            className="text-lg font-semibold hover:opacity-70 transition-opacity text-white"
+          >
             click to see more →
-          </button>
+          </a>
         </motion.div>
         
-        <motion.div
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12"
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-        >
-          {events.map((event, index) => (
+        {loading ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-gray-300 animate-pulse rounded-3xl aspect-[3/2]" />
+            ))}
+          </div>
+        ) : (
+          <motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12"
+            variants={containerVariants}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+          >
+            {events.map((event, index) => (
             <motion.div 
               key={index} 
               variants={itemVariants}
@@ -138,8 +196,9 @@ const EventsSection = () => {
                 </div>
               </Card>
             </motion.div>
-          ))}
-        </motion.div>
+            ))}
+          </motion.div>
+        )}
       </div>
     </section>
   );

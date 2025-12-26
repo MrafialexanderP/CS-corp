@@ -1,40 +1,42 @@
 import { motion } from 'framer-motion';
 import LogoLoop, { LogoItem } from './LogoLoop';
 
-// Row 1 logos
-const row1Logos: LogoItem[] = [
-  { src: '/placeholder.svg', alt: 'Client 1', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Client 2', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Guinness', width: 80, height: 60 },
-  { src: '/placeholder.svg', alt: 'Client 3', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Client 4', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Kormi', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Client 5', width: 60, height: 60 },
-];
+import { useEffect, useState } from 'react';
+import { fetchClients } from '@/lib/api-services';
+import type { Client } from '@/lib/api-constants';
+import { getImageUrl } from '@/lib/api-constants';
 
-// Row 2 logos
-const row2Logos: LogoItem[] = [
-  { src: '/placeholder.svg', alt: 'Tunas', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Jinro', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Traveloka', width: 80, height: 60 },
-  { src: '/placeholder.svg', alt: 'Client 6', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Cetaphil', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Serangkay', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Opentext', width: 60, height: 60 },
-];
+const NUM_ROWS = 3;
 
-// Row 3 logos
-const row3Logos: LogoItem[] = [
-  { src: '/placeholder.svg', alt: 'JTI', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Client 7', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Smartcity', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Hoka', width: 80, height: 60 },
-  { src: '/placeholder.svg', alt: 'PetPod', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Dulux', width: 60, height: 60 },
-  { src: '/placeholder.svg', alt: 'Tesla', width: 60, height: 60 },
-];
+function splitClientsToRows(clients: Client[]): LogoItem[][] {
+  const perRow = Math.ceil(clients.length / NUM_ROWS);
+  const rows: LogoItem[][] = [];
+  for (let i = 0; i < NUM_ROWS; ++i) {
+    const slice = clients.slice(i * perRow, (i + 1) * perRow);
+    rows.push(
+      slice.map((client) => {
+        const src = client.icon_url || getImageUrl(client.icon);
+        return {
+          src,
+          alt: client.nama_client,
+          width: 68,
+          height: 68,
+        } as LogoItem;
+      })
+    );
+  }
+  return rows;
+}
 
 const ClientsSection = () => {
+  const [rows, setRows] = useState<LogoItem[][]>([[],[],[]]);
+  useEffect(() => {
+    fetchClients().then(apiClients => {
+      const split = splitClientsToRows(apiClients);
+      setRows(split);
+    });
+  }, []);
+
   return (
     <section id="client" className="bg-gray-50 py-12 sm:py-16 md:py-20">
       {/* Header */}
@@ -54,7 +56,7 @@ const ClientsSection = () => {
       <div className="space-y-8 sm:space-y-12 px-4 sm:px-6">
         {/* Row 1 - Left to Right */}
         <LogoLoop
-          logos={row1Logos}
+          logos={rows[0]}
           speed={80}
           direction="left"
           gap={60}
@@ -64,10 +66,9 @@ const ClientsSection = () => {
           fadeOutColor="#f9fafb"
           ariaLabel="Partner logos row 1"
         />
-
         {/* Row 2 - Right to Left */}
         <LogoLoop
-          logos={row2Logos}
+          logos={rows[1]}
           speed={80}
           direction="right"
           gap={60}
@@ -77,10 +78,9 @@ const ClientsSection = () => {
           fadeOutColor="#f9fafb"
           ariaLabel="Partner logos row 2"
         />
-
         {/* Row 3 - Left to Right */}
         <LogoLoop
-          logos={row3Logos}
+          logos={rows[2]}
           speed={80}
           direction="left"
           gap={60}

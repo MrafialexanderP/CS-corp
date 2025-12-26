@@ -1,7 +1,11 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import ShowMoreButtonSimple from "./ShowMoreButtonSimple";
 import ProductionCard from "./ProductionCard";
 import Masonry from "./Masonry";
+import { fetchEvents } from "@/lib/api-services";
+import { getImageUrl } from "@/lib/api-constants";
+import type { Event } from "@/lib/api-constants";
 
 type Production = {
   title: string;
@@ -10,47 +14,44 @@ type Production = {
   image: string;
 };
 
-// Data dummy; ganti image path dengan aset sebenarnya bila tersedia
-const productions: Production[] = [
-  {
-    title: "Youtube Creator Collective",
-    subtitle: "Event Productions",
-    location: "Organized by: Gala Event Management",
-    image: "/placeholder.svg",
-  },
-  {
-    title: "Astra Corporate Affairs Awards",
-    subtitle: "Event Productions",
-    location: "Organized by: Gala Event Management",
-    image: "/placeholder.svg",
-  },
-  {
-    title: "Dulux Booth at Karman Paint Expo 2025 Purwokerto",
-    subtitle: "Event Productions",
-    location: "",
-    image: "/placeholder.svg",
-  },
-  {
-    title: "Seruni",
-    subtitle: "Booth - Mall to Mall 2025",
-    location: "",
-    image: "/placeholder.svg",
-  },
-  {
-    title: "Pertamina Bright Gas Booth at Parantale Event 2025",
-    subtitle: "Event Productions",
-    location: "Organized by: 3Action",
-    image: "/placeholder.svg",
-  },
-  {
-    title: "Sony 1000x Series",
-    subtitle: "Booth - Mall Exhibition",
-    location: "Organized by: Gala Event Management",
-    image: "/placeholder.svg",
-  },
-];
-
 const CSCOMSection = () => {
+  const [productions, setProductions] = useState<Production[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadEvents = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchEvents();
+        
+        // Transform API data and limit to maximum 9 events
+        const transformedProductions: Production[] = data
+          .slice(0, 9) // Limit to maximum 9 events
+          .map((event: Event) => {
+            const mainImage = event.images && event.images.length > 0 
+              ? getImageUrl(event.images[0].image, event.images[0].image_url)
+              : '/placeholder.svg';
+
+            return {
+              title: event.judul,
+              subtitle: event.deskripsi || "Event Productions",
+              location: event.client ? `Client: ${event.client}` : "",
+              image: mainImage,
+            };
+          });
+        
+        setProductions(transformedProductions);
+      } catch (error) {
+        console.error('Failed to load events:', error);
+        setProductions([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEvents();
+  }, []);
+
   return (
     <section className="bg-transparent">
       <div className="px-4 py-8 sm:py-10">
@@ -71,18 +72,26 @@ const CSCOMSection = () => {
 
       <div className="px-4 pb-6 sm:pb-8">
         <div className="mx-auto max-w-6xl">
-          {(() => {
-            const patternHeights = [260, 420, 260, 260, 420, 260]; // H, V, H, H, V, H
-            const items = productions.map((p, idx) => ({
-              id: `${idx}-${p.title}`,
-              img: p.image,
-              url: '#',
-              height: patternHeights[idx % patternHeights.length],
-              title: p.title,
-              subtitle: p.subtitle
-            }));
-            return <Masonry items={items} animateFrom="bottom" />;
-          })()}
+          {loading ? (
+            <div className="grid grid-cols-3 gap-2">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="bg-gray-200 animate-pulse rounded-xl" style={{ height: i % 2 === 0 ? 420 : 260 }} />
+              ))}
+            </div>
+          ) : (
+            (() => {
+              const patternHeights = [260, 420, 260, 260, 420, 260, 260, 420, 260]; // Pattern untuk 9 items
+              const items = productions.map((p, idx) => ({
+                id: `${idx}-${p.title}`,
+                img: p.image,
+                url: '#',
+                height: patternHeights[idx % patternHeights.length],
+                title: p.title,
+                subtitle: p.subtitle
+              }));
+              return <Masonry items={items} animateFrom="bottom" />;
+            })()
+          )}
         </div>
         <div className="mx-auto max-w-6xl mt-6 sm:mt-8 flex justify-end">
           <ShowMoreButtonSimple />

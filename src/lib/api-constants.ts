@@ -42,6 +42,21 @@ export const SOSMEDS_API = {
   LIST: `${API_BASE_URL}/sosmeds`,
 };
 
+export interface Client {
+  id: number;
+  nama_client: string;
+  icon: string; // filename only
+  icon_url?: string; // Full URL from API
+  created_at: string;
+  updated_at: string;
+}
+
+// Clients API Endpoints
+export const CLIENTS_API = {
+  BASE: `${API_BASE_URL}/clients`,
+  LIST: `${API_BASE_URL}/clients`,
+};
+
 // API Response Types
 export interface ProductionImage {
   id: number;
