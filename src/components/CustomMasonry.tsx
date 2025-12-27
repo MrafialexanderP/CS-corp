@@ -76,7 +76,7 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
         initial="hidden"
         animate={imagesLoaded > 0 ? "visible" : "hidden"}
       >
-        <div className="grid grid-cols-3 gap-2 auto-rows-max">
+        <div className="grid grid-cols-3 gap-3 auto-rows-max">
           {items.map((item, idx) => {
             let colSpan = 'col-span-1';
             let rowSpan = 'row-span-2';
@@ -93,30 +93,27 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
             return (
               <motion.div
                 key={item.id}
-                className={`cursor-pointer group overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-95 ${colSpan} ${rowSpan}`}
+                className={`cursor-pointer group overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[0.98] ${colSpan} ${rowSpan}`}
                 variants={itemVariants}
               >
                 <div className="relative w-full h-full">
-                  {/* Image */}
+                  {/* Image fills card completely */}
                   <img
                     src={item.img}
-                    alt={item.title}
+                    alt={item.title || 'Production'}
                     className="w-full h-full object-cover"
                   />
 
-                  {/* Overlay Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                  {/* Text Overlay */}
+                  {/* Text Overlay - Always visible */}
                   {(item.title || item.subtitle) && (
-                    <div className="absolute bottom-0 left-0 right-0 p-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 transition-all duration-300">
                       {item.title && (
-                        <h3 className="font-bold text-sm line-clamp-2">
+                        <h3 className="font-bold text-sm text-white line-clamp-2">
                           {item.title}
                         </h3>
                       )}
                       {item.subtitle && (
-                        <p className="text-xs text-white/80 line-clamp-1 mt-0.5">
+                        <p className="text-xs text-white/90 line-clamp-1 mt-1">
                           {item.subtitle}
                         </p>
                       )}
@@ -147,10 +144,10 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
       // Find column with minimum height
       const minColIdx = columnHeights.current.indexOf(Math.min(...columnHeights.current));
       
-      // Each item has a random or predefined height for variety
-      const itemHeight = item.height || (250 + Math.floor(Math.random() * 200));
+      // Consistent height variations for better masonry effect
+      const itemHeight = item.height || (300 + (Math.floor(Math.random() * 5) * 50));
       
-      columnHeights.current[minColIdx] += itemHeight + 8; // 8 for gap
+      columnHeights.current[minColIdx] += itemHeight + 12; // 12px gap
       if (columnItems.current[minColIdx]) {
         columnItems.current[minColIdx].push(item);
       }
@@ -165,38 +162,35 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
       initial="hidden"
       animate={imagesLoaded > 0 ? "visible" : "hidden"}
     >
-      <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
+      <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
         {columnItems.current.map((columnItemsList, colIdx) => (
-          <div key={`col-${colIdx}`} className="flex flex-col gap-2">
+          <div key={`col-${colIdx}`} className="flex flex-col gap-3">
             {columnItemsList.map((item) => (
               <motion.div
                 key={item.id}
-                className="cursor-pointer group overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-95"
+                className="cursor-pointer group overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[0.98]"
                 variants={itemVariants}
                 onClick={() => onItemClick?.(item)}
-                style={{ height: item.height ? `${item.height}px` : 'auto' }}
+                style={{ height: item.height ? `${item.height}px` : '350px' }}
               >
                 <div className="relative w-full h-full">
-                  {/* Image */}
+                  {/* Image fills entire card */}
                   <img
                     src={item.img}
-                    alt={item.title}
+                    alt={item.title || 'Production'}
                     className="w-full h-full object-cover"
                   />
 
-                  {/* Overlay Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                  {/* Text Overlay */}
+                  {/* Text Overlay - Always visible with gradient */}
                   {(item.title || item.subtitle) && (
-                    <div className="absolute bottom-0 left-0 right-0 p-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 transition-all duration-300">
                       {item.title && (
-                        <h3 className="font-bold text-sm line-clamp-2">
+                        <h3 className="font-bold text-sm text-white line-clamp-2">
                           {item.title}
                         </h3>
                       )}
                       {item.subtitle && (
-                        <p className="text-xs text-white/80 line-clamp-1 mt-0.5">
+                        <p className="text-xs text-white/90 line-clamp-1 mt-1">
                           {item.subtitle}
                         </p>
                       )}

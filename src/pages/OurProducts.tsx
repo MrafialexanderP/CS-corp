@@ -196,9 +196,10 @@ const OurProducts = () => {
         </div>
       </section>
 
-      {/* Masonry Gallery */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
+      {/* Masonry Gallery (full-bleed) */}
+      <section className="py-12 sm:py-16 md:py-20">
+        {/* Status messages centered */}
+        <div className="max-w-7xl mx-auto px-6">
           {loading && (
             <div className="text-center py-12">
               <p className="text-gray-600">Loading productions...</p>
@@ -214,12 +215,14 @@ const OurProducts = () => {
               <p className="text-gray-600">No productions available</p>
             </div>
           )}
-          {!loading && !error && items.length > 0 && (
-            <>
-              {/* Mobile Grid Layout */}
-              {isMobile ? (
-                <>
-                  <div className="grid grid-cols-1 gap-6">
+        </div>
+
+        {!loading && !error && items.length > 0 && (
+          <>
+            {/* Mobile Grid Layout */}
+            {isMobile ? (
+              <>
+                <div className="grid grid-cols-1 gap-6 px-6">
                     {paginatedItems.map((item) => (
                       <motion.div
                         key={item.id}
@@ -292,21 +295,23 @@ const OurProducts = () => {
                 </div>
               )}
             </>
-          ) : (
-              /* Desktop Masonry Layout with Infinite Scroll */
-              <>
-                <CustomMasonry
-                  items={visibleItems.length ? visibleItems : items.slice(0, INITIAL_LOAD_COUNT)}
-                  onItemClick={(item) => handleItemClick(item as ProductItem)}
-                  columns={3}
-                />
-                {/* Sentinel for infinite loading */}
-                <div ref={loadMoreRef} className="h-8" />
-              </>
-            )}
+              ) : (
+                /* Desktop Masonry Layout with Infinite Scroll */
+                <>
+                  {/* Full-width masonry without side padding */}
+                  <div className="w-full">
+                    <CustomMasonry
+                      items={visibleItems.length ? visibleItems : items.slice(0, INITIAL_LOAD_COUNT)}
+                      onItemClick={(item) => handleItemClick(item as ProductItem)}
+                      columns={3}
+                    />
+                  </div>
+                  {/* Sentinel for infinite loading */}
+                  <div ref={loadMoreRef} className="h-8" />
+                </>
+              )}
             </>
           )}
-        </div>
       </section>
 
       {/* Bottom Sheet Modal */}

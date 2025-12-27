@@ -133,7 +133,7 @@ const Masonry: React.FC<MasonryProps> = ({
   const grid = useMemo<GridItem[]>(() => {
     if (!width) return [];
     const colHeights = new Array(columns).fill(0);
-    const gap = 20;
+    const gap = 12;
     const totalGaps = (columns - 1) * gap;
     const columnWidth = (width - totalGaps) / columns;
 
@@ -151,7 +151,7 @@ const Masonry: React.FC<MasonryProps> = ({
   const containerHeight = useMemo(() => {
     if (!width) return 0;
     const colHeights = new Array(columns).fill(0);
-    const gap = 20;
+    const gap = 12;
     items.forEach(child => {
       const col = colHeights.indexOf(Math.min(...colHeights));
       const height = child.height;
@@ -243,17 +243,18 @@ const Masonry: React.FC<MasonryProps> = ({
           onMouseEnter={e => handleMouseEnter(item.id, e.currentTarget)}
           onMouseLeave={e => handleMouseLeave(item.id, e.currentTarget)}
         >
-          <div className="relative w-full h-full rounded-[14px] bg-white shadow-[0_10px_40px_-12px_rgba(0,0,0,0.25)] overflow-hidden transition-transform duration-200 will-change-transform">
-            <div className="w-full" style={{ height: 'calc(100% - 56px)' }}>
-              <div
-                className="w-full h-full bg-cover bg-center"
-                style={{ backgroundImage: `url(${item.img})` }}
-              />
-            </div>
+          <div className="relative w-full h-full rounded-lg overflow-hidden shadow-md transition-shadow duration-200 will-change-transform hover:shadow-xl">
+            {/* Image fills entire card height */}
+            <img
+              src={item.img}
+              alt={item.title || 'Production'}
+              className="w-full h-full object-cover"
+            />
+            {/* Text overlay at bottom */}
             {item.title && (
-              <div className="h-[56px] px-3 py-2">
-                <h3 className="text-[#111827] font-semibold text-sm leading-tight line-clamp-1">{item.title}</h3>
-                {item.subtitle && <p className="text-[#111827]/80 text-xs mt-1 leading-tight line-clamp-1">{item.subtitle}</p>}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent px-4 py-3">
+                <h3 className="text-white font-semibold text-sm leading-tight line-clamp-1">{item.title}</h3>
+                {item.subtitle && <p className="text-white/90 text-xs mt-0.5 leading-tight line-clamp-1">{item.subtitle}</p>}
               </div>
             )}
           </div>
