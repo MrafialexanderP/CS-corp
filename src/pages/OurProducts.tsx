@@ -298,8 +298,8 @@ const OurProducts = () => {
               ) : (
                 /* Desktop Masonry Layout with Infinite Scroll */
                 <>
-                  {/* Full-width masonry without side padding */}
-                  <div className="w-full">
+                  {/* Masonry with equal side padding matching gaps */}
+                  <div className="w-full px-6">
                     <CustomMasonry
                       items={visibleItems.length ? visibleItems : items.slice(0, INITIAL_LOAD_COUNT)}
                       onItemClick={(item) => handleItemClick(item as ProductItem)}

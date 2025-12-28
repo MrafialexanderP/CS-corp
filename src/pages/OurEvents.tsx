@@ -48,13 +48,15 @@ const OurEvents = () => {
   const events: EventItem[] = useMemo(() => {
     if (!eventsData.length) return [];
     
-    return eventsData.map((event) => {
+    return eventsData.map((event, idx) => {
       const mainImage = event.images && event.images.length > 0 
         ? getImageUrl(event.images[0].image, event.images[0].image_url)
         : '/placeholder.svg';
       
-      // Calculate height based on image count (for variety in masonry)
-      const height = 400 + (event.images?.length || 0) * 50;
+      // Stagger heights so rows after the first don't align too uniformly
+      const staggerBase = 420;
+      const staggerStep = 60;
+      const height = staggerBase + (idx % 3) * staggerStep;
 
       // Extract year from tanggal
       const year = event.tanggal ? new Date(event.tanggal).getFullYear().toString() : '';
@@ -194,8 +196,9 @@ const OurEvents = () => {
       </section>
 
       {/* Masonry Gallery */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-12 sm:py-16 md:py-20">
+        {/* Status messages centered */}
+        <div className="max-w-7xl mx-auto px-6">
           {loading && (
             <div className="text-center py-12">
               <p className="text-gray-600">Loading events...</p>
@@ -211,100 +214,94 @@ const OurEvents = () => {
               <p className="text-gray-600">No events available</p>
             </div>
           )}
-          {!loading && !error && events.length > 0 && (
-            <>
-              {/* Mobile Grid Layout */}
-              {isMobile ? (
-                <>
-                  <div className="grid grid-cols-1 gap-6">
-                    {paginatedEvents.map((event) => (
-                      <motion.div
-                        key={event.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
-                        onClick={() => handleEventClick(event)}
-                      >
-                        <div className="w-full h-64 overflow-hidden rounded-t-xl bg-gray-100">
-                          <img
-                            src={event.img}
-                            alt={event.title}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="p-4">
-                          <h3 className="text-gray-900 font-bold text-lg mb-1 line-clamp-2">
-                            {event.title}
-                          </h3>
-                          <p className="text-gray-600 text-sm line-clamp-1">
-                            {event.subtitle}
-                          </p>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
+        </div>
 
-                  {/* Pagination Controls */}
-                  {totalPages > 1 && (
-                    <div className="flex items-center justify-center gap-4 mt-12">
-                      <button
-                        onClick={handlePrevPage}
-                        disabled={currentPage === 1}
-                        className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        aria-label="Previous page"
-                      >
-                        <ChevronLeft className="w-5 h-5 text-gray-700" />
-                      </button>
-                      
-                      <div className="flex items-center gap-2">
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                          <button
-                            key={page}
-                            onClick={() => {
-                              setCurrentPage(page);
-                              window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }}
-                            className={`w-8 h-8 rounded-full text-sm font-semibold transition-colors ${
-                              currentPage === page
-                                ? 'bg-gray-800 text-white'
-                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                            }`}
-                            aria-label={`Go to page ${page}`}
-                            aria-current={currentPage === page ? 'page' : undefined}
-                          >
-                            {page}
-                          </button>
-                        ))}
+        {!loading && !error && events.length > 0 && (
+          <>
+            {/* Mobile Grid Layout */}
+            {isMobile ? (
+              <>
+                <div className="grid grid-cols-1 gap-6 px-6">
+                  {paginatedEvents.map((event) => (
+                    <motion.div
+                      key={event.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5 }}
+                      className="bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+                      onClick={() => handleEventClick(event)}
+                    >
+                      <div className="w-full h-64 overflow-hidden rounded-t-xl bg-gray-100">
+                        <img src={event.img} alt={event.title} className="w-full h-full object-cover" />
                       </div>
+                      <div className="p-4">
+                        <h3 className="text-gray-900 font-bold text-lg mb-1 line-clamp-2">{event.title}</h3>
+                        <p className="text-gray-600 text-sm line-clamp-1">{event.subtitle}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
 
-                      <button
-                        onClick={handleNextPage}
-                        disabled={currentPage === totalPages}
-                        className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        aria-label="Next page"
-                      >
-                        <ChevronRight className="w-5 h-5 text-gray-700" />
-                      </button>
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-4 mt-12">
+                    <button
+                      onClick={handlePrevPage}
+                      disabled={currentPage === 1}
+                      className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      aria-label="Previous page"
+                    >
+                      <ChevronLeft className="w-5 h-5 text-gray-700" />
+                    </button>
+                    
+                    <div className="flex items-center gap-2">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <button
+                          key={page}
+                          onClick={() => {
+                            setCurrentPage(page);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-8 h-8 rounded-full text-sm font-semibold transition-colors ${
+                            currentPage === page
+                              ? 'bg-gray-800 text-white'
+                              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                          }`}
+                          aria-label={`Go to page ${page}`}
+                          aria-current={currentPage === page ? 'page' : undefined}
+                        >
+                          {page}
+                        </button>
+                      ))}
                     </div>
-                  )}
-                </>
-              ) : (
-                /* Desktop Masonry Layout with Infinite Scroll */
-                <>
+
+                    <button
+                      onClick={handleNextPage}
+                      disabled={currentPage === totalPages}
+                      className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      aria-label="Next page"
+                    >
+                      <ChevronRight className="w-5 h-5 text-gray-700" />
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              /* Desktop Masonry Layout with Infinite Scroll */
+              <>
+                <div className="w-full px-6">
                   <CustomMasonry
                     items={visibleEvents.length ? visibleEvents : events.slice(0, INITIAL_LOAD_COUNT)}
                     onItemClick={(item) => handleEventClick(item as EventItem)}
                     columns={3}
-                    variant="featured"
                   />
-                  {/* Sentinel for infinite loading */}
-                  <div ref={loadMoreRef} className="h-8" />
-                </>
-              )}
-            </>
-          )}
-        </div>
+                </div>
+                {/* Sentinel for infinite loading */}
+                <div ref={loadMoreRef} className="h-8" />
+              </>
+            )}
+          </>
+        )}
       </section>
 
       {/* Bottom Sheet Modal */}
