@@ -136,7 +136,7 @@ const About = () => {
         <div className="absolute bottom-1/4 -left-10 w-[320px] h-[320px] bg-[#e8b4a8]/50 rounded-full blur-[110px]" />
         <div className="absolute -bottom-20 right-10 w-[380px] h-[380px] bg-[#e8b4a8]/55 rounded-full blur-[120px]" />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <div className="relative z-10 max-w-none mx-auto px-6 sm:px-8 py-12 sm:py-16">
           {/* WHO ARE WE Section */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -144,15 +144,15 @@ const About = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-12 sm:mb-16"
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 sm:mb-12">WHO ARE WE?</h1>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 sm:mb-12">WHO ARE WE?</h1>
             
             {/* Camar/Seagull and Sakti/Mighty */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 max-w-4xl mx-auto mb-8 sm:mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-20 max-w-6xl w-full mx-auto px-2 md:px-6 mb-8 sm:mb-12">
               <motion.div 
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-center md:text-left"
+                className="text-center md:text-left md:justify-self-start"
               >
                 <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white mb-1 sm:mb-2">
                   Camar/ <span className="italic font-normal">Seagull</span>
@@ -165,7 +165,7 @@ const About = () => {
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="text-center md:text-right"
+                className="text-center md:text-right md:justify-self-end"
               >
                 <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white mb-1 sm:mb-2">
                   Sakti/ <span className="italic font-normal">Mighty</span>
@@ -179,13 +179,13 @@ const About = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 lg:gap-16 mb-4 sm:mb-6"
+              className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16 lg:gap-24 mb-4 sm:mb-6"
             >
               <div className="text-center">
                 <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-white">PRO</h3>
                 <p className="text-white/70 text-xs sm:text-sm">An acronym for Production</p>
               </div>
-              <div className="hidden md:block w-px h-12 md:h-16 bg-white/30" />
+              <div className="hidden md:block w-1 h-14 md:h-20 bg-white/50" />
               <div className="text-center">
                 <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-white">COM</h3>
                 <p className="text-white/70 text-xs sm:text-sm">An acronym for Communication</p>
@@ -222,7 +222,7 @@ const About = () => {
                   transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
                   className="relative group"
                 >
-                  <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/4] shadow-xl">
+                  <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[9/16] shadow-xl">
                     {/* Title Text - Blue italic at top center */}
                     <div className="absolute top-3 sm:top-6 left-0 right-0 z-20 text-center px-2">
                       <h3 className="text-vibrant-blue text-lg sm:text-2xl md:text-3xl font-bold italic tracking-wide">
@@ -257,7 +257,7 @@ const About = () => {
             transition={{ duration: 0.8 }}
             className="mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">VISION</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#EF6C4E] via-[#F89C7E] to-white text-transparent bg-clip-text mb-4 sm:mb-6">VISION</h2>
             {visionsError ? (
               <p className="text-red-300 text-sm sm:text-base">{visionsError}</p>
             ) : visionsLoading ? (
@@ -267,8 +267,10 @@ const About = () => {
                 {visions[0].visi}
               </p>
             ) : (
-              <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl">
-                To become an <span className="text-coral font-semibold">Activation partner</span>, recognized 
+              <p className="text-sm sm:text-base md:text-lg max-w-2xl 
+                bg-gradient-to-r from-[#EF6C4E] to-white 
+                bg-clip-text text-transparent">
+                To become an <span className="font-semibold">Activation partner</span>, recognized 
                 for boundless creativity and the ability to create deep and inspiring events.
               </p>
             )}
@@ -282,7 +284,7 @@ const About = () => {
             transition={{ duration: 0.8 }}
             className="text-left sm:text-right mb-16 sm:mb-20"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">MISSION</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#EF6C4E] via-[#F89C7E] to-white text-transparent bg-clip-text mb-4 sm:mb-6">MISSION</h2>
             {visionsError ? (
               <p className="text-red-300 text-sm sm:text-base">{visionsError}</p>
             ) : visionsLoading ? (
