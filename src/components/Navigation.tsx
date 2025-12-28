@@ -202,70 +202,68 @@ const Navigation = () => {
               ? "bg-white/10" 
               : "bg-white/20"
           }`}>
-            <div className="flex items-center justify-between">
-              {/* Left Links */}
-              <div className="flex items-center gap-4">
-                <Link 
-                  to="/about"
-                  className={`transition-colors duration-300 text-sm font-bold ${
+            <div className="flex items-center justify-evenly">
+              {/* About Link */}
+              <Link 
+                to="/about"
+                className={`transition-colors duration-300 text-sm font-bold ${
+                  isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
+                }`}
+              >
+                About
+              </Link>
+              
+              {/* Work Dropdown */}
+              <div className="relative">
+                <button
+                  className={`transition-colors duration-300 text-sm font-bold flex items-center gap-1 ${
                     isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
                   }`}
+                  onClick={() => setOpenDropdown(openDropdown === "work" ? null : "work")}
                 >
-                  About
-                </Link>
-                
-                {/* Work Dropdown */}
-                <div className="relative">
-                  <button
-                    className={`transition-colors duration-300 text-sm font-bold flex items-center gap-1 ${
-                      isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
-                    }`}
-                    onClick={() => setOpenDropdown(openDropdown === "work" ? null : "work")}
-                  >
-                    Work
-                    {openDropdown === "work" ? (
-                      <ChevronUp size={16} className="transition-transform duration-200" />
-                    ) : (
-                      <ChevronDown size={16} className="transition-transform duration-200" />
-                    )}
-                  </button>
-
-                  {/* Dropdown Menu */}
-                  {openDropdown === "work" && (
-                    <div 
-                      className={`absolute top-full left-0 mt-2 w-56 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 transition-colors ${
-                        isDarkBackground ? "bg-white/20" : "bg-white/20"
-                      }`}
-                    >
-                      <div className="py-2">
-                        <Link 
-                          to="/events"
-                          onClick={() => setOpenDropdown(null)}
-                          className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
-                            isDarkBackground ? "text-white" : "text-black"
-                          }`}
-                        >
-                          Events
-                        </Link>
-                        <Link 
-                          to="/products"
-                          onClick={() => setOpenDropdown(null)}
-                          className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
-                            isDarkBackground ? "text-white" : "text-black"
-                          }`}
-                        >
-                          Productions
-                        </Link>
-                      </div>
-                    </div>
+                  Work
+                  {openDropdown === "work" ? (
+                    <ChevronUp size={16} className="transition-transform duration-200" />
+                  ) : (
+                    <ChevronDown size={16} className="transition-transform duration-200" />
                   )}
-                </div>
+                </button>
+
+                {/* Dropdown Menu */}
+                {openDropdown === "work" && (
+                  <div 
+                    className={`absolute top-full left-0 mt-2 w-56 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 transition-colors ${
+                      isDarkBackground ? "bg-white/20" : "bg-white/20"
+                    }`}
+                  >
+                    <div className="py-2">
+                      <Link 
+                        to="/events"
+                        onClick={() => setOpenDropdown(null)}
+                        className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
+                          isDarkBackground ? "text-white" : "text-black"
+                        }`}
+                      >
+                        Events
+                      </Link>
+                      <Link 
+                        to="/products"
+                        onClick={() => setOpenDropdown(null)}
+                        className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
+                          isDarkBackground ? "text-white" : "text-black"
+                        }`}
+                      >
+                        Productions
+                      </Link>
+                    </div>
+                  </div>
+                )}
               </div>
               
               {/* Center Logo */}
               <Link 
                 to="/" 
-                className="px-2"
+                className="flex-shrink-0"
               >
                 <img 
                   src="/logocs.png" 
@@ -274,38 +272,37 @@ const Navigation = () => {
                 />
               </Link>
               
-              {/* Right Links */}
-              <div className="flex items-center gap-4">
-                {isHomePage ? (
-                  <a 
-                    href="#client" 
-                    onClick={(e) => handleNavClick(e, "#client")}
-                    className={`transition-colors duration-300 text-sm font-bold ${
-                      isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
-                    }`}
-                  >
-                    Clients
-                  </a>
-                ) : (
-                  <Link 
-                    to="/#client"
-                    className={`transition-colors duration-300 text-sm font-bold ${
-                      isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
-                    }`}
-                  >
-                    Clients
-                  </Link>
-                )}
-
-                <Link 
-                  to="/contact"
+              {/* Clients Link */}
+              {isHomePage ? (
+                <a 
+                  href="#client" 
+                  onClick={(e) => handleNavClick(e, "#client")}
                   className={`transition-colors duration-300 text-sm font-bold ${
                     isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
                   }`}
                 >
-                  Contact
+                  Clients
+                </a>
+              ) : (
+                <Link 
+                  to="/#client"
+                  className={`transition-colors duration-300 text-sm font-bold ${
+                    isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
+                  }`}
+                >
+                  Clients
                 </Link>
-              </div>
+              )}
+
+              {/* Contact Link */}
+              <Link 
+                to="/contact"
+                className={`transition-colors duration-300 text-sm font-bold ${
+                  isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
+                }`}
+              >
+                Contact
+              </Link>
             </div>
             </div>
           )}
