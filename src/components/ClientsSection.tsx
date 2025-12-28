@@ -60,7 +60,8 @@ const ClientsSection = () => {
           speed={80}
           direction="left"
           gap={60}
-          logoHeight={90}
+          logoHeight={120}
+          logoWidth={120}
           pauseOnHover={true}
           fadeOut={true}
           fadeOutColor="#f9fafb"
@@ -72,7 +73,8 @@ const ClientsSection = () => {
           speed={80}
           direction="right"
           gap={60}
-          logoHeight={90}
+          logoHeight={120}
+          logoWidth={120}
           pauseOnHover={true}
           fadeOut={true}
           fadeOutColor="#f9fafb"
@@ -84,7 +86,8 @@ const ClientsSection = () => {
           speed={80}
           direction="left"
           gap={60}
-          logoHeight={90}
+          logoHeight={120}
+          logoWidth={120}
           pauseOnHover={true}
           fadeOut={true}
           fadeOutColor="#f9fafb"

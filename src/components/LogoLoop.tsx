@@ -24,6 +24,7 @@ export interface LogoLoopProps {
   direction?: 'left' | 'right' | 'up' | 'down';
   width?: number | string;
   logoHeight?: number;
+  logoWidth?: number;
   gap?: number;
   pauseOnHover?: boolean;
   hoverSpeed?: number;
@@ -201,6 +202,7 @@ export const LogoLoop = React.memo<LogoLoopProps>(
     direction = 'left',
     width = '100%',
     logoHeight = 28,
+    logoWidth,
     gap = 32,
     pauseOnHover,
     hoverSpeed,
@@ -278,9 +280,10 @@ export const LogoLoop = React.memo<LogoLoopProps>(
         ({
           '--logoloop-gap': `${gap}px`,
           '--logoloop-logoHeight': `${logoHeight}px`,
+          ...(logoWidth && { '--logoloop-logoWidth': `${logoWidth}px` }),
           ...(fadeOutColor && { '--logoloop-fadeColor': fadeOutColor })
         }) as React.CSSProperties,
-      [gap, logoHeight, fadeOutColor]
+      [gap, logoHeight, logoWidth, fadeOutColor]
     );
 
     const rootClasses = useMemo(
@@ -326,38 +329,54 @@ export const LogoLoop = React.memo<LogoLoopProps>(
         const isNodeItem = 'node' in item;
 
         const content = isNodeItem ? (
-          <span
+          <div
             className={cx(
-              'inline-flex items-center',
-              'motion-reduce:transition-none',
-              scaleOnHover &&
-                'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
+              'flex items-center justify-center',
+              logoWidth ? 'w-[var(--logoloop-logoWidth)]' : 'w-auto',
+              'h-[var(--logoloop-logoHeight)]'
             )}
-            aria-hidden={!!(item as any).href && !(item as any).ariaLabel}
           >
-            {(item as any).node}
-          </span>
+            <span
+              className={cx(
+                'inline-flex items-center justify-center max-h-full max-w-full',
+                'motion-reduce:transition-none',
+                scaleOnHover &&
+                  'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
+              )}
+              aria-hidden={!!(item as any).href && !(item as any).ariaLabel}
+            >
+              {(item as any).node}
+            </span>
+          </div>
         ) : (
-          <img
+          <div
             className={cx(
-              'h-[var(--logoloop-logoHeight)] w-auto block object-contain',
-              '[-webkit-user-drag:none] pointer-events-none',
-              '[image-rendering:-webkit-optimize-contrast]',
-              'motion-reduce:transition-none',
-              scaleOnHover &&
-                'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
+              'flex items-center justify-center',
+              logoWidth ? 'w-[var(--logoloop-logoWidth)]' : 'w-auto',
+              'h-[var(--logoloop-logoHeight)]'
             )}
-            src={(item as any).src}
-            srcSet={(item as any).srcSet}
-            sizes={(item as any).sizes}
-            width={(item as any).width}
-            height={(item as any).height}
-            alt={(item as any).alt ?? ''}
-            title={(item as any).title}
-            loading="lazy"
-            decoding="async"
-            draggable={false}
-          />
+          >
+            <img
+              className={cx(
+                'max-h-full max-w-full block object-contain',
+                '[-webkit-user-drag:none] pointer-events-none',
+                '[image-rendering:-webkit-optimize-contrast]',
+                'motion-reduce:transition-none',
+                scaleOnHover &&
+                  'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
+              )}
+              src={(item as any).src}
+              srcSet={(item as any).srcSet}
+              sizes={(item as any).sizes}
+              width={(item as any).width}
+              height={(item as any).height}
+              alt={(item as any).alt ?? ''}
+              title={(item as any).title}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+            />
+          </div>
         );
 
         const itemAriaLabel = isNodeItem
@@ -397,7 +416,7 @@ export const LogoLoop = React.memo<LogoLoopProps>(
           </li>
         );
       },
-      [isVertical, scaleOnHover, renderItem]
+      [isVertical, scaleOnHover, renderItem, logoWidth]
     );
 
     const logoLists = useMemo(

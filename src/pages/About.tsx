@@ -239,9 +239,9 @@ const About = () => {
                   </div>
                   
                   {/* Description below image */}
-                  <p className="text-white text-xs sm:text-sm italic mt-3 sm:mt-4 text-center px-2">
+                  <p className="text-white text-xs sm:text-sm font-bold italic mt-3 sm:mt-4 text-left px-2" style={{ fontFamily: 'Inter, sans-serif', fontStyle: 'italic', fontWeight: 700 }}>
                     {value.description}{' '}
-                    <span className="text-coral underline">{value.highlight}</span>{' '}
+                    <span className="text-white underline">{value.highlight}</span>{' '}
                     {value.suffix}
                   </p>
                 </motion.div>
@@ -257,7 +257,7 @@ const About = () => {
             transition={{ duration: 0.8 }}
             className="mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#EF6C4E] via-[#F89C7E] to-white text-transparent bg-clip-text mb-4 sm:mb-6">VISION</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#EF6C4E] to-white text-transparent bg-clip-text mb-4 sm:mb-6">VISION</h2>
             {visionsError ? (
               <p className="text-red-300 text-sm sm:text-base">{visionsError}</p>
             ) : visionsLoading ? (
@@ -284,7 +284,7 @@ const About = () => {
             transition={{ duration: 0.8 }}
             className="text-left sm:text-right mb-16 sm:mb-20"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#EF6C4E] via-[#F89C7E] to-white text-transparent bg-clip-text mb-4 sm:mb-6">MISSION</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#EF6C4E] to-white text-transparent bg-clip-text mb-4 sm:mb-6">MISSION</h2>
             {visionsError ? (
               <p className="text-red-300 text-sm sm:text-base">{visionsError}</p>
             ) : visionsLoading ? (
