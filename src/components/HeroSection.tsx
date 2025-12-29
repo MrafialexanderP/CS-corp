@@ -53,7 +53,7 @@ const HeroSection = () => {
       />
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto text-center relative z-10 w-full px-2 sm:px-0">
+      <div className="max-w-4xl mx-auto text-center relative z-10 w-full px-2 sm:px-0" style={{ transform: 'translateX(-50px)' }}>
         {/* Main Title */}
         <motion.h1 
           initial={{ opacity: 0, y: 30 }}
