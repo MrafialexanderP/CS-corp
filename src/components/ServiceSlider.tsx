@@ -216,7 +216,7 @@ const ServiceSlider = () => {
               style={
                 activePanel === 'cspro'
                   ? { backgroundColor: 'white' }
-                  : { backgroundColor: '#E5E7EB' }
+                  : { backgroundColor: '#AFAFAF' }
               }
               onClick={() => setActivePanel('cspro')}
             >

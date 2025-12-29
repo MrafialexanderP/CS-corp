@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { fetchEvents } from "@/lib/api-services";
 import { getImageUrl } from "@/lib/api-constants";
 import type { Event } from "@/lib/api-constants";
@@ -50,10 +50,19 @@ const ImageWithLoading = ({ src, alt }: { src: string; alt: string }) => {
 };
 
 const EventsSection = () => {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  // Observe entire section visibility
+  const { ref: sectionRef, inView: sectionInView } = useInView({ threshold: 0.2 });
+
+  // Only animate after user actually scrolls at least once
+  const [hasUserScrolled, setHasUserScrolled] = useState(false);
+  useEffect(() => {
+    const markScrolled = () => setHasUserScrolled(true);
+    // Do not set initial value from window.scrollY to avoid auto-trigger on refresh
+    window.addEventListener('scroll', markScrolled, { passive: true });
+    return () => window.removeEventListener('scroll', markScrolled);
+  }, []);
+
+  const shouldAnimate = hasUserScrolled && sectionInView;
 
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -124,15 +133,49 @@ const EventsSection = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: 50, filter: "blur(6px)" },
     visible: {
       opacity: 1,
       y: 0,
+      filter: "blur(0px)",
       transition: {
-        duration: 0.8,
+        duration: 0.7,
         ease: [0.4, 0, 0.2, 1] as const,
       },
     },
+  };
+
+  // Small helper for per-card parallax tied to scroll progress
+  const ParallaxItem: React.FC<{ index: number; children: React.ReactNode; active: boolean }> = ({ index, children, active }) => {
+    const targetRef = useRef<HTMLDivElement | null>(null);
+    const { scrollYProgress } = useScroll({
+      target: targetRef,
+      offset: ["start 90%", "end 10%"],
+    });
+    const { ref: inViewRef, inView: cardInView } = useInView({ threshold: 0.35, triggerOnce: true });
+    const setRefs = useCallback((el: HTMLDivElement | null) => {
+      targetRef.current = el;
+      inViewRef(el);
+    }, [inViewRef]);
+
+    // Vary speed a bit per column for a pleasing effect
+    const speeds = [16, 8, 12];
+    const speed = speeds[index % 3];
+    const y = useTransform(scrollYProgress, [0, 1], [speed, -speed]);
+
+    return (
+      <motion.div ref={setRefs} style={{ y }}>
+        <motion.div
+          variants={itemVariants}
+          initial="hidden"
+          animate={active && cardInView ? "visible" : "hidden"}
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+        >
+          {children}
+        </motion.div>
+      </motion.div>
+    );
   };
 
   return (
@@ -173,31 +216,21 @@ const EventsSection = () => {
             ))}
           </div>
         ) : (
-          <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12"
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-          >
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
             {events.map((event, index) => (
-            <motion.div 
-              key={index} 
-              variants={itemVariants}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Card className="overflow-hidden bg-primary border-0 rounded-3xl shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-300">
-                <div className="aspect-[3/2] bg-gray-200 overflow-hidden">
-                  <ImageWithLoading src={event.image} alt={event.title} />
-                </div>
-                <div className="p-10">
-                  <h3 className="text-white font-bold text-2xl mb-4 leading-tight">{event.title}</h3>
-                  {event.date && <p className="text-white/90 text-lg">{event.date}</p>}
-                </div>
-              </Card>
-            </motion.div>
+              <ParallaxItem key={index} index={index}>
+                <Card className="overflow-hidden bg-primary border-0 rounded-3xl shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-300">
+                  <div className="aspect-[3/2] bg-gray-200 overflow-hidden">
+                    <ImageWithLoading src={event.image} alt={event.title} />
+                  </div>
+                  <div className="p-10">
+                    <h3 className="text-white font-bold text-2xl mb-4 leading-tight">{event.title}</h3>
+                    {event.date && <p className="text-white/90 text-lg">{event.date}</p>}
+                  </div>
+                </Card>
+              </ParallaxItem>
             ))}
-          </motion.div>
+          </div>
         )}
       </div>
     </section>

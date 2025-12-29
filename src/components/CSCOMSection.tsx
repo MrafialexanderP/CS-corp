@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import ShowMoreButtonSimple from "./ShowMoreButtonSimple";
 import ProductionCard from "./ProductionCard";
 import Masonry from "./Masonry";
@@ -17,6 +17,62 @@ type Production = {
 const CSCOMSection = () => {
   const [productions, setProductions] = useState<Production[]>([]);
   const [loading, setLoading] = useState(true);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const masonryRef = useRef<HTMLDivElement>(null);
+  const bottomSectionRef = useRef<HTMLDivElement>(null);
+
+  // Scroll progress for title animation
+  const { scrollYProgress: titleScrollProgress } = useScroll({
+    target: titleRef,
+    offset: ["start end", "center center"]
+  });
+
+  // Scroll progress for masonry animation
+  const { scrollYProgress: masonryScrollProgress } = useScroll({
+    target: masonryRef,
+    offset: ["start end", "center center"]
+  });
+
+  // Scroll progress for bottom section animation
+  const { scrollYProgress: bottomScrollProgress } = useScroll({
+    target: bottomSectionRef,
+    offset: ["start end", "center center"]
+  });
+
+  // Transform values for title
+  const titleOpacity = useTransform(titleScrollProgress, [0, 0.4, 0.8, 1], [0, 0, 1, 1]);
+  const titleY = useTransform(titleScrollProgress, [0, 0.4, 0.8, 1], [60, 60, 0, 0]);
+  const titleBlur = useTransform(titleScrollProgress, [0, 0.4, 0.8, 1], [8, 8, 0, 0]);
+  const titleFilter = useMotionTemplate`blur(${titleBlur}px)`;
+  
+  // Transform values for masonry container
+  const masonryOpacity = useTransform(masonryScrollProgress, [0, 0.3, 0.7, 1], [0, 0, 1, 1]);
+  const masonryY = useTransform(masonryScrollProgress, [0, 0.3, 0.7, 1], [80, 80, 0, 0]);
+
+  // Transform values for bottom section
+  const textOpacity = useTransform(bottomScrollProgress, [0, 0.4, 0.8, 1], [0, 0, 1, 1]);
+  const textX = useTransform(bottomScrollProgress, [0, 0.4, 0.8, 1], [-80, -80, 0, 0]);
+  const imageOpacity = useTransform(bottomScrollProgress, [0, 0.5, 0.9, 1], [0, 0, 1, 1]);
+  const imageX = useTransform(bottomScrollProgress, [0, 0.5, 0.9, 1], [80, 80, 0, 0]);
+  const imageScale = useTransform(bottomScrollProgress, [0, 0.5, 0.9, 1], [0.85, 0.85, 1, 1]);
+  const imageBlur = useTransform(bottomScrollProgress, [0, 0.5, 0.9, 1], [10, 10, 0, 0]);
+  const imageFilter = useMotionTemplate`blur(${imageBlur}px)`;
+  
+  // Transform values for title lines
+  const line1Opacity = useTransform(titleScrollProgress, [0, 0.3, 0.7, 1], [0, 0, 1, 1]);
+  const line1Y = useTransform(titleScrollProgress, [0, 0.3, 0.7, 1], [30, 30, 0, 0]);
+  const line2Opacity = useTransform(titleScrollProgress, [0, 0.4, 0.8, 1], [0, 0, 1, 1]);
+  const line2Y = useTransform(titleScrollProgress, [0, 0.4, 0.8, 1], [30, 30, 0, 0]);
+  
+  // Transform values for bottom text lines
+  const bottomLine1Opacity = useTransform(bottomScrollProgress, [0, 0.3, 0.7, 1], [0, 0, 1, 1]);
+  const bottomLine1Y = useTransform(bottomScrollProgress, [0, 0.3, 0.7, 1], [40, 40, 0, 0]);
+  const bottomLine2Opacity = useTransform(bottomScrollProgress, [0, 0.4, 0.8, 1], [0, 0, 1, 1]);
+  const bottomLine2Y = useTransform(bottomScrollProgress, [0, 0.4, 0.8, 1], [40, 40, 0, 0]);
+  const bottomLine3Opacity = useTransform(bottomScrollProgress, [0, 0.5, 0.9, 1], [0, 0, 1, 1]);
+  const bottomLine3Y = useTransform(bottomScrollProgress, [0, 0.5, 0.9, 1], [40, 40, 0, 0]);
+  const buttonOpacity = useTransform(bottomScrollProgress, [0, 0.6, 1], [0, 0, 1]);
+  const buttonY = useTransform(bottomScrollProgress, [0, 0.6, 1], [20, 20, 0]);
 
   useEffect(() => {
     const loadEvents = async () => {
@@ -56,22 +112,49 @@ const CSCOMSection = () => {
     <section className="bg-transparent">
       <div className="px-4 py-8 sm:py-10">
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
+          ref={titleRef}
           className="text-center mb-6"
+          style={{
+            opacity: titleOpacity,
+            y: titleY,
+            filter: titleFilter,
+          }}
         >
-          <h2 className="mx-auto max-w-4xl text-3xl sm:text-4xl lg:text-[42px] font-bold italic leading-tight" style={{ color: '#3C597F' }}>
-            Creating Impactful Experiences
-            <br />
-            & Harmonious Collaborations
-          </h2>
+          <motion.h2 
+            className="mx-auto max-w-4xl text-3xl sm:text-4xl lg:text-[42px] font-bold italic leading-tight" 
+            style={{ color: '#3C597F' }}
+          >
+            <motion.span
+              className="block"
+              style={{
+                opacity: line1Opacity,
+                y: line1Y,
+              }}
+            >
+              Creating Impactful Experiences
+            </motion.span>
+            <motion.span
+              className="block"
+              style={{
+                opacity: line2Opacity,
+                y: line2Y,
+              }}
+            >
+              & Harmonious Collaborations
+            </motion.span>
+          </motion.h2>
         </motion.div>
       </div>
 
       <div className="px-4 pb-6 sm:pb-8">
-        <div className="mx-auto max-w-6xl">
+        <motion.div 
+          ref={masonryRef}
+          className="mx-auto max-w-6xl"
+          style={{
+            opacity: masonryOpacity,
+            y: masonryY,
+          }}
+        >
           {loading ? (
             <div className="grid grid-cols-3 gap-2">
               {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -92,45 +175,85 @@ const CSCOMSection = () => {
               return <Masonry items={items} animateFrom="bottom" />;
             })()
           )}
-        </div>
-        <div className="mx-auto max-w-6xl mt-6 sm:mt-8 flex justify-end">
+        </motion.div>
+        <motion.div 
+          className="mx-auto max-w-6xl mt-6 sm:mt-8 flex justify-end"
+          style={{
+            opacity: masonryOpacity,
+            y: masonryY,
+          }}
+        >
           <ShowMoreButtonSimple />
-        </div>
+        </motion.div>
       </div>
 
-      <div className="px-4 pb-14 sm:pb-20">
+      <div ref={bottomSectionRef} className="px-4 pb-14 sm:pb-20">
         <div className="mx-auto flex max-w-6xl flex-col-reverse gap-8 lg:grid lg:grid-cols-2 lg:items-center">
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
             className="space-y-6 lg:pr-12 lg:pt-8"
+            style={{
+              opacity: textOpacity,
+              x: textX,
+            }}
           >
-            <h3 className="text-4xl sm:text-5xl lg:text-6xl font-bold italic leading-tight text-coral">
-              Precision in Every
-              <br />
-              Detail: From Concept
-              <br />
-              to Construction.
-            </h3>
-            <div className="mx-auto max-w-6xl mt-6 sm:mt-8 flex justify-end">
+            <motion.h3 
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold italic leading-tight text-coral"
+            >
+              <motion.span
+                className="block"
+                style={{
+                  opacity: bottomLine1Opacity,
+                  y: bottomLine1Y,
+                }}
+              >
+                Precision in Every
+              </motion.span>
+              <motion.span
+                className="block"
+                style={{
+                  opacity: bottomLine2Opacity,
+                  y: bottomLine2Y,
+                }}
+              >
+                Detail: From Concept
+              </motion.span>
+              <motion.span
+                className="block"
+                style={{
+                  opacity: bottomLine3Opacity,
+                  y: bottomLine3Y,
+                }}
+              >
+                to Construction.
+              </motion.span>
+            </motion.h3>
+            <motion.div 
+              className="mx-auto max-w-6xl mt-6 sm:mt-8 flex justify-end"
+              style={{
+                opacity: buttonOpacity,
+                y: buttonY,
+              }}
+            >
               <ShowMoreButtonSimple />
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
             className="w-full flex justify-center lg:justify-end"
+            style={{
+              opacity: imageOpacity,
+              x: imageX,
+              scale: imageScale,
+            }}
           >
-            <img
+            <motion.img
               src="/fotocampuran.png"
               alt="CSCOM production collage"
               loading="lazy"
               className="w-full max-w-[600px] lg:max-w-[700px]"
+              style={{
+                filter: imageFilter,
+              }}
             />
           </motion.div>
         </div>
