@@ -222,7 +222,7 @@ const About = () => {
                   transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
                   className="relative group"
                 >
-                  <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[9/16] shadow-xl">
+                  <div className="relative overflow-hidden rounded-lg sm:rounded-2xl aspect-[3/4] shadow-xl">
                     {/* Title Text - Blue italic at top center */}
                     <div className="absolute top-3 sm:top-6 left-0 right-0 z-20 text-center px-2">
                       <h3 className="text-vibrant-blue text-lg sm:text-2xl md:text-3xl font-bold italic tracking-wide">
@@ -298,7 +298,7 @@ const About = () => {
             <h2
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6"
               style={{
-                background: 'linear-gradient(90deg, #ffffff 50%, #EF6C4E 100%)',
+                background: 'linear-gradient(90deg, #ffffff 80%, #EF6C4E 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text'
