@@ -251,13 +251,24 @@ const About = () => {
 
           {/* Vision Section */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="mb-12 sm:mb-16"
+          initial={{ y: 30 }}
+          whileInView={{ y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#EF6C4E] to-white text-transparent bg-clip-text mb-4 sm:mb-6">VISION</h2>
+          <motion.h2
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="inline-block text-3xl sm:text-4xl md:text-5xl lg:text-6xl 
+               font-bold mb-4 sm:mb-6 
+               bg-clip-text text-transparent"
+          style={{
+          backgroundImage: 'linear-gradient(90deg, #ffffff 0%, #EF6C4E 100%)'
+          }}
+          >
+          VISION
+          </motion.h2>
             {visionsError ? (
               <p className="text-red-300 text-sm sm:text-base">{visionsError}</p>
             ) : visionsLoading ? (
@@ -284,7 +295,17 @@ const About = () => {
             transition={{ duration: 0.8 }}
             className="text-left sm:text-right mb-16 sm:mb-20"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#EF6C4E] to-white text-transparent bg-clip-text mb-4 sm:mb-6">MISSION</h2>
+            <h2
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6"
+              style={{
+                background: 'linear-gradient(90deg, #ffffff 50%, #EF6C4E 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
+              MISSION
+            </h2>
             {visionsError ? (
               <p className="text-red-300 text-sm sm:text-base">{visionsError}</p>
             ) : visionsLoading ? (
