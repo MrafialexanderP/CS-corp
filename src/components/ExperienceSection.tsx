@@ -32,15 +32,15 @@ const ExperienceSection = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full flex-1 flex flex-col">
           {/* Header - Now part of the same sticky layer with enhanced scroll animation */}
           <motion.div
-  ref={titleRef}
-  className="text-center mb-3 sm:mb-4 md:mb-5 pt-2 sm:pt-4 md:pt-20"
-  style={{
-    opacity: titleOpacity,
-    y: titleY,
-    filter: titleFilter,
-    scale: titleScale,
-  }}
->
+            ref={titleRef}
+            className="text-center mb-0 sm:mb-1 md:mb-2 pt-4 sm:pt-6 md:pt-8"
+            style={{
+              opacity: titleOpacity,
+              y: titleY,
+              filter: titleFilter,
+              scale: titleScale,
+            }}
+          >
   <motion.h2
     className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
                font-bold italic text-[#3C597F] leading-tight"
@@ -69,7 +69,7 @@ const ExperienceSection = () => {
 
 
           {/* ScrollStack Cards - Now part of the same sticky layer */}
-          <div className="flex-1">
+          <div className="flex-17 -mt-18 sm:-mt-19 md:-mt-20">
             <ScrollStack
               className="h-full"
               itemDistance={50}
