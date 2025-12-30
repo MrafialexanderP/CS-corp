@@ -28,6 +28,9 @@ const Index = () => {
             });
           }, 100);
         }
+      } else {
+        // Jika tidak ada hash, scroll ke atas
+        window.scrollTo(0, 0);
       }
     };
 

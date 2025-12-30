@@ -38,22 +38,22 @@ const ClientsSection = () => {
   }, []);
 
   return (
-    <section id="client" className="bg-gray-50 py-12 sm:py-16 md:py-20">
-      {/* Header */}
+    <section id="client" className="bg-white py-12 sm:py-16 md:py-20">
+      {/* Header - Full Width */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="bg-vibrant-blue text-white py-4 sm:py-6 px-4 sm:px-6 text-center mb-8 sm:mb-12"
+        className="bg-vibrant-blue text-white py-4 sm:py-6 text-center mb-8 sm:mb-12"
       >
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold italic tracking-wide">
           OUR CLIENTS
         </h2>
       </motion.div>
 
-      {/* Logo Rows */}
-      <div className="space-y-8 sm:space-y-12 px-4 sm:px-6">
+      {/* Logo Rows - Full Width */}
+      <div className="space-y-8 sm:space-y-12">
         {/* Row 1 - Left to Right */}
         <LogoLoop
           logos={rows[0]}
@@ -64,7 +64,7 @@ const ClientsSection = () => {
           logoWidth={120}
           pauseOnHover={true}
           fadeOut={true}
-          fadeOutColor="#f9fafb"
+          fadeOutColor="#ffffff"
           ariaLabel="Partner logos row 1"
         />
         {/* Row 2 - Right to Left */}
@@ -77,7 +77,7 @@ const ClientsSection = () => {
           logoWidth={120}
           pauseOnHover={true}
           fadeOut={true}
-          fadeOutColor="#f9fafb"
+          fadeOutColor="#ffffff"
           ariaLabel="Partner logos row 2"
         />
         {/* Row 3 - Left to Right */}
@@ -90,7 +90,7 @@ const ClientsSection = () => {
           logoWidth={120}
           pauseOnHover={true}
           fadeOut={true}
-          fadeOutColor="#f9fafb"
+          fadeOutColor="#ffffff"
           ariaLabel="Partner logos row 3"
         />
       </div>

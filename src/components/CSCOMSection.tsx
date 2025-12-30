@@ -146,10 +146,10 @@ const CSCOMSection = () => {
         </motion.div>
       </div>
 
-      <div className="px-4 pb-6 sm:pb-8">
+      <div className="pb-6 sm:pb-8">
         <motion.div 
           ref={masonryRef}
-          className="mx-auto max-w-6xl"
+          className="w-full px-3"
           style={{
             opacity: masonryOpacity,
             y: masonryY,
@@ -177,7 +177,7 @@ const CSCOMSection = () => {
           )}
         </motion.div>
         <motion.div 
-          className="mx-auto max-w-6xl mt-6 sm:mt-8 flex justify-end"
+          className="mx-auto max-w-6xl mt-6 sm:mt-8 flex justify-end px-4"
           style={{
             opacity: masonryOpacity,
             y: masonryY,
@@ -187,10 +187,10 @@ const CSCOMSection = () => {
         </motion.div>
       </div>
 
-      <div ref={bottomSectionRef} className="px-4 pb-14 sm:pb-20">
-        <div className="mx-auto flex max-w-6xl flex-col-reverse gap-8 lg:grid lg:grid-cols-2 lg:items-center">
+      <div ref={bottomSectionRef} className="pb-14 sm:pb-20">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-center">
           <motion.div
-            className="space-y-6 lg:pr-12 lg:pt-8"
+            className="space-y-6 lg:pt-8 px-4 lg:pl-8 xl:pl-12"
             style={{
               opacity: textOpacity,
               x: textX,
@@ -228,7 +228,7 @@ const CSCOMSection = () => {
               </motion.span>
             </motion.h3>
             <motion.div 
-              className="mx-auto max-w-6xl mt-6 sm:mt-8 flex justify-end"
+              className="mt-6 sm:mt-8 flex justify-start"
               style={{
                 opacity: buttonOpacity,
                 y: buttonY,
@@ -239,7 +239,7 @@ const CSCOMSection = () => {
           </motion.div>
 
           <motion.div
-            className="w-full flex justify-center lg:justify-end"
+            className="w-full px-4 lg:px-6 xl:px-8"
             style={{
               opacity: imageOpacity,
               x: imageX,
@@ -250,7 +250,7 @@ const CSCOMSection = () => {
               src="/fotocampuran.png"
               alt="CSCOM production collage"
               loading="lazy"
-              className="w-full max-w-[600px] lg:max-w-[700px]"
+              className="w-full h-full object-cover"
               style={{
                 filter: imageFilter,
               }}

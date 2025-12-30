@@ -15,7 +15,7 @@ const Navigation = () => {
   useEffect(() => {
     // Define sections dengan background color-nya
     const sectionConfig: { [key: string]: { bgColor: string; isDark: boolean } } = {
-      hero: { bgColor: "white", isDark: false },
+      hero: { bgColor: "white", isDark: true },
       service: { bgColor: "#3C597F", isDark: true },
       impact: { bgColor: "white", isDark: false },
       events: { bgColor: "#F5F5F5", isDark: false },
