@@ -177,7 +177,7 @@ const CSCOMSection = () => {
           )}
         </motion.div>
         <motion.div 
-          className="mx-auto max-w-6xl mt-6 sm:mt-8 flex justify-end px-4"
+          className="mx-auto max-w-6xl mt-4 sm:mt-6 flex justify-end px-4"
           style={{
             opacity: masonryOpacity,
             y: masonryY,
@@ -228,7 +228,7 @@ const CSCOMSection = () => {
               </motion.span>
             </motion.h3>
             <motion.div 
-              className="mt-6 sm:mt-8 flex justify-start"
+              className="mt-4 sm:mt-6 flex justify-start"
               style={{
                 opacity: buttonOpacity,
                 y: buttonY,

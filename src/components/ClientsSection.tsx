@@ -38,14 +38,14 @@ const ClientsSection = () => {
   }, []);
 
   return (
-    <section id="client" className="bg-white py-12 sm:py-16 md:py-20">
+    <section id="client" className="bg-white py-6 sm:py-8 md:py-10">
       {/* Header - Full Width */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="bg-vibrant-blue text-white py-4 sm:py-6 text-center mb-8 sm:mb-12"
+        className="bg-vibrant-blue text-white py-3 sm:py-4 md:py-5 text-center mb-6 sm:mb-8 md:mb-10"
       >
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold italic tracking-wide">
           OUR CLIENTS

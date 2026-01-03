@@ -237,7 +237,7 @@ const ExperienceSection = () => {
       </div>
       
       {/* Button Below ScrollStack - Outside sticky container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-center py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-14 sm:pb-20 flex justify-center">
         <ShowMoreButtonSimple />
       </div>
     </section>

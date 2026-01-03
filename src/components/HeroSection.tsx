@@ -53,7 +53,7 @@ const HeroSection = () => {
       />
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto text-center relative z-10 w-full px-2 sm:px-0" style={{ transform: 'translateX(-50px)' }}>
+      <div className="max-w-4xl mx-auto text-center relative z-10 w-full px-2 sm:px-0 translate-x-0 md:-translate-x-[50px]">
         {/* Main Title */}
         <motion.h1 
           initial={{ opacity: 0, y: 30 }}
@@ -76,25 +76,24 @@ const HeroSection = () => {
         </motion.h2>
         
         {/* Camar and Sakti Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-8 max-w-3xl mx-auto px-2 sm:px-0">
+        <div className="flex flex-row justify-between items-start gap-2 sm:gap-8 max-w-3xl mx-auto px-2 sm:px-0">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: showCamarSakti ? 1 : 0, x: showCamarSakti ? 0 : -30 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="text-left w-full sm:w-1/2"
+            className="w-1/2 text-left"
           >
             <h3 className="text-sm sm:text-xl md:text-2xl text-white mb-1">
               <span className="font-bold text-white">C</span>amar/ <span className="italic font-light">Seagull</span>
             </h3>
-            <p className="text-white/80 text-xs sm:text-sm italic">A creature of three Elements: Land,</p>
-            <p className="text-white/80 text-xs sm:text-sm italic">Sea, Air</p>
+            <p className="text-white/80 text-xs sm:text-sm italic">A creature of three Elements: Land, Sea, Air</p>
           </motion.div>
           
           <motion.div 
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: showCamarSakti ? 1 : 0, x: showCamarSakti ? 0 : 30 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="text-right w-full sm:w-1/2"
+            className="w-1/2 text-right"
           >
             <h3 className="text-sm sm:text-xl md:text-2xl text-white mb-1">
               <span className="font-bold text-white">S</span>akti/ <span className="italic font-light">Mighty</span>
