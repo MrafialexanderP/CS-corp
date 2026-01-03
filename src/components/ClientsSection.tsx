@@ -38,7 +38,7 @@ const ClientsSection = () => {
   }, []);
 
   return (
-    <section id="client" className="bg-white py-6 sm:py-8 md:py-10">
+    <section id="client" className="bg-white pt-0 pb-8 sm:pb-10 md:pb-12 -mt-10">
       {/* Header - Full Width */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
