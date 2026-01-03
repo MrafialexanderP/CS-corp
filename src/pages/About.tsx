@@ -249,81 +249,83 @@ const About = () => {
             </div>
           </motion.div>
 
-          {/* Vision Section */}
-          <motion.div
-          initial={{ y: 30 }}
-          whileInView={{ y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          >
-          <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="inline-block text-3xl sm:text-4xl md:text-5xl lg:text-6xl 
-               font-bold mb-4 sm:mb-6 
-               bg-clip-text text-transparent"
-          style={{
-          backgroundImage: 'linear-gradient(90deg, #ffffff 0%, #EF6C4E 100%)'
-          }}
-          >
-          VISION
-          </motion.h2>
-            {visionsError ? (
-              <p className="text-red-300 text-sm sm:text-base">{visionsError}</p>
-            ) : visionsLoading ? (
-              <p className="text-white/70 text-sm sm:text-base">Loading vision...</p>
-            ) : visions.length > 0 ? (
-              <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl">
-                {visions[0].visi}
-              </p>
-            ) : (
-              <p className="text-sm sm:text-base md:text-lg max-w-2xl 
-                bg-gradient-to-r from-[#EF6C4E] to-white 
-                bg-clip-text text-transparent">
-                To become an <span className="font-semibold">Activation partner</span>, recognized 
-                for boundless creativity and the ability to create deep and inspiring events.
-              </p>
-            )}
-          </motion.div>
-
-          {/* Mission Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-left sm:text-right mb-16 sm:mb-20"
-          >
-            <h2
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6"
-              style={{
-                background: 'linear-gradient(90deg, #ffffff 80%, #EF6C4E 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
+          {/* Vision and Mission Section - Centered Container */}
+          <div className="max-w-5xl mx-auto space-y-16 sm:space-y-20 mb-16 sm:mb-20">
+            {/* Vision Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-left"
             >
-              MISSION
-            </h2>
-            {visionsError ? (
-              <p className="text-red-300 text-sm sm:text-base">{visionsError}</p>
-            ) : visionsLoading ? (
-              <p className="text-white/70 text-sm sm:text-base">Loading mission...</p>
-            ) : visions.length > 0 ? (
-              <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl sm:ml-auto">
-                {visions[0].misi}
-              </p>
-            ) : (
-              <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl sm:ml-auto">
-                With the philosophy of the mighty seagull, <span className="text-coral font-semibold">Camar Sakti</span> is 
-                ready to elevate every project to become a memorable experiences with the mightiness{' '}
-                <span className="text-coral font-semibold">creativity</span> and{' '}
-                <span className="text-coral font-semibold">excellence execution</span> through{' '}
-                <span className="text-coral font-semibold">harmonious collaboration</span>.
-              </p>
-            )}
-          </motion.div>
+              <motion.h2
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 
+                  bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, #EF6C4E 0%, #ffffff 40%)'
+                }}
+              >
+                VISION
+              </motion.h2>
+              {visionsError ? (
+                <p className="text-red-300 text-sm sm:text-base">{visionsError}</p>
+              ) : visionsLoading ? (
+                <p className="text-white/70 text-sm sm:text-base">Loading vision...</p>
+              ) : visions.length > 0 ? (
+                <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed">
+                  {visions[0].visi}
+                </p>
+              ) : (
+                <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed">
+                  To become an <span className="font-semibold">Activation partner</span>, recognized 
+                  for boundless creativity and the ability to create deep and inspiring events.
+                </p>
+              )}
+            </motion.div>
+
+            {/* Mission Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-right"
+            >
+              <motion.h2
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8
+                  bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, #ffffff 50%, #EF6C4E 100%)'
+                }}
+              >
+                MISSION
+              </motion.h2>
+              {visionsError ? (
+                <p className="text-red-300 text-sm sm:text-base">{visionsError}</p>
+              ) : visionsLoading ? (
+                <p className="text-white/70 text-sm sm:text-base">Loading mission...</p>
+              ) : visions.length > 0 ? (
+                <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed">
+                  {visions[0].misi}
+                </p>
+              ) : (
+                <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed">
+                  With the philosophy of the mighty seagull, <span className="font-semibold">Camar Sakti</span> is 
+                  ready to elevate every project to become a memorable experiences with the mightiness{' '}
+                  <span className="font-semibold">creativity</span> and{' '}
+                  <span className="font-semibold">excellence execution</span> through{' '}
+                  <span className="font-semibold">harmonious collaboration</span>.
+                </p>
+              )}
+            </motion.div>
+          </div>
 
           {/* Meet Our Team Section - Inside same background */}
           <motion.div
