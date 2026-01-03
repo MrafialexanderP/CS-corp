@@ -92,18 +92,18 @@ const ExperienceSection = () => {
               </p>
             </motion.div>
             <motion.div
-              className="w-32 h-32 sm:w-40 sm:h-40 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0"
+              className="w-40 h-28 sm:w-52 sm:h-36 md:w-64 md:h-40 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0"
               initial={{ opacity: 0, scale: 0.5, rotate: -180, x: 50 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0, x: 0 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 1, type: 'spring', stiffness: 100, damping: 15 }}
             >
               <motion.div 
-                className="w-24 h-24 sm:w-32 sm:h-32 bg-vibrant-blue rounded-lg flex items-center justify-center text-white font-bold text-xs sm:text-sm"
-                whileHover={{ scale: 1.1, rotate: 5 }}
+                className="w-36 h-24 sm:w-48 sm:h-32 md:w-60 md:h-36 bg-white rounded-lg flex items-center justify-center overflow-hidden"
+                whileHover={{ scale: 1.05, rotate: 2 }}
                 transition={{ duration: 0.3 }}
               >
-                LOGO
+                <img src="/placeholder-image.jpg" alt="Event Organizer" className="w-full h-full object-cover" />
               </motion.div>
             </motion.div>
           </ScrollStackItem>
@@ -123,18 +123,18 @@ const ExperienceSection = () => {
               </p>
             </motion.div>
             <motion.div
-              className="w-32 h-32 sm:w-40 sm:h-40 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0"
+              className="w-40 h-28 sm:w-52 sm:h-36 md:w-64 md:h-40 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0"
               initial={{ opacity: 0, scale: 0.5, rotate: 180, x: 50 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0, x: 0 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 1, type: 'spring', stiffness: 100, damping: 15 }}
             >
               <motion.div 
-                className="w-24 h-24 sm:w-32 sm:h-32 bg-vibrant-blue rounded-lg flex items-center justify-center text-white font-bold text-xs sm:text-sm"
-                whileHover={{ scale: 1.1, rotate: -5 }}
+                className="w-36 h-24 sm:w-48 sm:h-32 md:w-60 md:h-36 bg-white rounded-lg flex items-center justify-center overflow-hidden"
+                whileHover={{ scale: 1.05, rotate: -2 }}
                 transition={{ duration: 0.3 }}
               >
-                LOGO
+                <img src="/placeholder-image.jpg" alt="Brand Activation" className="w-full h-full object-cover" />
               </motion.div>
             </motion.div>
           </ScrollStackItem>
@@ -154,18 +154,18 @@ const ExperienceSection = () => {
               </p>
             </motion.div>
             <motion.div
-              className="w-32 h-32 sm:w-40 sm:h-40 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0"
+              className="w-40 h-28 sm:w-52 sm:h-36 md:w-64 md:h-40 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0"
               initial={{ opacity: 0, scale: 0.5, rotate: -180, x: 50 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0, x: 0 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 1, type: 'spring', stiffness: 100, damping: 15 }}
             >
               <motion.div 
-                className="w-24 h-24 sm:w-32 sm:h-32 bg-vibrant-blue rounded-lg flex items-center justify-center text-white font-bold text-xs sm:text-sm"
-                whileHover={{ scale: 1.1, rotate: 5 }}
+                className="w-36 h-24 sm:w-48 sm:h-32 md:w-60 md:h-36 bg-white rounded-lg flex items-center justify-center overflow-hidden"
+                whileHover={{ scale: 1.05, rotate: 2 }}
                 transition={{ duration: 0.3 }}
               >
-                LOGO
+                <img src="/placeholder-image.jpg" alt="MICE" className="w-full h-full object-cover" />
               </motion.div>
             </motion.div>
           </ScrollStackItem>
@@ -185,18 +185,18 @@ const ExperienceSection = () => {
               </p>
             </motion.div>
             <motion.div
-              className="w-32 h-32 sm:w-40 sm:h-40 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0"
+              className="w-40 h-28 sm:w-52 sm:h-36 md:w-64 md:h-40 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0"
               initial={{ opacity: 0, scale: 0.5, rotate: 180, x: 50 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0, x: 0 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 1, type: 'spring', stiffness: 100, damping: 15 }}
             >
               <motion.div 
-                className="w-24 h-24 sm:w-32 sm:h-32 bg-vibrant-blue rounded-lg flex items-center justify-center text-white font-bold text-xs sm:text-sm"
-                whileHover={{ scale: 1.1, rotate: -5 }}
+                className="w-36 h-24 sm:w-48 sm:h-32 md:w-60 md:h-36 bg-white rounded-lg flex items-center justify-center overflow-hidden"
+                whileHover={{ scale: 1.05, rotate: -2 }}
                 transition={{ duration: 0.3 }}
               >
-                LOGO
+                <img src="/placeholder-image.jpg" alt="Exhibition" className="w-full h-full object-cover" />
               </motion.div>
             </motion.div>
           </ScrollStackItem>
@@ -216,18 +216,18 @@ const ExperienceSection = () => {
               </p>
             </motion.div>
             <motion.div
-              className="w-32 h-32 sm:w-40 sm:h-40 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0"
+              className="w-40 h-28 sm:w-52 sm:h-36 md:w-64 md:h-40 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0"
               initial={{ opacity: 0, scale: 0.5, rotate: -180, x: 50 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0, x: 0 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 1, type: 'spring', stiffness: 100, damping: 15 }}
             >
               <motion.div 
-                className="w-24 h-24 sm:w-32 sm:h-32 bg-vibrant-blue rounded-lg flex items-center justify-center text-white font-bold text-xs sm:text-sm"
-                whileHover={{ scale: 1.1, rotate: 5 }}
+                className="w-36 h-24 sm:w-48 sm:h-32 md:w-60 md:h-36 bg-white rounded-lg flex items-center justify-center overflow-hidden"
+                whileHover={{ scale: 1.05, rotate: 2 }}
                 transition={{ duration: 0.3 }}
               >
-                LOGO
+                <img src="/placeholder-image.jpg" alt="Entertainment" className="w-full h-full object-cover" />
               </motion.div>
             </motion.div>
           </ScrollStackItem>
