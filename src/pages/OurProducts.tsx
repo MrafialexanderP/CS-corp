@@ -31,7 +31,7 @@ const OurProducts = () => {
   const [slideIndex, setSlideIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const isMobile = useIsMobile();
-  const itemsPerPage = isMobile ? 4 : 15;
+  const itemsPerPage = isMobile ? 4 : 13;
 
   // API data state
   const [productionsData, setProductionsData] = useState<Production[]>([]);
@@ -48,13 +48,15 @@ const OurProducts = () => {
   const items: ProductItem[] = useMemo(() => {
     if (!productionsData.length) return [];
     
-    return productionsData.map((production) => {
+    return productionsData.map((production, idx) => {
       const mainImage = production.images && production.images.length > 0 
         ? getImageUrl(production.images[0].image, production.images[0].image_url)
         : '/placeholder.svg';
       
-      // Calculate height based on image count (for variety in masonry)
-      const height = 400 + (production.images?.length || 0) * 50;
+      // Stagger heights so rows after the first don't align too uniformly
+      const staggerBase = 420;
+      const staggerStep = 60;
+      const height = staggerBase + (idx % 3) * staggerStep;
 
       // Extract year from tanggal
       const year = production.tanggal ? new Date(production.tanggal).getFullYear().toString() : '';
