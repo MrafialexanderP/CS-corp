@@ -27,13 +27,13 @@ const ExperienceSection = () => {
   const line2Y = useTransform(titleScrollProgress, [0, 0.5, 0.9, 1], [40, 40, 0, 0]);
 
   return (
-    <section ref={sectionRef} className="relative bg-gray-50" style={{ minHeight: '160vh' }}>
+    <section ref={sectionRef} className="relative bg-white-50" style={{ minHeight: '80vh' }}>
       <div className="sticky top-0 min-h-screen flex flex-col">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full flex-1 flex flex-col">
           {/* Header - Now part of the same sticky layer with enhanced scroll animation */}
           <motion.div
             ref={titleRef}
-            className="text-center mb-0 sm:mb-1 md:mb-2 pt-4 sm:pt-6 md:pt-8"
+            className="text-center mb-0 sm:mb-1 md:mb-2 pt-4 sm:pt-6 md:pt-8 pb-2 sm:pb-4 md:pb-10"
             style={{
               opacity: titleOpacity,
               y: titleY,
@@ -69,7 +69,7 @@ const ExperienceSection = () => {
 
 
           {/* ScrollStack Cards - Now part of the same sticky layer */}
-          <div className="flex-17 -mt-18 sm:-mt-19 md:-mt-20">
+          <div className="flex-17 -mt-28 sm:-mt-32 md:-mt-40">
             <ScrollStack
               className="h-full"
               itemDistance={50}

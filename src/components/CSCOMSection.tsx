@@ -110,10 +110,10 @@ const CSCOMSection = () => {
 
   return (
     <section className="bg-transparent">
-      <div className="px-4 py-8 sm:py-10">
+      <div className="px-4 py-2 sm:py-3">
         <motion.div
           ref={titleRef}
-          className="text-center mb-6"
+          className="text-center mb-2"
           style={{
             opacity: titleOpacity,
             y: titleY,
