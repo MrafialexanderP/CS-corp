@@ -1,10 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const ShowMoreButtonSimple = () => {
+interface ShowMoreButtonSimpleProps {
+  to?: string;
+}
+
+const ShowMoreButtonSimple = ({ to = '#' }: ShowMoreButtonSimpleProps) => {
   return (
     <StyledWrapper>
-      <button className="simple-button">
+      <Link to={to} className="simple-button">
         <span className="button-text">Show More</span>
         <svg 
           className="arrow-icon" 
@@ -17,7 +22,7 @@ const ShowMoreButtonSimple = () => {
         >
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
-      </button>
+      </Link>
     </StyledWrapper>
   );
 };
@@ -30,7 +35,7 @@ const StyledWrapper = styled.div`
   margin-top: 0.25rem;
   margin-bottom: 0.75rem;
 
-  button.simple-button {
+  .simple-button {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -41,10 +46,11 @@ const StyledWrapper = styled.div`
     font-size: 1rem;
     font-weight: 500;
     color: #000000;
+    text-decoration: none;
     transition: all 0.3s ease;
   }
 
-  button.simple-button:hover {
+  .simple-button:hover {
     opacity: 0.7;
     transform: translateX(5px);
   }
@@ -57,12 +63,12 @@ const StyledWrapper = styled.div`
     transition: transform 0.3s ease;
   }
 
-  button.simple-button:hover .arrow-icon {
+  .simple-button:hover .arrow-icon {
     transform: translateX(5px);
   }
 
   @media (max-width: 640px) {
-    button.simple-button {
+    .simple-button {
       font-size: 0.9rem;
     }
 

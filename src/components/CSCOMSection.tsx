@@ -149,7 +149,7 @@ const CSCOMSection = () => {
       <div className="pb-6 sm:pb-8">
         <motion.div 
           ref={masonryRef}
-          className="w-full px-3"
+          className="w-full px-6 sm:px-8 md:px-12"
           style={{
             opacity: masonryOpacity,
             y: masonryY,
@@ -183,7 +183,7 @@ const CSCOMSection = () => {
             y: masonryY,
           }}
         >
-          <ShowMoreButtonSimple />
+          <ShowMoreButtonSimple to="/events" />
         </motion.div>
       </div>
 
@@ -234,7 +234,7 @@ const CSCOMSection = () => {
                 y: buttonY,
               }}
             >
-              <ShowMoreButtonSimple />
+              <ShowMoreButtonSimple to="/Products" />
             </motion.div>
           </motion.div>
 

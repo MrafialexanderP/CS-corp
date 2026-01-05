@@ -276,11 +276,11 @@ const About = () => {
               ) : visionsLoading ? (
                 <p className="text-white/70 text-sm sm:text-base">Loading vision...</p>
               ) : visions.length > 0 ? (
-                <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed">
+                <p className="text-white/80 text-base sm:text-lg md:text-xl leading-relaxed font-bold">
                   {visions[0].visi}
                 </p>
               ) : (
-                <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed">
+                <p className="text-white/80 text-base sm:text-lg md:text-xl leading-relaxed font-bold">
                   To become an <span className="font-semibold">Activation partner</span>, recognized 
                   for boundless creativity and the ability to create deep and inspiring events.
                 </p>
@@ -312,11 +312,11 @@ const About = () => {
               ) : visionsLoading ? (
                 <p className="text-white/70 text-sm sm:text-base">Loading mission...</p>
               ) : visions.length > 0 ? (
-                <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed">
+                <p className="text-white/80 text-base sm:text-lg md:text-xl leading-relaxed font-bold">
                   {visions[0].misi}
                 </p>
               ) : (
-                <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed">
+                <p className="text-white/80 text-base sm:text-lg md:text-xl leading-relaxed font-bold">
                   With the philosophy of the mighty seagull, <span className="font-semibold">Camar Sakti</span> is 
                   ready to elevate every project to become a memorable experiences with the mightiness{' '}
                   <span className="font-semibold">creativity</span> and{' '}

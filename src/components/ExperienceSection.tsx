@@ -88,7 +88,7 @@ const ExperienceSection = () => {
             >
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4">Event Organizer</h3>
               <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-md">
-                Comprehensive planning and execution services for unforgettable events
+                Comprehensive planning and seamless execution for memorable events
               </p>
             </motion.div>
             <motion.div
@@ -103,7 +103,7 @@ const ExperienceSection = () => {
                 whileHover={{ scale: 1.05, rotate: 2 }}
                 transition={{ duration: 0.3 }}
               >
-                <img src="/placeholder-image.jpg" alt="Event Organizer" className="w-full h-full object-cover" />
+                <img src="/EO.png" alt="Event Organizer" className="w-full h-full object-cover" />
               </motion.div>
             </motion.div>
           </ScrollStackItem>
@@ -119,7 +119,7 @@ const ExperienceSection = () => {
             >
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4">Brand Activation</h3>
               <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-md">
-                Strategic campaigns that bring brands to life and engage audiences
+                Interactive strategies to connect your brand directly with the audience
               </p>
             </motion.div>
             <motion.div
@@ -134,7 +134,7 @@ const ExperienceSection = () => {
                 whileHover={{ scale: 1.05, rotate: -2 }}
                 transition={{ duration: 0.3 }}
               >
-                <img src="/placeholder-image.jpg" alt="Brand Activation" className="w-full h-full object-cover" />
+                <img src="/Activation.png" alt="Brand Activation" className="w-full h-full object-cover" />
               </motion.div>
             </motion.div>
           </ScrollStackItem>
@@ -150,7 +150,7 @@ const ExperienceSection = () => {
             >
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4">MICE</h3>
               <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-md">
-                Meetings, Incentives, Conferences & Events management solutions
+                Professional management for corporate meetings, incentives, and conferences
               </p>
             </motion.div>
             <motion.div
@@ -165,7 +165,7 @@ const ExperienceSection = () => {
                 whileHover={{ scale: 1.05, rotate: 2 }}
                 transition={{ duration: 0.3 }}
               >
-                <img src="/placeholder-image.jpg" alt="MICE" className="w-full h-full object-cover" />
+                <img src="/MICE.png" alt="MICE" className="w-full h-full object-cover" />
               </motion.div>
             </motion.div>
           </ScrollStackItem>
@@ -181,7 +181,7 @@ const ExperienceSection = () => {
             >
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4">Exhibition</h3>
               <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-md">
-                Creative exhibition design and immersive experiential spaces
+                Organizing impactful trade shows and public displays to showcase your products
               </p>
             </motion.div>
             <motion.div
@@ -196,7 +196,7 @@ const ExperienceSection = () => {
                 whileHover={{ scale: 1.05, rotate: -2 }}
                 transition={{ duration: 0.3 }}
               >
-                <img src="/placeholder-image.jpg" alt="Exhibition" className="w-full h-full object-cover" />
+                <img src="/Exibition.png" alt="Exhibition" className="w-full h-full object-cover" />
               </motion.div>
             </motion.div>
           </ScrollStackItem>
@@ -212,7 +212,7 @@ const ExperienceSection = () => {
             >
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4">Entertainment</h3>
               <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-md">
-                Professional entertainment and performance production services
+                Curating creative talents and performances to bring your event to life.
               </p>
             </motion.div>
             <motion.div
@@ -227,18 +227,13 @@ const ExperienceSection = () => {
                 whileHover={{ scale: 1.05, rotate: 2 }}
                 transition={{ duration: 0.3 }}
               >
-                <img src="/placeholder-image.jpg" alt="Entertainment" className="w-full h-full object-cover" />
+                <img src="/Entertaiment.png" alt="Entertainment" className="w-full h-full object-cover" />
               </motion.div>
             </motion.div>
           </ScrollStackItem>
             </ScrollStack>
           </div>
         </div>
-      </div>
-      
-      {/* Button Below ScrollStack - Outside sticky container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-14 sm:pb-20 flex justify-center">
-        <ShowMoreButtonSimple />
       </div>
     </section>
   );
