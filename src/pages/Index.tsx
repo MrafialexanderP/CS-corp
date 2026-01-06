@@ -42,8 +42,35 @@ const Index = () => {
     };
   }, []);
 
+  // Limit horizontal panning on homepage but keep vertical scroll enabled
+  useEffect(() => {
+    const prevOverflow = document.body.style.overflow;
+    const prevPosition = document.body.style.position;
+    const prevWidth = document.body.style.width;
+    const prevTouchAction = document.body.style.touchAction;
+    const prevOverscroll = document.body.style.overscrollBehavior;
+
+    document.body.style.overflowX = "hidden";
+    document.body.style.overflowY = "auto";
+    document.body.style.position = "static";
+    document.body.style.width = "100%";
+    document.body.style.touchAction = "pan-y";
+    document.body.style.overscrollBehavior = "contain";
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.body.style.position = prevPosition;
+      document.body.style.width = prevWidth;
+      document.body.style.touchAction = prevTouchAction;
+      document.body.style.overscrollBehavior = prevOverscroll;
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen" style={{ scrollSnapType: 'y proximity' }}>
+    <div
+      className="min-h-screen overflow-x-hidden"
+      style={{ scrollSnapType: 'y proximity', overscrollBehaviorX: 'contain' }}
+    >
       <Navigation />
       <HeroSection />
       <ImpactSection />
