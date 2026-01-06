@@ -113,6 +113,22 @@ const ServiceSlider = () => {
                   </p>
                   <div className="text-gray-700 text-sm font-semibold">{panel.statValue}</div>
                   <div className="text-gray-500 text-xs">{panel.statLabel}</div>
+
+                  {/* Mobile Service Images Slider - CSCOM only */}
+                  {panel.key === 'cscom' && (
+                    <div className="w-screen -mx-6 px-6 mt-4">
+                      <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory">
+                        {['Event Organizing', 'Activation', 'MICE', 'Exhibition', 'Entertainment'].map((service) => (
+                          <div key={service} className="relative flex-shrink-0 w-32 aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden group snap-center">
+                            <div className="absolute inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to top, rgba(239, 108, 78, 0.8), rgba(239, 108, 78, 0.2))' }} />
+                            <div className="absolute bottom-0 left-0 right-0 p-2">
+                              <p className="text-white text-[10px] font-bold leading-tight text-center">{service}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )
