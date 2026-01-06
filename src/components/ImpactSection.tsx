@@ -39,9 +39,9 @@ const ImpactSection = () => {
     { text: "We", start: 0, end: 0.1 },
     { text: "create", start: 0.1, end: 0.2 },
     { text: "impactful", start: 0.2, end: 0.35 },
-    { text: "experience", start: 0.35, end: 0.5 },
+    { text: "experience", start: 0.35, end: 0.5, italic: true },
     { text: "and", start: 0.5, end: 0.65 },
-    { text: "Productions", start: 0.65, end: 0.85, italic: true }
+    { text: "productions", start: 0.65, end: 0.85, italic: true }
   ];
 
   return (

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import ScrollVelocity from './ScrollVelocity';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -6,6 +6,13 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const ServiceSlider = () => {
   const [activePanel, setActivePanel] = useState<'cscorp' | 'cscom' | 'cspro'>('cscorp');
   const isMobile = useIsMobile();
+
+  // Hide CSCORP on mobile; ensure a valid default when switching views.
+  useEffect(() => {
+    if (isMobile && activePanel === 'cscorp') {
+      setActivePanel('cscom');
+    }
+  }, [isMobile, activePanel]);
 
   const panels = [
     {
@@ -38,6 +45,8 @@ const ServiceSlider = () => {
   const marqueeText = "OUR SERVICE • ";
   const marqueeItems = Array.from({ length: 3 });
 
+  const mobilePanels = panels.filter((panel) => panel.key !== 'cscorp');
+
   return (
     <div className="relative w-full overflow-hidden">
       {/* Top Marquee - Blue background, white text */}
@@ -56,7 +65,7 @@ const ServiceSlider = () => {
       {isMobile ? (
         <div className="py-8 px-4 space-y-6">
           <div className="flex gap-4 justify-center pb-4">
-            {panels.map((panel) => (
+            {mobilePanels.map((panel) => (
               <button
                 key={panel.key}
                 onClick={() => setActivePanel(panel.key)}
@@ -66,29 +75,47 @@ const ServiceSlider = () => {
                     : 'bg-white text-gray-800 border-gray-300 hover:border-gray-400'
                 }`}
               >
-                <img src={panel.logo} alt={panel.key} className="h-10 object-contain" />
+                <img
+                  src={panel.logo}
+                  alt={panel.key}
+                  className={`${activePanel === panel.key ? 'h-14' : 'h-10'} object-contain transition-all duration-300`}
+                />
                 <span className="text-xs tracking-wider">{panel.key.toUpperCase()}</span>
               </button>
             ))}
           </div>
 
-          {panels.map((panel) => (
+          {mobilePanels.map((panel) => (
             panel.key === activePanel && (
-              <div key={panel.key} className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+              <div
+                key={panel.key}
+                className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden group"
+              >
                 {panel.bg ? (
                   <div
                     className="h-48 w-full bg-center bg-cover"
                     style={{ backgroundImage: panel.bg }}
                   />
                 ) : (
-                  <div className="h-48 w-full bg-gray-100 flex items-center justify-center">
-                    <img src={panel.logo} alt={panel.key} className="h-14" />
+                  <div className="h-56 w-full bg-gray-100 flex items-center justify-center">
+                    <motion.img
+                      src={panel.logo}
+                      alt={panel.key}
+                      className="h-28 sm:h-32 object-contain transition-transform duration-300 group-hover:scale-110"
+                      whileTap={{ scale: 1.2 }}
+                      transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+                    />
                   </div>
                 )}
                 <div className="p-6 space-y-4">
-                  <div className="flex items-center gap-3">
-                    <img src={panel.logo} alt={panel.key} className="h-10" />
-                    <div className="text-xs uppercase tracking-wide text-gray-600">Platform</div>
+                  <div className="flex items-center justify-center gap-3">
+                    <motion.img
+                      src={panel.logo}
+                      alt={panel.key}
+                      className="h-28 sm:h-32 object-contain transition-transform duration-300 group-hover:scale-110"
+                      whileTap={{ scale: 1.2 }}
+                      transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+                    />
                   </div>
                   <p className="text-gray-800 text-base leading-relaxed">
                     {panel.desc}

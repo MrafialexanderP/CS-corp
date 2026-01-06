@@ -85,9 +85,9 @@ const Navigation = () => {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <img 
-                  src="/logocs.png" 
+                  src="/logohitam.png" 
                   alt="CS CORP Logo"
-                  className="h-12 w-auto"
+                  className="h-20 w-auto"
                 />
               </Link>
 
@@ -273,9 +273,9 @@ const Navigation = () => {
                 className="flex-shrink-0"
               >
                 <img 
-                  src="/logocs.png" 
+                  src="/logohitam.png" 
                   alt="CS CORP Logo"
-                  className="h-8 w-auto"
+                  className="h-16 w-auto"
                 />
               </Link>
               
