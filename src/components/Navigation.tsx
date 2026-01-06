@@ -90,7 +90,7 @@ const Navigation = () => {
                   src="/logohitam.png" 
                   alt="CS CORP Logo"
                   className="h-20 w-auto"
-                  style={{ opacity: atTop ? 0 : 1, transition: 'opacity 0.3s ease', pointerEvents: atTop ? 'none' : 'auto' }}
+                  style={{ opacity: 1, transition: 'opacity 0.3s ease', pointerEvents: 'auto' }}
                 />
               </Link>
 
@@ -108,8 +108,8 @@ const Navigation = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  opacity: atTop ? 0 : 1,
-                  pointerEvents: atTop ? 'none' : 'auto',
+                  opacity: 1,
+                  pointerEvents: 'auto',
                   transition: 'opacity 0.3s ease'
                 }}
               >
