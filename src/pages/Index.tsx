@@ -43,7 +43,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" style={{ scrollSnapType: 'y proximity' }}>
       <Navigation />
       <HeroSection />
       <ImpactSection />

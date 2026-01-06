@@ -45,6 +45,7 @@ const HeroSection = () => {
     <section 
       ref={sectionRef}
       className="min-h-screen relative flex flex-col items-center justify-center pt-12 sm:pt-20 pb-24 sm:pb-28 md:pb-32 px-3 sm:px-6 overflow-hidden"
+      style={{ scrollSnapAlign: 'center', scrollSnapStop: 'always' }}
     >
       {/* Background image */}
       <div 

@@ -219,11 +219,18 @@ const Navigation = () => {
           </>
         ) : (
           // Desktop Navigation
-          <div className={`relative rounded-full px-6 py-3 max-w-[960px] mx-auto backdrop-blur-md shadow-lg transition-all duration-300 ${
-            isDarkBackground 
-              ? "bg-white/10" 
-              : "bg-white/20"
-          }`}>
+          <div
+            className={`relative rounded-full px-6 py-3 max-w-[960px] mx-auto backdrop-blur-md shadow-lg transition-all duration-300 ${
+              isDarkBackground 
+                ? "bg-white/10" 
+                : "bg-white/20"
+            }`}
+            style={{
+              opacity: atTop ? 0 : 1,
+              pointerEvents: atTop ? 'none' : 'auto',
+              transition: 'opacity 0.35s ease'
+            }}
+          >
             <div className="flex items-center justify-evenly">
               {/* About Link */}
               <Link 
