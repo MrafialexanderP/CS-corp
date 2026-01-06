@@ -101,22 +101,13 @@ const ServiceSlider = () => {
                     <motion.img
                       src={panel.logo}
                       alt={panel.key}
-                      className="h-28 sm:h-32 object-contain transition-transform duration-300 group-hover:scale-110"
-                      whileTap={{ scale: 1.2 }}
+                      className="h-32 sm:h-40 object-contain"
+                      whileTap={{ scale: 1.05 }}
                       transition={{ type: 'spring', stiffness: 260, damping: 18 }}
                     />
                   </div>
                 )}
                 <div className="p-6 space-y-4">
-                  <div className="flex items-center justify-center gap-3">
-                    <motion.img
-                      src={panel.logo}
-                      alt={panel.key}
-                      className="h-28 sm:h-32 object-contain transition-transform duration-300 group-hover:scale-110"
-                      whileTap={{ scale: 1.2 }}
-                      transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-                    />
-                  </div>
                   <p className="text-gray-800 text-base leading-relaxed">
                     {panel.desc}
                   </p>
