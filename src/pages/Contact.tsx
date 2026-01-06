@@ -5,7 +5,7 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import AnimatedSubmitButton from '../components/AnimatedSubmitButton';
 import { sendContactEmail, validateContactForm } from '../lib/email';
-import { fetchContacts, fetchSosmeds } from '../lib/api-services';
+import { fetchContacts, fetchSosmeds, sendContactMessage } from '../lib/api-services';
 import type { Contact, Sosmed } from '../lib/api-constants';
 import { getSocialIcon } from '../lib/icon-helper';
 
@@ -64,8 +64,13 @@ const Contact = () => {
     setIsLoading(true);
 
     try {
-      // Send email using utility function
-      await sendContactEmail(formData);
+      // Hit backend contact message endpoint
+      await sendContactMessage({
+        name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message
+      });
       
       toast.success('✅ Message sent successfully! We will get back to you soon.');
       // Reset form
@@ -156,7 +161,7 @@ const Contact = () => {
                           className="text-black hover:opacity-70 transition-opacity"
                           aria-label={sosmed.nama_sosmed}
                         >
-                          <IconComponent size={20} />
+                          <IconComponent className="w-5 h-5" />
                         </a>
                       );
                     })}
