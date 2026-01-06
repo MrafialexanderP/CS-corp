@@ -42,6 +42,9 @@ export const SOSMEDS_API = {
   LIST: `${API_BASE_URL}/sosmeds`,
 };
 
+// Contact form message API endpoint
+export const CONTACT_MESSAGE_API = `${API_BASE_URL}/send-message`;
+
 export interface Client {
   id: number;
   nama_client: string;
@@ -154,6 +157,19 @@ export interface Sosmed {
   icon_class: string;
   created_at: string;
   updated_at: string;
+}
+
+// Contact form payload/response types
+export interface ContactMessageRequest {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+}
+
+export interface ContactMessageResponse {
+  success: boolean;
+  message: string;
 }
 
 // Default timeout for API calls (in milliseconds)

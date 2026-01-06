@@ -14,6 +14,9 @@ import {
   SOSMEDS_API,
   CLIENTS_API,
   API_TIMEOUT,
+  CONTACT_MESSAGE_API,
+  ContactMessageRequest,
+  ContactMessageResponse,
 } from './api-constants';
 
 /**
@@ -338,6 +341,39 @@ export async function fetchSosmeds(): Promise<Sosmed[]> {
     return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error('Error fetching sosmeds:', error);
+    throw error;
+  }
+}
+
+/**
+ * Send contact message to the API
+ */
+export async function sendContactMessage(
+  payload: ContactMessageRequest
+): Promise<ContactMessageResponse> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+    const response = await fetch(CONTACT_MESSAGE_API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Failed to send contact message: ${response.statusText}`);
+    }
+
+    const data = (await response.json()) as ContactMessageResponse;
+    return data;
+  } catch (error) {
+    console.error('Error sending contact message:', error);
     throw error;
   }
 }
