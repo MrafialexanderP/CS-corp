@@ -8,6 +8,8 @@ const HeroSection = () => {
   const [showCamarSakti, setShowCamarSakti] = useState(false);
   const sectionRef = useRef(null);
 
+  const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
   useEffect(() => {
     setIsVisible(true);
 
@@ -52,8 +54,26 @@ const HeroSection = () => {
         }}
       />
 
+      {/* Intro overlay: white background with big colored logo, fades out smoothly on scroll */}
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center bg-white z-10"
+        style={{
+          opacity: 1 - clamp01((scrollProgress - 0.0) / 0.35),
+          pointerEvents: 'none',
+          transition: 'opacity 0.45s ease-out'
+        }}
+      >
+        <img src="/cscorp1.png" alt="CSCORP" className="w-40 sm:w-52 md:w-60 drop-shadow" />
+      </motion.div>
+
       {/* Content */}
-      <div className="max-w-4xl mx-auto text-center relative z-10 w-full px-2 sm:px-0 translate-x-0 md:-translate-x-[50px]">
+      <div
+        className="max-w-4xl mx-auto text-center relative z-20 w-full px-2 sm:px-0 translate-x-0 md:-translate-x-[50px]"
+        style={{
+          opacity: clamp01((scrollProgress - 0.22) / 0.25),
+          transition: 'opacity 0.45s ease-out'
+        }}
+      >
         {/* Main Title */}
         <motion.h1 
           initial={{ opacity: 0, y: 30 }}

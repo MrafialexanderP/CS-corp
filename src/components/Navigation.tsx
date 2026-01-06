@@ -8,6 +8,7 @@ const Navigation = () => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isDarkBackground, setIsDarkBackground] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [atTop, setAtTop] = useState(true);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
   const isMobile = useIsMobile();
@@ -26,6 +27,7 @@ const Navigation = () => {
     const handleScroll = () => {
       const scrolled = window.scrollY > 0;
       setIsScrolled(scrolled);
+      setAtTop(window.scrollY < 40);
 
       // Check which section is at the navbar position (80px dari top)
       const navHeight = 80;
@@ -88,6 +90,7 @@ const Navigation = () => {
                   src="/logohitam.png" 
                   alt="CS CORP Logo"
                   className="h-20 w-auto"
+                  style={{ opacity: atTop ? 0 : 1, transition: 'opacity 0.3s ease', pointerEvents: atTop ? 'none' : 'auto' }}
                 />
               </Link>
 
@@ -97,7 +100,18 @@ const Navigation = () => {
                 className={`transition-colors duration-300 pointer-events-auto flex-shrink-0 ${
                   isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
                 }`}
-                style={{ position: 'relative', zIndex: 10, minWidth: '32px', minHeight: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                style={{
+                  position: 'relative',
+                  zIndex: 10,
+                  minWidth: '32px',
+                  minHeight: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  opacity: atTop ? 0 : 1,
+                  pointerEvents: atTop ? 'none' : 'auto',
+                  transition: 'opacity 0.3s ease'
+                }}
               >
                 {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
