@@ -27,7 +27,7 @@ const ExperienceSection = () => {
   const line2Y = useTransform(titleScrollProgress, [0, 0.5, 0.9, 1], [40, 40, 0, 0]);
 
   return (
-    <section ref={sectionRef} className="relative bg-white-50" style={{ minHeight: '80vh' }}>
+    <section ref={sectionRef} id="experience" className="relative bg-white-50" style={{ minHeight: '80vh' }}>
       <div className="sticky top-0 min-h-screen flex flex-col">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full flex-1 flex flex-col">
           {/* Header - Now part of the same sticky layer with enhanced scroll animation */}

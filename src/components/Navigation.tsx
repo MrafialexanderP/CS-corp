@@ -73,12 +73,12 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-      <div className="max-w-5xl mx-auto">
+    <nav className="fixed top-0 left-0 right-0 z-[9999] px-6 py-4 overflow-visible" style={{ isolation: 'isolate', transform: 'translateZ(0)', willChange: 'auto', backfaceVisibility: 'hidden', pointerEvents: 'none' }}>
+      <div className="max-w-5xl mx-auto overflow-visible pointer-events-auto">
         {isMobile ? (
           // Mobile Navigation - No blur background
           <>
-            <div className="flex items-center justify-between px-2 py-2">
+            <div className="flex items-center justify-between px-2 py-2 w-full" style={{ position: 'relative', zIndex: 10, gap: '1rem', pointerEvents: 'auto' }}>
               {/* Mobile Logo */}
               <Link 
                 to="/" 
@@ -94,9 +94,10 @@ const Navigation = () => {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className={`transition-colors duration-300 ${
+                className={`transition-colors duration-300 pointer-events-auto flex-shrink-0 ${
                   isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
                 }`}
+                style={{ position: 'relative', zIndex: 10, minWidth: '32px', minHeight: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
               >
                 {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>

@@ -109,7 +109,7 @@ const CSCOMSection = () => {
   }, []);
 
   return (
-    <section className="bg-transparent">
+    <section className="bg-transparent" id="cscom">
       <div className="px-4 py-2 sm:py-3">
         <motion.div
           ref={titleRef}

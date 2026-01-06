@@ -277,8 +277,11 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       className={`relative w-full overflow-visible ${className}`.trim()}
       ref={scrollerRef}
       style={{
-        WebkitTransform: 'translateZ(0)',
-        transform: 'translateZ(0)'
+        WebkitTransform: 'none',
+        transform: 'none',
+        willChange: 'auto',
+        overflowX: 'hidden',
+        overflowY: 'visible'
       }}
     >
       <div className="scroll-stack-inner pt-[12vh] px-4 sm:px-8 md:px-12 pb-[22rem] min-h-screen">
