@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 
 // Blue diamond/star decoration component
 const BlueDiamond = ({ className }: { className?: string }) => (
@@ -34,18 +33,20 @@ const ImpactSection = () => {
     offset: ["start start", "end end"]
   });
 
-  // Define words to animate with their scroll trigger points
-  const words = [
-    { text: "We", start: 0, end: 0.1 },
-    { text: "create", start: 0.1, end: 0.2 },
-    { text: "impactful", start: 0.2, end: 0.35 },
-    { text: "experience", start: 0.35, end: 0.5, italic: true },
-    { text: "and", start: 0.5, end: 0.65 },
-    { text: "productions", start: 0.65, end: 0.85, italic: true }
-  ];
+  const words = useMemo(
+    () => [
+      { text: "We", start: 0, end: 0.12 },
+      { text: "create", start: 0.08, end: 0.2 },
+      { text: "impactful", start: 0.16, end: 0.28 },
+      { text: "experience", start: 0.24, end: 0.4, italic: true },
+      { text: "and", start: 0.32, end: 0.5 },
+      { text: "productions", start: 0.4, end: 0.6, italic: true }
+    ],
+    []
+  );
 
   return (
-    <section ref={sectionRef} id="about" className="relative h-[300vh]">
+    <section ref={sectionRef} id="about" className="relative h-[130vh]">
       <div className="sticky top-0 h-screen bg-white px-4 sm:px-6 flex items-center justify-center overflow-hidden">
         {/* Blue Diamond Decorations */}
         <motion.div
@@ -69,24 +70,17 @@ const ImpactSection = () => {
       </motion.div>
 
       <div className="max-w-4xl mx-auto text-left relative z-10">
-        <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 sm:mb-8 leading-tight">
+        <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-bold leading-tight text-coral flex flex-wrap gap-x-3 gap-y-2">
           {words.map((word, index) => {
-            const opacity = useTransform(
-              scrollYProgress,
-              [word.start, word.end],
-              [0, 1]
-            );
-            const y = useTransform(
-              scrollYProgress,
-              [word.start, word.end],
-              [50, 0]
-            );
+            const opacity = useTransform(scrollYProgress, [word.start, word.end], [0, 1]);
+            const y = useTransform(scrollYProgress, [word.start, word.end], [20, 0]);
 
             return (
               <motion.span
                 key={index}
                 style={{ opacity, y }}
-                className={`text-coral ${word.italic ? 'italic' : ''} inline-block mr-2 sm:mr-3`}
+                transition={{ type: "spring", stiffness: 140, damping: 24, mass: 1.05 }}
+                className={`${word.italic ? "italic" : ""}`.trim()}
               >
                 {word.text}
               </motion.span>
