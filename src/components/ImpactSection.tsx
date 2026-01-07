@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
+import TextType from "./TextType";
 
 // Blue diamond/star decoration component
 const BlueDiamond = ({ className }: { className?: string }) => (
@@ -28,25 +29,86 @@ const BlueDiamond = ({ className }: { className?: string }) => (
 
 const ImpactSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const [typingStarted, setTypingStarted] = useState(false);
+  const [typingComplete, setTypingComplete] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
+  
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"]
   });
 
-  const words = useMemo(
-    () => [
-      { text: "We", start: 0, end: 0.12 },
-      { text: "create", start: 0.08, end: 0.2 },
-      { text: "impactful", start: 0.16, end: 0.28 },
-      { text: "experience", start: 0.24, end: 0.4, italic: true },
-      { text: "and", start: 0.32, end: 0.5 },
-      { text: "productions", start: 0.4, end: 0.6, italic: true }
-    ],
-    []
-  );
+  // Start typing when section comes into view
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !typingStarted) {
+            setTypingStarted(true);
+            setIsLocked(true);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, [typingStarted]);
+
+  // Scroll lock logic - prevent scroll until typing complete
+  useEffect(() => {
+    if (!isLocked) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (!sectionRef.current) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const inSection = rect.top <= 0 && rect.bottom > window.innerHeight;
+
+      if (inSection && !typingComplete) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!sectionRef.current) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const inSection = rect.top <= 0 && rect.bottom > window.innerHeight;
+
+      if (inSection && !typingComplete) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [isLocked, typingComplete]);
+
+  // Unlock scroll after typing complete
+  useEffect(() => {
+    if (typingComplete) {
+      setTimeout(() => {
+        setIsLocked(false);
+      }, 500);
+    }
+  }, [typingComplete]);
+
+  const handleTypingComplete = () => {
+    setTypingComplete(true);
+  };
 
   return (
-    <section ref={sectionRef} id="about" className="relative h-[130vh]">
+    <section ref={sectionRef} id="about" className="relative h-[100vh]">
       <div className="sticky top-0 h-screen bg-white px-4 sm:px-6 flex items-center justify-center overflow-hidden">
         {/* Blue Diamond Decorations */}
         <motion.div
@@ -70,23 +132,17 @@ const ImpactSection = () => {
       </motion.div>
 
       <div className="max-w-4xl mx-auto text-left relative z-10">
-        <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-bold leading-tight text-coral flex flex-wrap gap-x-3 gap-y-2">
-          {words.map((word, index) => {
-            const opacity = useTransform(scrollYProgress, [word.start, word.end], [0, 1]);
-            const y = useTransform(scrollYProgress, [word.start, word.end], [20, 0]);
-
-            return (
-              <motion.span
-                key={index}
-                style={{ opacity, y }}
-                transition={{ type: "spring", stiffness: 140, damping: 24, mass: 1.05 }}
-                className={`${word.italic ? "italic" : ""}`.trim()}
-              >
-                {word.text}
-              </motion.span>
-            );
-          })}
-        </div>
+        <TextType
+          text="We create impactful experience and productions"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-coral"
+          typingSpeed={80}
+          showCursor={true}
+          cursorCharacter="|"
+          cursorClassName="text-coral"
+          loop={false}
+          startOnVisible={typingStarted}
+          onSentenceComplete={handleTypingComplete}
+        />
       </div>
       </div>
     </section>
