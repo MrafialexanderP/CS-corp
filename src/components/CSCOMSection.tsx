@@ -109,8 +109,8 @@ const CSCOMSection = () => {
   }, []);
 
   return (
-    <section className="bg-transparent" id="cscom">
-      <div className="px-4 text-center mb-0 sm:mb-1 md:mb-1 -mt-8 sm:mt-0 md:pt-6 pb-2 sm:pb-4 md:pb-6">
+    <section className="bg-transparent -mt-32 sm:-mt-20 md:mt-0" id="cscom">
+      <div className="px-4 text-center mb-0 sm:mb-1 md:mb-1 pt-0 sm:pt-0 md:pt-0 pb-0 sm:pb-0 md:pb-6">
         <motion.div
           ref={titleRef}
           style={{

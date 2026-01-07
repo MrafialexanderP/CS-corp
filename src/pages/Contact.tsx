@@ -173,15 +173,17 @@ const Contact = () => {
               <div>
                 <a 
                   href={contactData ? `mailto:${contactData.email}` : 'mailto:cscorp@gmail.com'} 
-                  className="text-3xl sm:text-4xl md:text-5xl font-bold italic hover:opacity-80 transition-opacity inline-block"
+                  className="text-3xl sm:text-4xl md:text-5xl font-bold italic hover:opacity-80 transition-opacity inline-block pb-2"
                   style={{
                     background: 'linear-gradient(90deg, #EF6C4E 0%, #F89C7E 50%, #3C597F 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text'
+                    backgroundClip: 'text',
+                    display: 'inline-block',
+                    lineHeight: '1.2'
                   }}
                 >
-                  {contactData?.email || 'cscorp@Gmail.com'}
+                  {contactData?.email || 'cscorp@gmail.com'}
                 </a>
               </div>
             </div>
