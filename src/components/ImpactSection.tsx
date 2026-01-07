@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useMemo, useRef, useState, useEffect } from "react";
+import { motion, useScroll } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import TextType from "./TextType";
 
 // Blue diamond/star decoration component
@@ -38,25 +38,17 @@ const ImpactSection = () => {
     offset: ["start start", "end end"]
   });
 
-  // Start typing when section comes into view
+  // Start typing only after section is entered (scroll progress > small threshold)
   useEffect(() => {
-    if (!sectionRef.current) return;
+    const unsubscribe = scrollYProgress.on("change", (latest) => {
+      if (!typingStarted && latest > 0.02) {
+        setTypingStarted(true);
+        setIsLocked(true);
+      }
+    });
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !typingStarted) {
-            setTypingStarted(true);
-            setIsLocked(true);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, [typingStarted]);
+    return () => unsubscribe();
+  }, [scrollYProgress, typingStarted]);
 
   // Scroll lock logic - prevent scroll until typing complete
   useEffect(() => {
@@ -133,9 +125,9 @@ const ImpactSection = () => {
 
       <div className="max-w-4xl mx-auto text-left relative z-10">
         <TextType
-          text="We create impactful experience and productions"
+          text="We create impactful experiences and productions"
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-coral"
-          typingSpeed={80}
+          typingSpeed={120}
           showCursor={true}
           cursorCharacter="|"
           cursorClassName="text-coral"

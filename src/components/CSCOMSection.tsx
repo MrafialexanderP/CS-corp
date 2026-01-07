@@ -110,10 +110,9 @@ const CSCOMSection = () => {
 
   return (
     <section className="bg-transparent" id="cscom">
-      <div className="px-4 py-2 sm:py-3">
+      <div className="px-4 text-center mb-0 sm:mb-1 md:mb-1 -mt-8 sm:mt-0 md:pt-6 pb-2 sm:pb-4 md:pb-6">
         <motion.div
           ref={titleRef}
-          className="text-center mb-2"
           style={{
             opacity: titleOpacity,
             y: titleY,
@@ -121,7 +120,7 @@ const CSCOMSection = () => {
           }}
         >
           <motion.h2 
-            className="mx-auto max-w-4xl text-3xl sm:text-4xl lg:text-[42px] font-bold italic leading-tight" 
+            className="mx-auto max-w-4xl text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold italic leading-tight"
             style={{ color: '#3C597F' }}
           >
             <motion.span
@@ -134,7 +133,7 @@ const CSCOMSection = () => {
               Creating Impactful Experiences
             </motion.span>
             <motion.span
-              className="block"
+              className="block mt-1 sm:mt-2"
               style={{
                 opacity: line2Opacity,
                 y: line2Y,

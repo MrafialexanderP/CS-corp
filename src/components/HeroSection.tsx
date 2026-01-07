@@ -4,8 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [showMainTitle, setShowMainTitle] = useState(false);
   const [showPhilosophy, setShowPhilosophy] = useState(false);
   const [showCamarSakti, setShowCamarSakti] = useState(false);
+  const [mainTitleComplete, setMainTitleComplete] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
   const sectionRef = useRef(null);
 
   const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
@@ -28,18 +31,87 @@ const HeroSection = () => {
       
       setScrollProgress(progress);
       
+      // Trigger main title when scrolled into section
+      if (progress > 0.22 && !showMainTitle) {
+        setShowMainTitle(true);
+        setIsLocked(true);
+      }
+      
       // Trigger animations once when scrolled to threshold
-      if (progress > 0.05 && !showPhilosophy) {
+      if (progress > 0.05 && !showPhilosophy && showMainTitle) {
         setShowPhilosophy(true);
       }
-      if (progress > 0.3 && !showCamarSakti) {
+      if (progress > 0.3 && !showCamarSakti && showMainTitle) {
         setShowCamarSakti(true);
       }
     };
 
+    // Lock immediately when main content should show
+    const checkLock = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      let progress = 0;
+      if (rect.top < window.innerHeight) {
+        progress = Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height));
+      }
+      
+      if (progress > 0.22 && !mainTitleComplete) {
+        setShowMainTitle(true);
+        setIsLocked(true);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
+    checkLock();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [showPhilosophy, showCamarSakti]);
+  }, [showPhilosophy, showCamarSakti, mainTitleComplete, showMainTitle]);
+
+  // Track when all main title animations are complete
+  useEffect(() => {
+    if (showCamarSakti && isVisible) {
+      // All animations complete after Camar Sakti finishes (1s duration + small buffer)
+      const timer = setTimeout(() => {
+        setMainTitleComplete(true);
+        setIsLocked(false);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [showCamarSakti, isVisible]);
+
+  // Scroll lock logic - prevent scroll until all animations complete
+  useEffect(() => {
+    if (!isLocked) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (!mainTitleComplete) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!mainTitleComplete) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!mainTitleComplete && ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' '].includes(e.key)) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('keydown', handleKeyDown, { passive: false });
+    
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isLocked, mainTitleComplete]);
 
   return (
     <section 
@@ -78,7 +150,7 @@ const HeroSection = () => {
         {/* Main Title */}
         <motion.h1 
           initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
+          animate={{ opacity: showMainTitle ? 1 : 0, y: showMainTitle ? 0 : 30 }}
           transition={{ duration: 2.5, ease: "easeOut", delay: 0.3 }}
           className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 tracking-wide sm:whitespace-nowrap"
           style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, lineHeight: '1.2' }}
