@@ -140,6 +140,17 @@ const OurEvents = () => {
     setSlideIndex((prev) => (prev + 1) % selectedEvent.allImages.length);
   };
 
+  // Auto-slide effect for modal images
+  useEffect(() => {
+    if (!selectedEvent || selectedEvent.allImages.length < 2) return;
+    
+    const interval = setInterval(() => {
+      setSlideIndex((prev) => (prev + 1) % selectedEvent.allImages.length);
+    }, 3000); // Change image every 3 seconds
+    
+    return () => clearInterval(interval);
+  }, [selectedEvent]);
+
   // Initialize and handle infinite scroll for desktop only
   useEffect(() => {
     if (isMobile) return; // keep mobile behavior intact
@@ -180,7 +191,8 @@ const OurEvents = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3 sm:mb-4 md:mb-6"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold italic text-white mb-3 sm:mb-4 md:mb-6"
+            style={{ fontFamily: 'Inter, sans-serif' }}
           >
             OUR EVENTS
           </motion.h1>
@@ -319,120 +331,65 @@ const OurEvents = () => {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[90vh] overflow-y-auto shadow-2xl md:rounded-3xl md:max-h-[90vh] md:w-[98vw] md:max-w-none md:mx-auto"
+              className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl min-h-[85vh] max-h-[95vh] overflow-y-auto shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Handle Bar - Mobile Only */}
-              <div className="flex md:hidden justify-center pt-3 pb-2 sticky top-0 bg-white z-10">
-                <div className="w-12 h-1.5 bg-gray-300 rounded-full"></div>
-              </div>
-
               {/* Close Button */}
               <button
                 onClick={() => setSelectedEvent(null)}
-                className="absolute top-4 right-4 md:top-5 md:right-5 z-20 w-10 md:w-11 h-10 md:h-11 flex items-center justify-center bg-gray-100 md:bg-white rounded-full hover:bg-gray-200 transition-colors"
+                className="absolute top-4 right-4 md:top-6 md:right-6 z-20 w-8 md:w-10 h-8 md:h-10 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors"
                 aria-label="Close modal"
               >
-                <X className="w-5 md:w-6 h-5 md:h-6 text-gray-700" />
+                <X className="w-6 md:w-8 h-6 md:h-8 text-gray-900" strokeWidth={2} />
               </button>
 
-              {/* Desktop two-column layout */}
-              <div className="px-6 pb-8 pt-4 md:px-10 md:pb-12 md:pt-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              {/* Modal Content */}
+              <div className="p-6 md:p-10 lg:p-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[70vh]">
                   {/* Left: Text content */}
-                  <div className="order-2 md:order-1">
-                    <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 mb-4">
-                      {selectedEvent.title}
-                    </h2>
-                    {selectedEvent.subtitle && (
-                      <div className="space-y-1 mb-8">
-                        <p className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed">
-                          {selectedEvent.subtitle}
-                        </p>
-                        {selectedEvent.location && (
-                          <p className="text-gray-700 text-sm sm:text-base md:text-lg">{selectedEvent.location}</p>
-                        )}
-                      </div>
-                    )}
-                    <div className="grid grid-cols-2 gap-6 max-w-md">
+                  <div className="order-2 md:order-1 flex flex-col justify-between h-full">
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 md:mb-6 leading-tight">
+                        {selectedEvent.title}
+                      </h2>
+                      {selectedEvent.subtitle && (
+                        <div className="space-y-1 mb-8 md:mb-12">
+                          <p className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed">
+                            {selectedEvent.subtitle}
+                          </p>
+                          {selectedEvent.location && (
+                            <p className="text-gray-700 text-sm sm:text-base md:text-lg">{selectedEvent.location}</p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-2 gap-8 mt-auto pt-8">
                       <div>
-                        <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">CLIENT</span>
-                        <p className="text-gray-900 text-sm sm:text-base">{selectedEvent.client}</p>
+                        <span className="font-semibold text-gray-500 text-xs uppercase tracking-wider block mb-2">CLIENT</span>
+                        <p className="text-gray-900 text-base md:text-lg font-medium">{selectedEvent.client}</p>
                       </div>
                       <div>
-                        <span className="font-semibold text-gray-700 text-xs uppercase tracking-wider block mb-1">YEAR</span>
-                        <p className="text-gray-900 text-sm sm:text-base">{selectedEvent.year}</p>
+                        <span className="font-semibold text-gray-500 text-xs uppercase tracking-wider block mb-2">YEAR</span>
+                        <p className="text-gray-900 text-base md:text-lg font-medium">{selectedEvent.year}</p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right: Image Gallery */}
-                  <div className="order-1 md:order-2 w-full">
-                    <div className="relative w-full rounded-2xl overflow-hidden md:rounded-xl">
-                      {selectedEvent.allImages.length > 0 ? (
-                        <>
-                          <img
-                            src={selectedEvent.allImages[slideIndex]}
-                            alt={selectedEvent.title}
-                            className="w-full h-72 sm:h-80 md:h-[420px] object-cover"
-                          />
-                          {selectedEvent.allImages.length > 1 && (
-                            <>
-                              {/* Navigation Buttons */}
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handlePrevImage();
-                                }}
-                                className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white transition-colors z-10"
-                                aria-label="Previous image"
-                              >
-                                <ChevronLeftIcon className="w-5 h-5" />
-                              </button>
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleNextImage();
-                                }}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white transition-colors z-10"
-                                aria-label="Next image"
-                              >
-                                <ChevronRightIcon className="w-5 h-5" />
-                              </button>
-                              
-                              {/* Image Counter */}
-                              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-                                {slideIndex + 1} / {selectedEvent.allImages.length}
-                              </div>
-                              
-                              {/* Thumbnail Indicators */}
-                              {selectedEvent.allImages.length <= 6 && (
-                                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                                  {selectedEvent.allImages.map((img, idx) => (
-                                    <button
-                                      key={idx}
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setSlideIndex(idx);
-                                      }}
-                                      className={`w-2 h-2 rounded-full transition-all ${
-                                        slideIndex === idx ? 'bg-white w-6' : 'bg-white/50 hover:bg-white/75'
-                                      }`}
-                                      aria-label={`Go to image ${idx + 1}`}
-                                    />
-                                  ))}
-                                </div>
-                              )}
-                            </>
-                          )}
-                        </>
-                      ) : (
-                        <img
-                          src={selectedEvent.img}
-                          alt={selectedEvent.title}
-                          className="w-full h-72 sm:h-80 md:h-[420px] object-cover"
+                  {/* Right: Image Gallery - Single image with auto-slide */}
+                  <div className="order-1 md:order-2 w-full flex items-center">
+                    <div className="rounded-xl overflow-hidden bg-gray-100 w-full relative">
+                      <AnimatePresence mode="wait">
+                        <motion.img
+                          key={`img-${slideIndex}`}
+                          initial={{ opacity: 0, x: 50 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -50 }}
+                          transition={{ duration: 0.6, ease: "easeInOut" }}
+                          src={selectedEvent.allImages[slideIndex % selectedEvent.allImages.length]}
+                          alt={`${selectedEvent.title} - Image ${slideIndex + 1}`}
+                          className="w-full h-80 sm:h-96 md:h-[450px] lg:h-[500px] object-cover"
                         />
-                      )}
+                      </AnimatePresence>
                     </div>
                   </div>
                 </div>
