@@ -1,6 +1,5 @@
-import { motion, useScroll } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import TextType from "./TextType";
+import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
+import { useRef } from "react";
 
 // Blue diamond/star decoration component
 const BlueDiamond = ({ className }: { className?: string }) => (
@@ -27,77 +26,122 @@ const BlueDiamond = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const ImpactSection = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [typingStarted, setTypingStarted] = useState(false);
-  const [typingComplete, setTypingComplete] = useState(false);
-  const [isLocked, setIsLocked] = useState(false);
+// Scroll-based text reveal component
+interface ScrollRevealTextProps {
+  lines: string[];
+  className?: string;
+}
+
+interface CharData {
+  char: string;
+  start: number;
+  end: number;
+}
+
+interface WordData {
+  word: string;
+  chars: CharData[];
+}
+
+interface LineData {
+  words: WordData[];
+}
+
+const ScrollRevealText = ({ lines, className }: ScrollRevealTextProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"]
+    target: containerRef,
+    offset: ["start 0.8", "start 0.2"]
   });
 
-  // Start typing only after section is entered (scroll progress > small threshold)
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.on("change", (latest) => {
-      if (!typingStarted && latest > 0.02) {
-        setTypingStarted(true);
-        setIsLocked(true);
-      }
-    });
+  // Smooth the scroll progress for a more fluid animation
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
-    return () => unsubscribe();
-  }, [scrollYProgress, typingStarted]);
-
-  // Scroll lock logic - prevent scroll until typing complete
-  useEffect(() => {
-    if (!isLocked) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      if (!sectionRef.current) return;
-
-      const rect = sectionRef.current.getBoundingClientRect();
-      const inSection = rect.top <= 0 && rect.bottom > window.innerHeight;
-
-      if (inSection && !typingComplete) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!sectionRef.current) return;
-
-      const rect = sectionRef.current.getBoundingClientRect();
-      const inSection = rect.top <= 0 && rect.bottom > window.innerHeight;
-
-      if (inSection && !typingComplete) {
-        e.preventDefault();
-      }
-    };
-
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+  // Calculate total characters across all lines (including spaces)
+  const totalChars = lines.reduce((acc, line) => acc + line.length, 0) + (lines.length - 1); // +1 for line breaks
+  
+  const processedLines: LineData[] = [];
+  let charIndex = 0;
+  
+  lines.forEach((line, lineIndex) => {
+    const words = line.split(" ");
+    const lineWords: WordData[] = [];
     
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchmove', handleTouchMove);
-    };
-  }, [isLocked, typingComplete]);
-
-  // Unlock scroll after typing complete
-  useEffect(() => {
-    if (typingComplete) {
-      setTimeout(() => {
-        setIsLocked(false);
-      }, 500);
+    words.forEach((word) => {
+      const wordChars: CharData[] = [];
+      const chars = word.split("");
+      
+      chars.forEach((char) => {
+        wordChars.push({
+          char,
+          start: charIndex / totalChars,
+          end: (charIndex + 1) / totalChars,
+        });
+        charIndex++;
+      });
+      
+      // Count the space
+      charIndex++;
+      
+      lineWords.push({ word, chars: wordChars });
+    });
+    
+    processedLines.push({ words: lineWords });
+    
+    // Add extra index for line break (if not last line)
+    if (lineIndex < lines.length - 1) {
+      charIndex++;
     }
-  }, [typingComplete]);
+  });
 
-  const handleTypingComplete = () => {
-    setTypingComplete(true);
-  };
+  return (
+    <div ref={containerRef} className={className}>
+      {processedLines.map((lineData, lineIndex) => (
+        <div key={lineIndex}>
+          {lineData.words.map((wordData, wordIndex) => (
+            <span key={wordIndex} style={{ marginRight: wordIndex < lineData.words.length - 1 ? "0.3em" : 0 }}>
+              {wordData.chars.map((charData, charIdx) => (
+                <ScrollRevealCharacter
+                  key={charIdx}
+                  char={charData.char}
+                  progress={smoothProgress}
+                  start={charData.start}
+                  end={charData.end}
+                />
+              ))}
+            </span>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Individual character component
+interface ScrollRevealCharacterProps {
+  char: string;
+  progress: MotionValue<number>;
+  start: number;
+  end: number;
+}
+
+const ScrollRevealCharacter = ({ char, progress, start, end }: ScrollRevealCharacterProps) => {
+  const opacity = useTransform(progress, [start, end], [0, 1]);
+  
+  return (
+    <motion.span style={{ opacity }}>
+      {char}
+    </motion.span>
+  );
+};
+
+const ImpactSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
 
   return (
     <section ref={sectionRef} id="about" className="relative h-[100vh]">
@@ -124,16 +168,9 @@ const ImpactSection = () => {
       </motion.div>
 
       <div className="max-w-4xl mx-auto text-left relative z-10">
-        <TextType
-          text="We create impactful experiences and productions"
+        <ScrollRevealText
+          lines={["We create impactful experiences", "and productionss"]}
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-coral"
-          typingSpeed={120}
-          showCursor={true}
-          cursorCharacter="|"
-          cursorClassName="text-coral"
-          loop={false}
-          startOnVisible={typingStarted}
-          onSentenceComplete={handleTypingComplete}
         />
       </div>
       </div>
