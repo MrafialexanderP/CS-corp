@@ -113,6 +113,7 @@ const CSCOMSection = () => {
       <div className="px-4 text-center mb-0 sm:mb-1 md:mb-1 pt-0 sm:pt-0 md:pt-0 pb-0 sm:pb-0 md:pb-6">
         <motion.div
           ref={titleRef}
+          className="relative"
           style={{
             opacity: titleOpacity,
             y: titleY,
@@ -148,7 +149,7 @@ const CSCOMSection = () => {
       <div className="pb-6 sm:pb-8">
         <motion.div 
           ref={masonryRef}
-          className="w-full px-6 sm:px-8 md:px-12"
+          className="relative w-full px-6 sm:px-8 md:px-12"
           style={{
             opacity: masonryOpacity,
             y: masonryY,
@@ -186,7 +187,7 @@ const CSCOMSection = () => {
         </motion.div>
       </div>
 
-      <div ref={bottomSectionRef} className="pb-14 sm:pb-20">
+      <div ref={bottomSectionRef} className="relative pb-14 sm:pb-20">
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-center">
           <motion.div
             className="space-y-6 lg:pt-8 px-4 lg:pl-8 xl:pl-12"

@@ -100,7 +100,7 @@ const ScrollRevealText = ({ lines, className }: ScrollRevealTextProps) => {
   });
 
   return (
-    <div ref={containerRef} className={className}>
+    <div ref={containerRef} className={[className, 'relative'].filter(Boolean).join(' ')}>
       {processedLines.map((lineData, lineIndex) => (
         <div key={lineIndex}>
           {lineData.words.map((wordData, wordIndex) => (

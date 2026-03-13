@@ -5,6 +5,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { fetchEvents } from "@/lib/api-services";
 import { getImageUrl } from "@/lib/api-constants";
 import type { Event } from "@/lib/api-constants";
+import OptimizedImage from "./OptimizedImage";
 
 interface EventItem {
   title: string;
@@ -34,6 +35,8 @@ const ImageWithLoading = ({ src, alt }: { src: string; alt: string }) => {
         className={`w-full h-full object-cover transition-opacity duration-500 ${
           isLoading ? 'opacity-0' : 'opacity-100'
         }`}
+        loading="lazy"
+        decoding="async"
         onLoad={() => setIsLoading(false)}
         onError={() => {
           setIsLoading(false);
@@ -164,7 +167,7 @@ const EventsSection = () => {
     const y = useTransform(scrollYProgress, [0, 1], [speed, -speed]);
 
     return (
-      <motion.div ref={setRefs} style={{ y }}>
+      <motion.div ref={setRefs} className="relative" style={{ y }}>
         <motion.div
           variants={itemVariants}
           initial="hidden"
@@ -180,21 +183,20 @@ const EventsSection = () => {
 
   return (
     <section className="relative overflow-hidden py-32 px-8 md:px-12 lg:px-16">
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: "url('/OurEvents.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
+      <OptimizedImage
+        src="/OurEvents.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover"
+        sizes="100vw"
       />
       <div className="absolute inset-0 bg-black/50" />
 
       <div className="relative z-10 max-w-[1600px] mx-auto">
         <motion.div
-          ref={ref}
+          ref={sectionRef}
           initial="hidden"
-          animate={inView ? "visible" : "hidden"}
+          animate={sectionInView ? "visible" : "hidden"}
           variants={containerVariants}
           className="flex items-center justify-between mb-20"
         >
@@ -218,7 +220,7 @@ const EventsSection = () => {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
             {events.map((event, index) => (
-              <ParallaxItem key={index} index={index}>
+              <ParallaxItem key={index} index={index} active={shouldAnimate}>
                 <Card className="overflow-hidden bg-primary border-0 rounded-3xl shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-300">
                   <div className="aspect-[3/2] bg-gray-200 overflow-hidden">
                     <ImageWithLoading src={event.image} alt={event.title} />

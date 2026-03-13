@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import OptimizedImage from './OptimizedImage';
 
 const useMedia = (queries: string[], values: number[], defaultValue: number): number => {
   const get = () => values[queries.findIndex(q => matchMedia(q).matches)] ?? defaultValue;
@@ -30,19 +31,6 @@ const useMeasure = <T extends HTMLElement>() => {
   }, []);
 
   return [ref, size] as const;
-};
-
-const preloadImages = async (urls: string[]): Promise<void> => {
-  await Promise.all(
-    urls.map(
-      src =>
-        new Promise<void>(resolve => {
-          const img = new Image();
-          img.src = src;
-          img.onload = img.onerror = () => resolve();
-        })
-    )
-  );
 };
 
 interface Item {
@@ -95,7 +83,6 @@ const Masonry: React.FC<MasonryProps> = ({
   );
 
   const [containerRef, { width }] = useMeasure<HTMLDivElement>();
-  const [imagesReady, setImagesReady] = useState(false);
 
   const getInitialPosition = (item: GridItem) => {
     const containerRect = containerRef.current?.getBoundingClientRect();
@@ -125,10 +112,6 @@ const Masonry: React.FC<MasonryProps> = ({
         return { x: item.x, y: item.y + 100 };
     }
   };
-
-  useEffect(() => {
-    preloadImages(items.map(i => i.img)).then(() => setImagesReady(true));
-  }, [items]);
 
   const grid = useMemo<GridItem[]>(() => {
     if (!width) return [];
@@ -163,7 +146,7 @@ const Masonry: React.FC<MasonryProps> = ({
   const hasMounted = useRef(false);
 
   useLayoutEffect(() => {
-    if (!imagesReady) return;
+    if (!grid.length) return;
 
     grid.forEach((item, index) => {
       const selector = `[data-key="${item.id}"]`;
@@ -201,7 +184,7 @@ const Masonry: React.FC<MasonryProps> = ({
     });
 
     hasMounted.current = true;
-  }, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease]);
+  }, [grid, stagger, animateFrom, blurToFocus, duration, ease]);
 
   const handleMouseEnter = (id: string, element: HTMLElement) => {
     if (scaleOnHover) {
@@ -245,10 +228,11 @@ const Masonry: React.FC<MasonryProps> = ({
         >
           <div className="relative w-full h-full rounded-lg overflow-hidden shadow-md transition-shadow duration-200 will-change-transform hover:shadow-xl">
             {/* Image fills entire card height */}
-            <img
+            <OptimizedImage
               src={item.img}
               alt={item.title || 'Production'}
               className="w-full h-full object-cover"
+              sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
             />
             {/* Text overlay at bottom */}
             {item.title && (

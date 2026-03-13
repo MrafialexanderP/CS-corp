@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import OptimizedImage from './OptimizedImage';
 
 interface Item {
   id: string;
@@ -22,29 +23,7 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
   columns = 3,
   variant = 'default',
 }) => {
-  const [imagesLoaded, setImagesLoaded] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // Preload images
-  useEffect(() => {
-    let loadedCount = 0;
-    items.forEach((item) => {
-      const img = new Image();
-      img.src = item.img;
-      img.onload = () => {
-        loadedCount++;
-        if (loadedCount === items.length) {
-          setImagesLoaded(loadedCount);
-        }
-      };
-      img.onerror = () => {
-        loadedCount++;
-        if (loadedCount === items.length) {
-          setImagesLoaded(loadedCount);
-        }
-      };
-    });
-  }, [items]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -97,7 +76,7 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
       className="w-full"
       variants={containerVariants}
       initial="hidden"
-      animate={imagesLoaded > 0 ? "visible" : "hidden"}
+      animate={items.length > 0 ? "visible" : "hidden"}
     >
       {variant === 'featured' && items.length >= 5 ? (
         <div className="grid grid-cols-3 gap-6 auto-rows-max">
@@ -119,7 +98,12 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
                 onClick={() => onItemClick?.(item)}
               >
                 <div className="relative w-full h-full">
-                  <img src={item.img} alt={item.title || 'Production'} className="w-full h-full object-cover" />
+                  <OptimizedImage
+                    src={item.img}
+                    alt={item.title || 'Production'}
+                    className="w-full h-full object-cover"
+                    sizes="(min-width: 1024px) 33vw, 100vw"
+                  />
                   {(item.title || item.subtitle) && (
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 transition-all duration-300">
                       {item.title && (<h3 className="font-bold text-sm text-white line-clamp-2">{item.title}</h3>)}
@@ -144,7 +128,12 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
                   style={{ height: item.height ? `${item.height}px` : '350px' }}
                 >
                   <div className="relative w-full h-full">
-                    <img src={item.img} alt={item.title || 'Production'} className="w-full h-full object-cover" />
+                    <OptimizedImage
+                      src={item.img}
+                      alt={item.title || 'Production'}
+                      className="w-full h-full object-cover"
+                      sizes="(min-width: 1024px) 33vw, 100vw"
+                    />
                     {(item.title || item.subtitle) && (
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 transition-all duration-300">
                         {item.title && (<h3 className="font-bold text-sm text-white line-clamp-2">{item.title}</h3>)}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import OptimizedImage from './OptimizedImage';
 
 interface ProductionCardProps {
   title: string;
@@ -30,10 +31,11 @@ const ProductionCard: React.FC<ProductionCardProps> = ({
     >
       <div className="relative mb-3 overflow-hidden">
         <div className="aspect-[4/3] overflow-hidden relative">
-          <img
+          <OptimizedImage
             src={image}
             alt={title}
             className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
           />
           {/* Hover Overlay */}
           <motion.div

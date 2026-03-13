@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import OptimizedImage from './OptimizedImage';
 
 interface ServiceCardProps {
   title: string;
@@ -29,10 +30,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     >
       {/* Image Container */}
       <div className="relative w-full h-64 overflow-hidden">
-        <img
+        <OptimizedImage
           src={image}
           alt={title}
           className="w-full h-full object-cover transition-transform duration-500"
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           style={{
             transform: isHovered ? 'scale(1.05)' : 'scale(1)',
           }}

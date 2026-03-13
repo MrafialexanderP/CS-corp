@@ -33,7 +33,7 @@ const ExperienceSection = () => {
           {/* Header - Now part of the same sticky layer with enhanced scroll animation */}
           <motion.div
             ref={titleRef}
-            className="text-center mb-0 sm:mb-1 md:mb-2 pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-6 md:pb-12"
+            className="relative text-center mb-0 sm:mb-1 md:mb-2 pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-6 md:pb-12"
             style={{
               opacity: titleOpacity,
               y: titleY,

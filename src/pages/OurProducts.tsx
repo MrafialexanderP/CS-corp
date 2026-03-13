@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import CustomMasonry from '@/components/CustomMasonry';
 import Footer from '@/components/Footer';
+import OptimizedImage from '@/components/OptimizedImage';
 import { X, ChevronLeft, ChevronRight, ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { fetchProductions } from '@/lib/api-services';
@@ -185,9 +186,16 @@ const OurProducts = () => {
 
       {/* Hero Section */}
       <section
-        className="relative h-[40vh] sm:h-[50vh] md:h-[60vh] bg-cover bg-center"
-        style={{ backgroundImage: "url('/OurProductions.png')" }}
+        className="relative h-[40vh] sm:h-[50vh] md:h-[60vh]"
       >
+        <OptimizedImage
+          src="/OurProductions.png"
+          alt=""
+          aria-hidden="true"
+          priority
+          className="absolute inset-0 h-full w-full object-cover"
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
           <motion.h1
@@ -247,10 +255,11 @@ const OurProducts = () => {
                         onClick={() => handleItemClick(item)}
                       >
                     <div className="w-full h-64 overflow-hidden rounded-t-xl bg-gray-100">
-                      <img
+                      <OptimizedImage
                         src={item.img}
                         alt={item.title}
                         className="w-full h-full object-cover"
+                        sizes="(min-width: 640px) 50vw, 100vw"
                       />
                     </div>
                     <div className="p-4">
@@ -391,16 +400,21 @@ const OurProducts = () => {
                   <div className="order-1 md:order-2 w-full flex items-center">
                     <div className="rounded-xl overflow-hidden bg-gray-100 w-full relative">
                       <AnimatePresence mode="wait">
-                        <motion.img
+                        <motion.div
                           key={`img-${slideIndex}`}
                           initial={{ opacity: 0, x: 50 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: -50 }}
                           transition={{ duration: 0.6, ease: "easeInOut" }}
-                          src={selected.allImages[slideIndex % selected.allImages.length]}
-                          alt={`${selected.title} - Image ${slideIndex + 1}`}
-                          className="w-full h-80 sm:h-96 md:h-[450px] lg:h-[500px] object-cover"
-                        />
+                        >
+                          <OptimizedImage
+                            src={selected.allImages[slideIndex % selected.allImages.length]}
+                            alt={`${selected.title} - Image ${slideIndex + 1}`}
+                            priority
+                            className="w-full h-80 sm:h-96 md:h-[450px] lg:h-[500px] object-cover"
+                            sizes="(min-width: 1024px) 50vw, 100vw"
+                          />
+                        </motion.div>
                       </AnimatePresence>
                     </div>
                   </div>
