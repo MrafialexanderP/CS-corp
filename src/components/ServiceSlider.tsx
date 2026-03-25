@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import ScrollVelocity from './ScrollVelocity';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -6,13 +6,6 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const ServiceSlider = () => {
   const [activePanel, setActivePanel] = useState<'cscorp' | 'cscom' | 'cspro'>('cscorp');
   const isMobile = useIsMobile();
-
-  // Hide CSCORP on mobile; ensure a valid default when switching views.
-  useEffect(() => {
-    if (isMobile && activePanel === 'cscorp') {
-      setActivePanel('cscom');
-    }
-  }, [isMobile, activePanel]);
 
   const panels = [
     {
@@ -45,7 +38,7 @@ const ServiceSlider = () => {
   const marqueeText = "OUR SERVICE • ";
   const marqueeItems = Array.from({ length: 3 });
 
-  const mobilePanels = panels.filter((panel) => panel.key !== 'cscorp');
+  const mobilePanels = panels;
 
   return (
     <div className="relative w-full overflow-hidden">
@@ -69,18 +62,44 @@ const ServiceSlider = () => {
               <button
                 key={panel.key}
                 onClick={() => setActivePanel(panel.key)}
-                className={`flex flex-col items-center gap-2 px-6 py-4 rounded-2xl border-2 font-bold transition-all duration-300 ${
+                className={`flex flex-col items-center gap-2 px-6 py-4 rounded-2xl border-2 font-bold transition-all duration-300 bg-white ${
                   activePanel === panel.key
-                    ? 'bg-[#3C597F] text-white border-[#3C597F] shadow-lg scale-105'
-                    : 'bg-white text-gray-800 border-gray-300 hover:border-gray-400'
+                    ? panel.key === 'cscorp'
+                      ? 'border-transparent text-gray-900 shadow-[0_8px_20px_rgba(60,89,127,0.22)] scale-105'
+                      : panel.key === 'cscom'
+                        ? 'border-[#EF6C4E] text-[#EF6C4E] shadow-[0_8px_20px_rgba(239,108,78,0.22)] scale-105'
+                        : 'border-[#3C597F] text-[#3C597F] shadow-[0_8px_20px_rgba(60,89,127,0.22)] scale-105'
+                    : 'border-gray-300 text-gray-800 hover:border-gray-400'
                 }`}
+                style={
+                  activePanel === panel.key && panel.key === 'cscorp'
+                    ? {
+                        backgroundImage:
+                          'linear-gradient(#ffffff, #ffffff), linear-gradient(135deg, #3C597F 0%, #EF6C4E 100%)',
+                        backgroundOrigin: 'border-box',
+                        backgroundClip: 'padding-box, border-box',
+                      }
+                    : undefined
+                }
               >
                 <img
                   src={panel.logo}
                   alt={panel.key}
                   className={`${activePanel === panel.key ? 'h-14' : 'h-10'} object-contain transition-all duration-300`}
                 />
-                <span className="text-xs tracking-wider">{panel.key.toUpperCase()}</span>
+                <span
+                  className={`text-xs tracking-wider ${
+                    activePanel === panel.key
+                      ? panel.key === 'cscorp'
+                        ? 'text-gray-900'
+                        : panel.key === 'cscom'
+                          ? 'text-[#EF6C4E]'
+                          : 'text-[#3C597F]'
+                      : 'text-gray-800'
+                  }`}
+                >
+                  {panel.key.toUpperCase()}
+                </span>
               </button>
             ))}
           </div>
