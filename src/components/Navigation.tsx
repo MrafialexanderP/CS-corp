@@ -3,7 +3,11 @@ import { Link, useLocation } from "react-router-dom";
 import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";
 import { useIsMobile } from "../hooks/use-mobile";
 
-const Navigation = () => {
+interface NavigationProps {
+  forceBehind?: boolean;
+}
+
+const Navigation = ({ forceBehind = false }: NavigationProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isDarkBackground, setIsDarkBackground] = useState(false);
@@ -90,7 +94,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[9999] px-6 py-4 overflow-visible" style={{ isolation: 'isolate', transform: 'translateZ(0)', willChange: 'auto', backfaceVisibility: 'hidden', pointerEvents: 'none' }}>
+    <nav className={`fixed top-0 left-0 right-0 ${forceBehind ? 'z-40' : 'z-[9999]'} px-6 py-4 overflow-visible`} style={{ isolation: 'isolate', transform: 'translateZ(0)', willChange: 'auto', backfaceVisibility: 'hidden', pointerEvents: 'none' }}>
       <div className="max-w-5xl mx-auto overflow-visible pointer-events-auto">
         {isMobile ? (
           // Mobile Navigation - No blur background

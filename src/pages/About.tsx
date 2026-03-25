@@ -119,7 +119,7 @@ const About = () => {
 
   return (
     <div className="min-h-screen">
-      <Navigation />
+      <Navigation forceBehind={!!selectedMember} />
       
       {/* Hero Section with Gradient Background */}
       <section className="relative min-h-screen pt-20 overflow-hidden">
@@ -371,7 +371,7 @@ const About = () => {
                       <img 
                         src={member.image} 
                         alt={member.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover object-[center_18%] md:object-center group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
 
@@ -405,7 +405,7 @@ const About = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 pointer-events-auto"
+            className="fixed inset-0 z-[10050] flex items-end justify-center bg-black/70 pointer-events-auto"
             onClick={() => setSelectedMember(null)}
           >
             <motion.div
@@ -430,7 +430,7 @@ const About = () => {
                   <img
                     src={selectedMember.image}
                     alt={selectedMember.name}
-                    className="w-full h-full object-cover object-center"
+                    className="w-full h-full object-cover object-[center_20%] md:object-center"
                   />
                 </div>
 
