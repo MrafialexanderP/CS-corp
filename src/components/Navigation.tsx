@@ -29,8 +29,23 @@ const Navigation = () => {
       setIsScrolled(scrolled);
       setAtTop(window.scrollY < 40);
 
-      // Check which section is at the navbar position (80px dari top)
       const navHeight = 80;
+
+      // Non-home pages can mark the hero area with data-nav-hero for color switching.
+      if (!isHomePage) {
+        const pageHero = document.querySelector<HTMLElement>("[data-nav-hero='true']");
+        if (pageHero) {
+          const heroRect = pageHero.getBoundingClientRect();
+          const isOnHero = heroRect.top <= navHeight && heroRect.bottom > navHeight;
+          setIsDarkBackground(isOnHero);
+          return;
+        }
+
+        setIsDarkBackground(false);
+        return;
+      }
+
+      // Check which section is at the navbar position (80px dari top)
       let currentSectionIsDark = false;
 
       for (const [sectionId, config] of Object.entries(sectionConfig)) {
@@ -56,7 +71,7 @@ const Navigation = () => {
     window.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHomePage]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     if (!isHomePage) return;

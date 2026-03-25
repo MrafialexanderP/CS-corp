@@ -186,6 +186,7 @@ const OurProducts = () => {
 
       {/* Hero Section */}
       <section
+        data-nav-hero="true"
         className="relative h-[40vh] sm:h-[50vh] md:h-[60vh]"
       >
         <OptimizedImage

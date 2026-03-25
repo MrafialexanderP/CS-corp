@@ -184,7 +184,7 @@ const OurEvents = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative h-[40vh] sm:h-[50vh] md:h-[60vh] bg-cover bg-center" style={{ backgroundImage: 'url(/OurEvents.png)' }}>
+      <section data-nav-hero="true" className="relative h-[40vh] sm:h-[50vh] md:h-[60vh] bg-cover bg-center" style={{ backgroundImage: 'url(/OurEvents.png)' }}>
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
           <motion.h1
