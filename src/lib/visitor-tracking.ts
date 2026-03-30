@@ -4,6 +4,8 @@ const TRACK_THROTTLE_MS = 5000;
 const TRACKED_URLS_STORAGE_KEY = "visitor-tracked-urls";
 
 let lastTrackedAt = 0;
+// Prevent duplicate requests while a previous tracking request is still in-flight.
+const inFlightUrls = new Set<string>();
 
 function getTrackedUrls(): Set<string> {
   try {
@@ -34,6 +36,9 @@ export async function trackVisitor(currentUrl: string): Promise<void> {
   if (trackedUrls.has(currentUrl)) {
     return;
   }
+  if (inFlightUrls.has(currentUrl)) {
+    return;
+  }
 
   const now = Date.now();
   if (now - lastTrackedAt < TRACK_THROTTLE_MS) {
@@ -43,6 +48,10 @@ export async function trackVisitor(currentUrl: string): Promise<void> {
   const endpoint = `${API_BASE_URL}/__visitor/track`;
   const url = new URL(endpoint);
   url.searchParams.set("url", currentUrl);
+
+  inFlightUrls.add(currentUrl);
+  // Update throttle immediately so fast route changes don't queue extra requests.
+  lastTrackedAt = now;
 
   try {
     // Track visitor hits to backend even when frontend uses SPA routing.
@@ -57,9 +66,10 @@ export async function trackVisitor(currentUrl: string): Promise<void> {
       },
     });
 
-    lastTrackedAt = now;
     saveTrackedUrl(currentUrl);
   } catch (error) {
     console.error("Visitor tracking request failed:", error);
+  } finally {
+    inFlightUrls.delete(currentUrl);
   }
 }
