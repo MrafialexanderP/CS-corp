@@ -53,18 +53,37 @@ export async function trackVisitor(currentUrl: string): Promise<void> {
   // Update throttle immediately so fast route changes don't queue extra requests.
   lastTrackedAt = now;
 
+  const endpointUrl = url.toString();
+
+  const sendTrackRequest = async (
+    credentials: RequestCredentials,
+  ): Promise<boolean> => {
+    try {
+      // Track visitor hits to backend even when frontend uses SPA routing.
+      // Note: we avoid custom headers so the browser doesn't preflight unnecessarily.
+      const res = await fetch(endpointUrl, {
+        method: "GET",
+        credentials,
+        cache: "no-store",
+        keepalive: true,
+      });
+
+      return res.ok;
+    } catch {
+      return false;
+    }
+  };
+
   try {
-    // Track visitor hits to backend even when frontend uses SPA routing.
-    await fetch(url.toString(), {
-      method: "GET",
-      credentials: "include",
-      cache: "no-store",
-      keepalive: true,
-      headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        Pragma: "no-cache",
-      },
-    });
+    // Primary: try with cookies enabled (credentials include).
+    const okWithCredentials = await sendTrackRequest("include");
+    if (!okWithCredentials) {
+      // Fallback: some backends respond with Access-Control-Allow-Origin: '*'
+      // which fails when credentials: 'include'. Retrying without credentials
+      // allows tracking to work even if cookies are not required.
+      const okWithoutCredentials = await sendTrackRequest("omit");
+      if (!okWithoutCredentials) return;
+    }
 
     saveTrackedUrl(currentUrl);
   } catch (error) {
