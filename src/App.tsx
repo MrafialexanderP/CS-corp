@@ -2,9 +2,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
+import { trackVisitor } from "@/lib/visitor-tracking";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import OurEvents from "./pages/OurEvents";
@@ -15,6 +17,16 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+const VisitorTrackingListener = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    void trackVisitor(window.location.href);
+  }, [location.pathname, location.search, location.hash]);
+
+  return null;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -22,6 +34,7 @@ const App = () => (
       <Sonner />
       <WhatsAppButton />
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <VisitorTrackingListener />
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
