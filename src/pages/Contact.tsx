@@ -1,6 +1,9 @@
 import { Mail, Phone, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast, Toaster } from 'sonner';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import { divIcon } from 'leaflet';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import AnimatedSubmitButton from '../components/AnimatedSubmitButton';
@@ -8,6 +11,75 @@ import { sendContactEmail, validateContactForm } from '../lib/email';
 import { fetchContacts, fetchSosmeds, sendContactMessage } from '../lib/api-services';
 import type { Contact, Sosmed } from '../lib/api-constants';
 import { getSocialIcon } from '../lib/icon-helper';
+
+type BranchLocation = {
+  id: number;
+  name: string;
+  address: string;
+  position: [number, number];
+};
+
+const branchLocations: BranchLocation[] = [
+  {
+    id: 1,
+    name: 'CSCOM',
+    address: 'Alamat dummy CSCOM - ubah ke alamat asli Anda',
+    position: [-6.2615, 106.8106]
+  },
+  {
+    id: 2,
+    name: 'CSPRO LASER CUTTING',
+    address: 'Alamat dummy CSPRO LASER CUTTING - ubah ke alamat asli Anda',
+    position: [-6.2783, 106.8012]
+  },
+  {
+    id: 3,
+    name: 'CSPRO DIGITAL PRINTING',
+    address: 'Alamat dummy CSPRO DIGITAL PRINTING - ubah ke alamat asli Anda',
+    position: [-6.2488, 106.8274]
+  },
+  {
+    id: 4,
+    name: 'CSPRO OFFSET PRINTING - Pondok Labu',
+    address: 'Alamat dummy Pondok Labu - ubah ke alamat asli Anda',
+    position: [-6.3057, 106.7903]
+  },
+  {
+    id: 5,
+    name: 'CSPRO BOOTH PRODUCTION - Bojongsari',
+    address: 'Alamat dummy Bojongsari - ubah ke alamat asli Anda',
+    position: [-6.3943, 106.7642]
+  }
+];
+
+const mapCenter: [number, number] = [-6.2894, 106.8054];
+
+const branchLogoIcon = divIcon({
+  className: '',
+  html: `
+    <div style="
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px;
+      background: #ffffff;
+      border: 2px solid #EF6C4E;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    ">
+      <img
+        src="/cscorp1.png"
+        alt="CSCorp"
+        style="width: 30px; height: 30px; object-fit: contain;"
+      />
+    </div>
+  `,
+  iconSize: [44, 44],
+  iconAnchor: [22, 44],
+  popupAnchor: [0, -36]
+});
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -286,22 +358,46 @@ const Contact = () => {
               Headquarters
             </span>
           </h2>
-          <p className="text-gray-600 text-lg mb-8">
-            Jalan RE Martadinata No 5A, Ciputat, South Tangerang
-          </p>
 
-          {/* Google Maps Embed */}
+          {/* Interactive Map with Branch Markers */}
           <div className="relative w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-lg">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.3686472891855!2d106.74468931476916!3d-6.345379995407834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ee3e065d774d%3A0x5b4b4b4b4b4b4b4b!2sJl.%20RE%20Martadinata%20No.5A%2C%20Ciputat%2C%20South%20Tangerang!5e0!3m2!1sen!2sid!4v1234567890123!5m2!1sen!2sid"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="CS Corp Office Location"
-            />
+            <MapContainer
+              center={mapCenter}
+              zoom={11}
+              scrollWheelZoom
+              className="h-full w-full"
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+
+              {branchLocations.map((branch) => (
+                <Marker
+                  key={branch.id}
+                  position={branch.position}
+                  icon={branchLogoIcon}
+                >
+                  <Popup>
+                    <div className="text-left min-w-[220px]">
+                      <p className="font-bold text-[#B8352C] text-sm mb-1">{branch.name}</p>
+                      <p className="text-xs text-gray-700 mb-2">{branch.address}</p>
+                      <p className="text-xs text-[#3C597F]">
+                        Koordinat: {branch.position[0]}, {branch.position[1]}
+                      </p>
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${branch.position[0]},${branch.position[1]}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block mt-3 px-3 py-1.5 rounded-full text-xs font-semibold text-white bg-[#ffff] hover:bg-[#ffff] transition-colors"
+                      >
+                        Get Direction
+                      </a>
+                    </div>
+                  </Popup>
+                </Marker>
+              ))}
+            </MapContainer>
           </div>
         </div>
       </section>
