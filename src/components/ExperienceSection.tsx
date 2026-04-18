@@ -43,7 +43,7 @@ const ExperienceSection = () => {
           >
   <motion.h2
     className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
-               font-bold italic text-[#3C597F] leading-tight"
+               font-bold italic text-[#2A3582] leading-tight"
   >
     <motion.span
       className="block"
@@ -78,7 +78,7 @@ const ExperienceSection = () => {
               useWindowScroll={true}
             >
           {/* Event Organizer Card */}
-          <ScrollStackItem itemClassName="bg-[#3C597F] text-white h-80 sm:h-75 flex flex-col sm:flex-row items-center justify-between px-6 sm:px-12 rounded-2xl sm:rounded-[30px]">
+          <ScrollStackItem itemClassName="bg-[#2A3582] text-white h-80 sm:h-75 flex flex-col sm:flex-row items-center justify-between px-6 sm:px-12 rounded-2xl sm:rounded-[30px]">
             <motion.div
               className="flex-1 mb-6 sm:mb-0"
               initial={{ opacity: 0, x: -50 }}
@@ -109,7 +109,7 @@ const ExperienceSection = () => {
           </ScrollStackItem>
 
           {/* Brand Activation Card */}
-          <ScrollStackItem itemClassName="bg-[#EF6C4E] text-white h-80 sm:h-75 flex flex-col sm:flex-row items-center justify-between px-6 sm:px-12 rounded-2xl sm:rounded-[30px]">
+          <ScrollStackItem itemClassName="bg-[#EB670E] text-white h-80 sm:h-75 flex flex-col sm:flex-row items-center justify-between px-6 sm:px-12 rounded-2xl sm:rounded-[30px]">
             <motion.div
               className="flex-1 mb-6 sm:mb-0"
               initial={{ opacity: 0, x: -50 }}
@@ -140,7 +140,7 @@ const ExperienceSection = () => {
           </ScrollStackItem>
 
           {/* MICE Card */}
-          <ScrollStackItem itemClassName="bg-[#3C597F] text-white h-80 sm:h-75 flex flex-col sm:flex-row items-center justify-between px-6 sm:px-12 rounded-2xl sm:rounded-[30px]">
+          <ScrollStackItem itemClassName="bg-[#2A3582] text-white h-80 sm:h-75 flex flex-col sm:flex-row items-center justify-between px-6 sm:px-12 rounded-2xl sm:rounded-[30px]">
             <motion.div
               className="flex-1 mb-6 sm:mb-0"
               initial={{ opacity: 0, x: -50 }}
@@ -171,7 +171,7 @@ const ExperienceSection = () => {
           </ScrollStackItem>
 
           {/* Exhibition Card */}
-          <ScrollStackItem itemClassName="bg-[#EF6C4E] text-white h-80 sm:h-75 flex flex-col sm:flex-row items-center justify-between px-6 sm:px-12 rounded-2xl sm:rounded-[30px]">
+          <ScrollStackItem itemClassName="bg-[#EB670E] text-white h-80 sm:h-75 flex flex-col sm:flex-row items-center justify-between px-6 sm:px-12 rounded-2xl sm:rounded-[30px]">
             <motion.div
               className="flex-1 mb-6 sm:mb-0"
               initial={{ opacity: 0, x: -50 }}
@@ -202,7 +202,7 @@ const ExperienceSection = () => {
           </ScrollStackItem>
 
           {/* Entertainment Card */}
-          <ScrollStackItem itemClassName="bg-[#3C597F] text-white h-80 sm:h-75 flex flex-col sm:flex-row items-center justify-between px-6 sm:px-12 rounded-2xl sm:rounded-[30px]">
+          <ScrollStackItem itemClassName="bg-[#2A3582] text-white h-80 sm:h-75 flex flex-col sm:flex-row items-center justify-between px-6 sm:px-12 rounded-2xl sm:rounded-[30px]">
             <motion.div
               className="flex-1 mb-6 sm:mb-0"
               initial={{ opacity: 0, x: -50 }}

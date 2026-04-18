@@ -200,7 +200,7 @@ const EventsSection = () => {
           variants={containerVariants}
           className="flex items-center justify-between mb-20"
         >
-          <div className="rounded-full px-12 py-6" style={{ backgroundColor: '#EF6C4E' }}>
+          <div className="rounded-full px-12 py-6" style={{ backgroundColor: '#EB670E' }}>
             <h2 className="text-4xl font-bold text-white">OUR EVENTS</h2>
           </div>
           <a 

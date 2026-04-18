@@ -49,26 +49,26 @@ const ServiceSlider = () => {
       key: 'cscorp',
       icon: '/logocs.png',
       iconClassName: 'w-10 h-10',
-      ringGradient: 'linear-gradient(130deg, #3C597F 0%, #EF6C4E 100%)'
+      ringGradient: 'linear-gradient(130deg, #2A3582 0%, #EB670E 100%)'
     },
     {
       key: 'cscom',
       icon: '/cscom1.png',
       iconClassName: 'w-11 h-6',
-      ringGradient: 'linear-gradient(130deg, #EF6C4E 0%, #4b4ca2 100%)'
+      ringGradient: 'linear-gradient(130deg, #EB670E 0%, #2A3582 100%)'
     },
     {
       key: 'cspro',
       icon: '/cspro1.png',
       iconClassName: 'w-11 h-6',
-      ringGradient: 'linear-gradient(130deg, #EF6C4E 0%, #3C597F 100%)'
+      ringGradient: 'linear-gradient(130deg, #EB670E 0%, #2A3582 100%)'
     }
   ];
 
   return (
     <div className="relative w-full overflow-hidden">
       {/* Top Marquee - Blue background, white text */}
-      <div className="py-4 md:py-5 overflow-hidden" style={{ backgroundColor: '#3C597F' }}>
+      <div className="py-4 md:py-5 overflow-hidden" style={{ backgroundColor: '#2A3582' }}>
         <ScrollVelocity
           texts={['OUR SERVICE •']}
           velocity={-50}
@@ -101,7 +101,7 @@ const ServiceSlider = () => {
                     className="w-[52px] h-[52px] rounded-full flex items-center justify-center"
                     style={{
                       background: isActive ? brand.ringGradient : '#ffffff',
-                      boxShadow: isActive ? '0 8px 18px rgba(60, 89, 127, 0.22)' : 'none'
+                      boxShadow: isActive ? '0 8px 18px rgba(42, 53, 130, 0.22)' : 'none'
                     }}
                   >
                     <img
@@ -150,7 +150,7 @@ const ServiceSlider = () => {
                       <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory pl-6 pr-6">
                         {['Event Organizing', 'Activation', 'MICE', 'Exhibition', 'Entertainment'].map((service, idx) => (
                           <div key={service} className={`relative flex-shrink-0 w-32 aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden group snap-center ${idx === 4 ? 'mr-6' : ''}`}>
-                            <div className="absolute inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to top, rgba(239, 108, 78, 0.8), rgba(239, 108, 78, 0.2))' }} />
+                            <div className="absolute inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to top, rgba(235, 103, 14, 0.8), rgba(235, 103, 14, 0.2))' }} />
                             <div className="absolute bottom-0 left-0 right-0 p-2">
                               <p className="text-white text-[10px] font-bold leading-tight text-center">{service}</p>
                             </div>
@@ -166,7 +166,7 @@ const ServiceSlider = () => {
                       <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory pl-6 pr-6">
                         {['Event Contractor', 'Promotional Items', 'Signage & Branding', 'Printings & Acrylic Media'].map((service, idx) => (
                           <div key={service} className={`relative flex-shrink-0 w-32 aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden group snap-center ${idx === 3 ? 'mr-6' : ''}`}>
-                            <div className="absolute inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to top, rgba(60, 89, 127, 0.9), rgba(60, 89, 127, 0.2))' }} />
+                            <div className="absolute inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to top, rgba(42, 53, 130, 0.9), rgba(42, 53, 130, 0.2))' }} />
                             <div className="absolute bottom-0 left-0 right-0 p-2">
                               <p className="text-white text-[10px] font-bold leading-tight text-center">{service}</p>
                             </div>
@@ -202,7 +202,7 @@ const ServiceSlider = () => {
                       className="w-[66px] h-[66px] rounded-full flex items-center justify-center"
                       style={{
                         background: isActive ? brand.ringGradient : '#ffffff',
-                        boxShadow: isActive ? '0 10px 24px rgba(60, 89, 127, 0.26)' : 'none'
+                        boxShadow: isActive ? '0 10px 24px rgba(42, 53, 130, 0.26)' : 'none'
                       }}
                     >
                       <img
@@ -326,7 +326,7 @@ const ServiceSlider = () => {
         </>
       )}
       {/* Bottom Marquee - Coral background, white text */}
-      <div className="py-4 md:py-5 overflow-hidden" style={{ backgroundColor: '#EF6C4E' }}>
+      <div className="py-4 md:py-5 overflow-hidden" style={{ backgroundColor: '#EB670E' }}>
         <ScrollVelocity
           texts={['OUR SERVICE •']}
           velocity={50}

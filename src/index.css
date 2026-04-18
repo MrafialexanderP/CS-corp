@@ -17,7 +17,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 214 90% 36%;
+    --primary: 233 52% 34%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 40% 96.1%;
@@ -38,12 +38,12 @@ All colors MUST be HSL.
 
     --radius: 1rem;
 
-    --coral: 13 66% 55%;
-    --coral-light: 13 66% 60%;
-    --vibrant-blue: 214 90% 36%;
-    --vibrant-purple: 214 90% 36%;
-    --gradient-hero: linear-gradient(135deg, hsl(13 66% 55%) 0%, hsl(214 90% 36%) 50%, hsl(214 90% 36%) 100%);
-    --gradient-section: linear-gradient(180deg, hsl(13 66% 55%) 0%, hsl(214 90% 36%) 100%);
+    --coral: 24 89% 49%;
+    --coral-light: 24 89% 54%;
+    --vibrant-blue: 233 52% 34%;
+    --vibrant-purple: 233 52% 34%;
+    --gradient-hero: linear-gradient(135deg, hsl(24 89% 49%) 0%, hsl(233 52% 34%) 50%, hsl(233 52% 34%) 100%);
+    --gradient-section: linear-gradient(180deg, hsl(24 89% 49%) 0%, hsl(233 52% 34%) 100%);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -96,7 +96,7 @@ All colors MUST be HSL.
 
 @layer utilities {
   .gradient-hero {
-    background: linear-gradient(135deg, hsl(13 66% 57%) 0%, hsl(209 91% 38%) 50%, hsl(209 91% 38%) 100%);
+    background: linear-gradient(135deg, hsl(24 89% 49%) 0%, hsl(233 52% 34%) 50%, hsl(233 52% 34%) 100%);
   }
 
   /* Hide scrollbar but keep functionality */
@@ -105,7 +105,7 @@ All colors MUST be HSL.
   }
   
   .gradient-section {
-    background: linear-gradient(180deg, hsl(13 66% 57%) 0%, hsl(209 91% 38%) 100%);
+    background: linear-gradient(180deg, hsl(24 89% 49%) 0%, hsl(233 52% 34%) 100%);
   }
   
   .animate-marquee {

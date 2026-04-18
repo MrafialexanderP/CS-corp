@@ -122,19 +122,12 @@ const About = () => {
       <Navigation forceBehind={!!selectedMember} />
       
       {/* Hero Section with Gradient Background */}
-      <section className="relative min-h-screen pt-20 overflow-hidden">
-        {/* Blue Background */}
-        <div 
-          className="absolute inset-0 bg-[#1a5fcc]"
-        />
-
-        {/* Blur Orbs - Pink/Salmon circles at corners */}
-        <div className="absolute -top-20 -left-20 w-[400px] h-[400px] bg-[#e8b4a8]/60 rounded-full blur-[120px]" />
-        <div className="absolute top-10 right-0 w-[350px] h-[350px] bg-[#e8b4a8]/50 rounded-full blur-[100px]" />
-        <div className="absolute top-1/3 left-0 w-[300px] h-[300px] bg-[#e8b4a8]/40 rounded-full blur-[100px]" />
-        <div className="absolute top-1/2 right-0 w-[280px] h-[280px] bg-[#e8b4a8]/45 rounded-full blur-[90px]" />
-        <div className="absolute bottom-1/4 -left-10 w-[320px] h-[320px] bg-[#e8b4a8]/50 rounded-full blur-[110px]" />
-        <div className="absolute -bottom-20 right-10 w-[380px] h-[380px] bg-[#e8b4a8]/55 rounded-full blur-[120px]" />
+      <section
+        data-nav-hero="true"
+        className="relative min-h-screen pt-20 overflow-hidden bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/background_about.png')" }}
+      >
+        <div className="absolute inset-0 bg-[#2A3582]/20" />
 
         <div className="relative z-10 max-w-none mx-auto px-6 sm:px-8 py-12 sm:py-16">
           {/* WHO ARE WE Section */}
@@ -266,7 +259,7 @@ const About = () => {
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 
                   bg-clip-text text-transparent"
                 style={{
-                  backgroundImage: 'linear-gradient(90deg, #EF6C4E 0%, #ffffff 40%)'
+                  backgroundImage: 'linear-gradient(90deg, #EB670E 0%, #ffffff 40%)'
                 }}
               >
                 VISION
@@ -302,7 +295,7 @@ const About = () => {
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8
                   bg-clip-text text-transparent"
                 style={{
-                  backgroundImage: 'linear-gradient(90deg, #ffffff 50%, #EF6C4E 100%)'
+                  backgroundImage: 'linear-gradient(90deg, #ffffff 50%, #EB670E 100%)'
                 }}
               >
                 MISSION
@@ -379,7 +372,7 @@ const About = () => {
                     <div 
                       className="p-6"
                       style={{
-                        background: 'linear-gradient(135deg, #EF6C4E 0%, #F89C7E 100%)'
+                        background: 'linear-gradient(135deg, #EB670E 0%, #2A3582 100%)'
                       }}
                     >
                       <h3 className="text-xl font-bold text-white mb-1">

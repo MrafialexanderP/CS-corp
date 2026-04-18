@@ -122,7 +122,7 @@ const CSCOMSection = () => {
         >
           <motion.h2 
             className="mx-auto max-w-4xl text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold italic leading-tight"
-            style={{ color: '#3C597F' }}
+            style={{ color: '#2A3582' }}
           >
             <motion.span
               className="block"

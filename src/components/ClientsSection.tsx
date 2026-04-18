@@ -42,7 +42,11 @@ const ClientsSection = () => {
   }, []);
 
   return (
-    <section id="client" className="bg-white pt-0 pb-8 sm:pb-10 md:pb-12 -mt-10">
+    <section
+      id="client"
+      className="bg-white pt-0 pb-8 sm:pb-10 md:pb-12 -mt-10"
+      style={{ backgroundColor: '#ffffff' }}
+    >
       {/* Header - Full Width */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -57,7 +61,7 @@ const ClientsSection = () => {
       </motion.div>
 
       {/* Logo Rows - Full Width */}
-      <div className="space-y-8 sm:space-y-12">
+      <div className="space-y-8 sm:space-y-12 bg-white" style={{ backgroundColor: '#ffffff' }}>
         {/* Row 1 - Left to Right */}
         <LogoLoop
           logos={rows[0]}

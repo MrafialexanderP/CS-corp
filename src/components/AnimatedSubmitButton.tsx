@@ -44,7 +44,7 @@ const StyledWrapper = styled.div`
     font-family: inherit;
     font-size: 18px;
     font-weight: 600;
-    background: linear-gradient(90deg, #EF6C4E 0%, #3C597F 100%);
+    background: linear-gradient(90deg, #EB670E 0%, #2A3582 100%);
     color: white;
     padding: 0.7em 1.2em;
     padding-left: 0.9em;

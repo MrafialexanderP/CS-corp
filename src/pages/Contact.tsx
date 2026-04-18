@@ -62,7 +62,7 @@ const branchLogoIcon = divIcon({
       height: 44px;
       border-radius: 9999px;
       background: #ffffff;
-      border: 2px solid #EF6C4E;
+      border: 2px solid #EB670E;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
       display: flex;
       align-items: center;
@@ -172,7 +172,7 @@ const Contact = () => {
       <Navigation />
       
       {/* Hero Section with Orange to White Gradient Background */}
-      <section className="relative pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6" style={{ background: 'linear-gradient(180deg, #EF6C4E 0%, #ffffff 40%)', backdropFilter: 'blur(10px)' }}>
+      <section className="relative pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6" style={{ background: 'linear-gradient(180deg, #EB670E 0%, #ffffff 40%)', backdropFilter: 'blur(10px)' }}>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-start">
             {/* Left Side - Contact Info */}
@@ -185,7 +185,7 @@ const Contact = () => {
               <button 
                 className="px-10 py-3.5 rounded-full font-semibold text-white mb-7 text-lg sm:text-xl"
                 style={{
-                  background: 'linear-gradient(90deg, #EF6C4E 0%, #3C597F 100%)'
+                  background: 'linear-gradient(90deg, #EB670E 0%, #2A3582 100%)'
                 }}
               >
                 Get In Touch
@@ -247,7 +247,7 @@ const Contact = () => {
                   href={contactData ? `mailto:${contactData.email}` : 'mailto:cscorp@gmail.com'} 
                   className="text-3xl sm:text-4xl md:text-5xl font-bold italic hover:opacity-80 transition-opacity inline-block pb-2"
                   style={{
-                    background: 'linear-gradient(90deg, #EF6C4E 0%, #F89C7E 50%, #3C597F 100%)',
+                    background: 'linear-gradient(90deg, #EB670E 0%, #EB670E 50%, #2A3582 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
@@ -343,13 +343,13 @@ const Contact = () => {
       </section>
 
       {/* Headquarters Section */}
-      <section className="py-16 px-6" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #3C597F 100%)' }}>
+      <section className="py-16 px-6" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #2A3582 100%)' }}>
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Visit Our{' '}
             <span 
               style={{ 
-                background: 'linear-gradient(90deg, #EF6C4E 0%, #3C597F 100%)',
+                background: 'linear-gradient(90deg, #EB670E 0%, #2A3582 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text'
@@ -382,14 +382,14 @@ const Contact = () => {
                     <div className="text-left min-w-[220px]">
                       <p className="font-bold text-[#B8352C] text-sm mb-1">{branch.name}</p>
                       <p className="text-xs text-gray-700 mb-2">{branch.address}</p>
-                      <p className="text-xs text-[#3C597F]">
+                      <p className="text-xs text-[#2A3582]">
                         Koordinat: {branch.position[0]}, {branch.position[1]}
                       </p>
                       <a
                         href={`https://www.google.com/maps/dir/?api=1&destination=${branch.position[0]},${branch.position[1]}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-block mt-3 px-3 py-1.5 rounded-full text-xs font-semibold text-white bg-[#ffff] hover:bg-[#ffff] transition-colors"
+                        className="inline-block mt-3 px-3 py-1.5 rounded-full text-xs font-semibold text-white bg-[#EB670E] hover:opacity-90 transition-colors"
                       >
                         Get Direction
                       </a>

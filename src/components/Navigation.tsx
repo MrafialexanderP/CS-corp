@@ -21,11 +21,12 @@ const Navigation = ({ forceBehind = false }: NavigationProps) => {
     // Define sections dengan background color-nya
     const sectionConfig: { [key: string]: { bgColor: string; isDark: boolean } } = {
       hero: { bgColor: "white", isDark: true },
-      service: { bgColor: "#3C597F", isDark: true },
+      service: { bgColor: "#2A3582", isDark: true },
       impact: { bgColor: "white", isDark: false },
       events: { bgColor: "#F5F5F5", isDark: false },
       productions: { bgColor: "white", isDark: false },
       clients: { bgColor: "#F9FAFB", isDark: false },
+      contact: { bgColor: "#f4f4f4", isDark: false },
     };
 
     const handleScroll = () => {
@@ -223,15 +224,30 @@ const Navigation = ({ forceBehind = false }: NavigationProps) => {
                     </Link>
                   )}
 
-                  <Link 
-                    to="/contact"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
-                      isDarkBackground ? "text-white" : "text-black"
-                    }`}
-                  >
-                    Contact
-                  </Link>
+                  {isHomePage ? (
+                    <a
+                      href="#contact"
+                      onClick={(e) => {
+                        handleNavClick(e, "#contact");
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
+                        isDarkBackground ? "text-white" : "text-black"
+                      }`}
+                    >
+                      Contact
+                    </a>
+                  ) : (
+                    <Link
+                      to="/#contact"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`block px-6 py-3 hover:bg-white/20 transition-colors text-sm font-semibold ${
+                        isDarkBackground ? "text-white" : "text-black"
+                      }`}
+                    >
+                      Contact
+                    </Link>
+                  )}
                 </div>
               </div>
             )}
@@ -343,14 +359,26 @@ const Navigation = ({ forceBehind = false }: NavigationProps) => {
               )}
 
               {/* Contact Link */}
-              <Link 
-                to="/contact"
-                className={`transition-colors duration-300 text-sm font-bold ${
-                  isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
-                }`}
-              >
-                Contact
-              </Link>
+              {isHomePage ? (
+                <a
+                  href="#contact"
+                  onClick={(e) => handleNavClick(e, "#contact")}
+                  className={`transition-colors duration-300 text-sm font-bold ${
+                    isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
+                  }`}
+                >
+                  Contact
+                </a>
+              ) : (
+                <Link
+                  to="/#contact"
+                  className={`transition-colors duration-300 text-sm font-bold ${
+                    isDarkBackground ? "text-white hover:text-gray-200" : "text-black hover:text-gray-700"
+                  }`}
+                >
+                  Contact
+                </Link>
+              )}
             </div>
             </div>
           )}
