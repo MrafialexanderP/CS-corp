@@ -31,10 +31,14 @@ function splitClientsToRows(clients: Client[]): LogoItem[][] {
 const ClientsSection = () => {
   const [rows, setRows] = useState<LogoItem[][]>([[],[],[]]);
   useEffect(() => {
-    fetchClients().then(apiClients => {
-      const split = splitClientsToRows(apiClients);
-      setRows(split);
-    });
+    fetchClients()
+      .then(apiClients => {
+        const split = splitClientsToRows(apiClients);
+        setRows(split);
+      })
+      .catch((error) => {
+        console.error('Failed to load clients:', error);
+      });
   }, []);
 
   return (

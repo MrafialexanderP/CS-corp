@@ -1,6 +1,10 @@
 // API Constants Configuration
+const envApiBaseUrl =
+  typeof import.meta !== 'undefined' ? import.meta.env?.VITE_API_BASE_URL : undefined;
+
 export const API_BASE_URL =
-  (typeof import.meta !== 'undefined' ? import.meta.env?.VITE_API_BASE_URL : undefined) ||
+  envApiBaseUrl ||
+  (typeof import.meta !== 'undefined' && import.meta.env?.DEV ? '/api' : undefined) ||
   'https://cscorp.bgeodev.cloud/api';
 export const STORAGE_BASE_URL = 'https://cscorp.bgeodev.cloud/storage';
 

@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
+import ShowMoreButtonSimple from "./ShowMoreButtonSimple";
 import ProductionCard from "./ProductionCard";
 import Masonry from "./Masonry";
 import { fetchEvents } from "@/lib/api-services";
@@ -16,8 +17,15 @@ type Production = {
 const CSCOMSection = () => {
   const [productions, setProductions] = useState<Production[]>([]);
   const [loading, setLoading] = useState(true);
+  const titleRef = useRef<HTMLDivElement>(null);
   const masonryRef = useRef<HTMLDivElement>(null);
   const bottomSectionRef = useRef<HTMLDivElement>(null);
+
+  // Scroll progress for title animation
+  const { scrollYProgress: titleScrollProgress } = useScroll({
+    target: titleRef,
+    offset: ["start end", "center center"]
+  });
 
   // Scroll progress for masonry animation
   const { scrollYProgress: masonryScrollProgress } = useScroll({
@@ -31,6 +39,12 @@ const CSCOMSection = () => {
     offset: ["start end", "center center"]
   });
 
+  // Transform values for title
+  const titleOpacity = useTransform(titleScrollProgress, [0, 0.4, 0.8, 1], [0, 0, 1, 1]);
+  const titleY = useTransform(titleScrollProgress, [0, 0.4, 0.8, 1], [60, 60, 0, 0]);
+  const titleBlur = useTransform(titleScrollProgress, [0, 0.4, 0.8, 1], [8, 8, 0, 0]);
+  const titleFilter = useMotionTemplate`blur(${titleBlur}px)`;
+  
   // Transform values for masonry container
   const masonryOpacity = useTransform(masonryScrollProgress, [0, 0.3, 0.7, 1], [0, 0, 1, 1]);
   const masonryY = useTransform(masonryScrollProgress, [0, 0.3, 0.7, 1], [80, 80, 0, 0]);
@@ -44,6 +58,12 @@ const CSCOMSection = () => {
   const imageBlur = useTransform(bottomScrollProgress, [0, 0.5, 0.9, 1], [10, 10, 0, 0]);
   const imageFilter = useMotionTemplate`blur(${imageBlur}px)`;
   
+  // Transform values for title lines
+  const line1Opacity = useTransform(titleScrollProgress, [0, 0.3, 0.7, 1], [0, 0, 1, 1]);
+  const line1Y = useTransform(titleScrollProgress, [0, 0.3, 0.7, 1], [30, 30, 0, 0]);
+  const line2Opacity = useTransform(titleScrollProgress, [0, 0.4, 0.8, 1], [0, 0, 1, 1]);
+  const line2Y = useTransform(titleScrollProgress, [0, 0.4, 0.8, 1], [30, 30, 0, 0]);
+  
   // Transform values for bottom text lines
   const bottomLine1Opacity = useTransform(bottomScrollProgress, [0, 0.3, 0.7, 1], [0, 0, 1, 1]);
   const bottomLine1Y = useTransform(bottomScrollProgress, [0, 0.3, 0.7, 1], [40, 40, 0, 0]);
@@ -51,6 +71,8 @@ const CSCOMSection = () => {
   const bottomLine2Y = useTransform(bottomScrollProgress, [0, 0.4, 0.8, 1], [40, 40, 0, 0]);
   const bottomLine3Opacity = useTransform(bottomScrollProgress, [0, 0.5, 0.9, 1], [0, 0, 1, 1]);
   const bottomLine3Y = useTransform(bottomScrollProgress, [0, 0.5, 0.9, 1], [40, 40, 0, 0]);
+  const buttonOpacity = useTransform(bottomScrollProgress, [0, 0.6, 1], [0, 0, 1]);
+  const buttonY = useTransform(bottomScrollProgress, [0, 0.6, 1], [20, 20, 0]);
 
   useEffect(() => {
     const loadEvents = async () => {
@@ -88,6 +110,42 @@ const CSCOMSection = () => {
 
   return (
     <section className="bg-transparent -mt-32 sm:-mt-20 md:mt-0" id="cscom">
+      <div className="px-4 text-center mb-0 sm:mb-1 md:mb-1 pt-0 sm:pt-0 md:pt-0 pb-0 sm:pb-0 md:pb-6">
+        <motion.div
+          ref={titleRef}
+          className="relative"
+          style={{
+            opacity: titleOpacity,
+            y: titleY,
+            filter: titleFilter,
+          }}
+        >
+          <motion.h2 
+            className="mx-auto max-w-4xl text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold italic leading-tight"
+            style={{ color: '#3C597F' }}
+          >
+            <motion.span
+              className="block"
+              style={{
+                opacity: line1Opacity,
+                y: line1Y,
+              }}
+            >
+              Creating Impactful Experiences
+            </motion.span>
+            <motion.span
+              className="block mt-1 sm:mt-2"
+              style={{
+                opacity: line2Opacity,
+                y: line2Y,
+              }}
+            >
+              & Harmonious Collaborations
+            </motion.span>
+          </motion.h2>
+        </motion.div>
+      </div>
+
       <div className="pb-6 sm:pb-8">
         <motion.div 
           ref={masonryRef}
@@ -117,6 +175,15 @@ const CSCOMSection = () => {
               return <Masonry items={items} animateFrom="bottom" />;
             })()
           )}
+        </motion.div>
+        <motion.div 
+          className="mx-auto max-w-6xl mt-4 sm:mt-6 flex justify-end px-4"
+          style={{
+            opacity: masonryOpacity,
+            y: masonryY,
+          }}
+        >
+          <ShowMoreButtonSimple to="/events" />
         </motion.div>
       </div>
 
@@ -160,6 +227,15 @@ const CSCOMSection = () => {
                 to Construction.
               </motion.span>
             </motion.h3>
+            <motion.div 
+              className="mt-4 sm:mt-6 flex justify-start"
+              style={{
+                opacity: buttonOpacity,
+                y: buttonY,
+              }}
+            >
+              <ShowMoreButtonSimple to="/Products" />
+            </motion.div>
           </motion.div>
 
           <motion.div
