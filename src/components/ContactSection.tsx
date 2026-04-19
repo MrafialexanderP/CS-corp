@@ -353,7 +353,7 @@ const ContactSection = () => {
                         href={branch.mapsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-block mt-3 px-3 py-1.5 rounded-full text-xs font-semibold text-white bg-[#EB670E] hover:opacity-90 transition-colors"
+                        className="inline-block mt-3 px-3 py-1.5 rounded-full text-xs font-semibold text-[#2A3582] bg-white hover:opacity-70 transition-colors border border-gray-300"
                       >
                         Open in Google Maps
                       </a>
