@@ -17,38 +17,51 @@ type BranchLocation = {
   name: string;
   address: string;
   position: [number, number];
+  mapsUrl: string;
 };
 
 const branchLocations: BranchLocation[] = [
   {
     id: 1,
     name: 'CSCOM',
-    address: 'Alamat dummy CSCOM - ubah ke alamat asli Anda',
-    position: [-6.2615, 106.8106]
+    address: 'Jl. RE Martadinata No.11, Ciputat, Kec. Ciputat, Kota Tangerang Selatan, Banten 15411',
+    position: [-6.3241244, 106.7463706],
+    mapsUrl: 'https://maps.app.goo.gl/L724ptLLcCTntEku9'
   },
   {
     id: 2,
-    name: 'CSPRO LASER CUTTING',
-    address: 'Alamat dummy CSPRO LASER CUTTING - ubah ke alamat asli Anda',
-    position: [-6.2783, 106.8012]
+    name: 'CSPRO PRODUCTION WORKSHOP',
+    address: 'Jl. Masjid Al Aqso No.99, Jabon Mekar, Parung, Bogor Regency, West Java 16330',
+    position: [-6.4331130, 106.7098639],
+    mapsUrl: 'https://maps.app.goo.gl/sRjw3R4MRzkf3MXJ7?g_st=iw'
   },
   {
     id: 3,
     name: 'CSPRO DIGITAL PRINTING',
-    address: 'Alamat dummy CSPRO DIGITAL PRINTING - ubah ke alamat asli Anda',
-    position: [-6.2488, 106.8274]
+    address: 'Jl. RE Martadinata No.11, Ciputat, Kec. Ciputat, Kota Tangerang Selatan, Banten 15411',
+    position: [-6.3241244, 106.7463706],
+    mapsUrl: 'https://maps.app.goo.gl/L724ptLLcCTntEku9'
   },
   {
     id: 4,
     name: 'CSPRO OFFSET PRINTING - Pondok Labu',
     address: 'Alamat dummy Pondok Labu - ubah ke alamat asli Anda',
-    position: [-6.3057, 106.7903]
+    position: [-6.3057, 106.7903],
+    mapsUrl: 'https://www.google.com/maps/dir/?api=1&destination=-6.3057,106.7903'
   },
   {
     id: 5,
     name: 'CSPRO BOOTH PRODUCTION - Bojongsari',
     address: 'Alamat dummy Bojongsari - ubah ke alamat asli Anda',
-    position: [-6.3943, 106.7642]
+    position: [-6.3943, 106.7642],
+    mapsUrl: 'https://www.google.com/maps/dir/?api=1&destination=-6.3943,106.7642'
+  },
+  {
+    id: 6,
+    name: 'PERCETAKAN CSPRO - Pondok Labu',
+    address: 'Jl. Pd. Labu 1 No.28 3, RT.3/RW.7, Pd. Labu, Kec. Cilandak, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12450',
+    position: [-6.3057383, 106.7938507],
+    mapsUrl: 'https://maps.app.goo.gl/KZnGCf5VRCjnDvzDA'
   }
 ];
 
@@ -386,7 +399,7 @@ const Contact = () => {
                         Koordinat: {branch.position[0]}, {branch.position[1]}
                       </p>
                       <a
-                        href={`https://www.google.com/maps/dir/?api=1&destination=${branch.position[0]},${branch.position[1]}`}
+                        href={branch.mapsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-block mt-3 px-3 py-1.5 rounded-full text-xs font-semibold text-[#2A3582] bg-white hover:opacity-70 transition-colors border border-gray-300"

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import OptimizedImage from './OptimizedImage';
 
@@ -23,61 +23,22 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
   columns = 3,
   variant = 'default',
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const distributedColumns = useMemo(() => {
+    const heights = new Array(columns).fill(0);
+    const cols = Array.from({ length: columns }, () => [] as Item[]);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0.1,
-      },
-    },
-  };
+    for (const item of items) {
+      const minColIdx = heights.indexOf(Math.min(...heights));
+      const itemHeight = item.height ?? 350;
+      heights[minColIdx] += itemHeight + 24; // match gap-6 (24px)
+      cols[minColIdx].push(item);
+    }
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  };
-  // Compute columns for default variant (hooks must be unconditional)
-  const columnHeights = useRef<number[]>([]);
-  const columnItems = useRef<Item[][]>([]);
-
-  // Reset on items change
-  useEffect(() => {
-    // Initialize arrays
-    columnHeights.current = new Array(columns).fill(0);
-    columnItems.current = Array.from({ length: columns }, () => [] as Item[]);
-
-    if (items.length === 0) return;
-
-    items.forEach((item) => {
-      // Find column with minimum height
-      const minColIdx = columnHeights.current.indexOf(Math.min(...columnHeights.current));
-      
-      // Consistent height variations for better masonry effect
-      const itemHeight = item.height || (300 + (Math.floor(Math.random() * 5) * 50));
-      
-      columnHeights.current[minColIdx] += itemHeight + 24; // match gap-6 (24px)
-      if (columnItems.current[minColIdx]) {
-        columnItems.current[minColIdx].push(item);
-      }
-    });
+    return cols;
   }, [items, columns]);
 
   return (
-    <motion.div
-      ref={containerRef}
-      className="w-full"
-      variants={containerVariants}
-      initial="hidden"
-      animate={items.length > 0 ? "visible" : "hidden"}
-    >
+    <div className="w-full">
       {variant === 'featured' && items.length >= 5 ? (
         <div className="grid grid-cols-3 gap-6 auto-rows-max">
           {items.map((item, idx) => {
@@ -94,7 +55,10 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
               <motion.div
                 key={item.id}
                 className={`cursor-pointer group overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[0.98] ${colSpan} ${rowSpan}`}
-                variants={itemVariants}
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.01, margin: '0px 0px -6% 0px' }}
+                transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
                 onClick={() => onItemClick?.(item)}
               >
                 <div className="relative w-full h-full">
@@ -117,13 +81,16 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
         </div>
       ) : (
         <div className="grid gap-6" style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
-          {columnItems.current.map((columnItemsList, colIdx) => (
+          {distributedColumns.map((columnItemsList, colIdx) => (
             <div key={`col-${colIdx}`} className="flex flex-col gap-6">
               {columnItemsList.map((item) => (
                 <motion.div
                   key={item.id}
                   className="cursor-pointer group overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[0.98]"
-                  variants={itemVariants}
+                  initial={{ opacity: 0, y: 22 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.01, margin: '0px 0px -6% 0px' }}
+                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
                   onClick={() => onItemClick?.(item)}
                   style={{ height: item.height ? `${item.height}px` : '350px' }}
                 >
@@ -147,7 +114,7 @@ const CustomMasonry: React.FC<CustomMasonryProps> = ({
           ))}
         </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 

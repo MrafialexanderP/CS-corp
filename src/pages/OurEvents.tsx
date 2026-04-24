@@ -42,7 +42,7 @@ const OurEvents = () => {
   const [visibleEvents, setVisibleEvents] = useState<EventItem[]>([]);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const INITIAL_LOAD_COUNT = 9;
-  const LOAD_MORE_COUNT = 6;
+  const LOAD_MORE_COUNT = 9;
 
   // Transform API data to EventItem format
   const events: EventItem[] = useMemo(() => {
@@ -172,7 +172,11 @@ const OurEvents = () => {
           });
         }
       },
-      { rootMargin: '1200px 0px 0px 0px' }
+      {
+        // Trigger earlier when the sentinel is still below viewport,
+        // so the next batch appears sooner during scrolling.
+        rootMargin: '0px 0px 900px 0px',
+      }
     );
 
     observer.observe(target);

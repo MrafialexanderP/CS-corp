@@ -19,7 +19,7 @@ const ServiceSlider = () => {
     },
     {
       key: 'cscom' as const,
-      logo: 'cscom1.png',
+      logo: '/cscom1.png',
       desc:
         'Your dedicated partner for comprehensive Event Organizing, Brand Activation, MICE, Exhibition, and Entertainment solutions.',
       statLabel: 'Client',
@@ -37,6 +37,21 @@ const ServiceSlider = () => {
 
   const marqueeText = "OUR SERVICE • ";
   const marqueeItems = Array.from({ length: 3 });
+
+  const cscomServices = [
+    { title: 'Event Organizer', image: '/EO.png' },
+    { title: 'Activation', image: '/Activation.png' },
+    { title: 'MICE', image: '/MICE.png' },
+    { title: 'Exhibition', image: '/Exibition.png' },
+    { title: 'Entertainment', image: '/Entertaiment.png' }
+  ];
+
+  const csproServices = [
+    { title: 'Event Contractor', image: '/OurProductions.png' },
+    { title: 'Promotional Items', image: '/CSPRO.png' },
+    { title: 'Signage & Branding', image: '/R4.png' },
+    { title: 'Printings & Acrylic Media', image: '/OurEvents.png' }
+  ];
 
   const mobilePanels = panels;
   const brandButtons: Array<{
@@ -122,10 +137,22 @@ const ServiceSlider = () => {
                 className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden group"
               >
                 {panel.bg ? (
-                  <div
-                    className="h-48 w-full bg-center bg-cover"
-                    style={{ backgroundImage: panel.bg }}
-                  />
+                  panel.key === 'cscorp' ? (
+                    <div
+                      className="relative h-48 w-full bg-center bg-cover"
+                      style={{ backgroundImage: panel.bg }}
+                    >
+                      <div className="absolute inset-0 bg-black/45" />
+                      <div className="relative h-full flex items-center justify-center px-4">
+                        <img src="/cscorp1.png" alt="CS Corp" className="h-14 object-contain" />
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className="h-48 w-full bg-center bg-cover"
+                      style={{ backgroundImage: panel.bg }}
+                    />
+                  )
                 ) : (
                   <div className="h-56 w-full bg-gray-100 flex items-center justify-center">
                     <motion.img
@@ -148,11 +175,16 @@ const ServiceSlider = () => {
                   {panel.key === 'cscom' && (
                     <div className="w-screen -mx-6 mt-4">
                       <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory pl-6 pr-6">
-                        {['Event Organizing', 'Activation', 'MICE', 'Exhibition', 'Entertainment'].map((service, idx) => (
-                          <div key={service} className={`relative flex-shrink-0 w-32 aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden group snap-center ${idx === 4 ? 'mr-6' : ''}`}>
-                            <div className="absolute inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to top, rgba(235, 103, 14, 0.8), rgba(235, 103, 14, 0.2))' }} />
+                        {cscomServices.map((service, idx) => (
+                          <div key={service.title} className={`relative flex-shrink-0 w-32 aspect-[2/3] bg-[#151515] rounded-lg overflow-hidden group snap-center ${idx === cscomServices.length - 1 ? 'mr-6' : ''}`}>
+                            <img
+                              src={service.image}
+                              alt={service.title}
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-black/15" />
                             <div className="absolute bottom-0 left-0 right-0 p-2">
-                              <p className="text-white text-[10px] font-bold leading-tight text-center">{service}</p>
+                              <p className="text-white text-[10px] font-bold leading-tight text-center">{service.title}</p>
                             </div>
                           </div>
                         ))}
@@ -164,11 +196,12 @@ const ServiceSlider = () => {
                   {panel.key === 'cspro' && (
                     <div className="w-screen -mx-6 mt-4">
                       <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory pl-6 pr-6">
-                        {['Event Contractor', 'Promotional Items', 'Signage & Branding', 'Printings & Acrylic Media'].map((service, idx) => (
-                          <div key={service} className={`relative flex-shrink-0 w-32 aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden group snap-center ${idx === 3 ? 'mr-6' : ''}`}>
-                            <div className="absolute inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to top, rgba(42, 53, 130, 0.9), rgba(42, 53, 130, 0.2))' }} />
+                        {csproServices.map((service, idx) => (
+                          <div key={service.title} className={`relative flex-shrink-0 w-32 aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden group snap-center ${idx === csproServices.length - 1 ? 'mr-6' : ''}`}>
+                            <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-black/15" />
                             <div className="absolute bottom-0 left-0 right-0 p-2">
-                              <p className="text-white text-[10px] font-bold leading-tight text-center">{service}</p>
+                              <p className="text-white text-[10px] font-bold leading-tight text-center">{service.title}</p>
                             </div>
                           </div>
                         ))}
